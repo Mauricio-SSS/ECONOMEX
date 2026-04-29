@@ -1,0 +1,233 @@
+---
+import { primaryNav } from '../../data/navigation';
+---
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menú principal">
+  <div class="mobile-menu__overlay" data-menu-overlay></div>
+  <aside class="mobile-menu__panel">
+    <div class="mobile-menu__header">
+      <span class="mobile-menu__title">Menú</span>
+      <button type="button" class="mobile-menu__close" aria-label="Cerrar menú" data-menu-close>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 6l12 12 M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <form class="mobile-menu__search" role="search" action="/buscar" method="get">
+      <label for="mm-search" class="visually-hidden">Buscar</label>
+      <svg class="mobile-menu__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+      <input
+        id="mm-search"
+        name="q"
+        type="search"
+        placeholder="Buscar artículos, datos…"
+        autocomplete="off"
+      />
+    </form>
+
+    <nav aria-label="Navegación móvil">
+      <ul class="mobile-menu__list">
+        {primaryNav.map((item) => {
+          const hasChildren = !!item.children?.length;
+          return hasChildren ? (
+            <li class="mobile-menu__group" data-group>
+              <button
+                type="button"
+                class="mobile-menu__group-toggle"
+                aria-expanded="false"
+                data-group-toggle
+              >
+                <span>{item.label}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              <ul class="mobile-menu__sublist">
+                <li><a href={item.href} class="mobile-menu__sublink mobile-menu__sublink--all">Ver todo</a></li>
+                {item.children!.map((child) => (
+                  <li><a href={child.href} class="mobile-menu__sublink">{child.label}</a></li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li>
+              <a href={item.href} class="mobile-menu__link">{item.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </aside>
+</div>
+
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .mobile-menu[data-open] {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .mobile-menu__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 17, 17, 0.4);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .mobile-menu[data-open] .mobile-menu__overlay { opacity: 1; }
+
+  .mobile-menu__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: min(360px, 88vw);
+    background: #fff;
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transform: translateX(100%);
+    transition: transform var(--transition);
+    box-shadow: -12px 0 30px rgba(17,17,17,0.08);
+    overflow-y: auto;
+  }
+  .mobile-menu[data-open] .mobile-menu__panel {
+    transform: translateX(0);
+  }
+
+  .mobile-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobile-menu__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .mobile-menu__close {
+    width: 40px; height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-ink);
+  }
+  .mobile-menu__close:hover { background: #F1F3F5; }
+  .mobile-menu__close svg { width: 22px; height: 22px; }
+
+  .mobile-menu__search {
+    position: relative;
+  }
+  .mobile-menu__search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+  .mobile-menu__search input {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 2.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: var(--fs-base);
+    background: var(--color-bg-warm);
+  }
+  .mobile-menu__search input:focus {
+    background: #fff;
+  }
+
+  .mobile-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu__link,
+  .mobile-menu__group-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.875rem 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-md);
+    font-weight: 500;
+    color: var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    text-align: left;
+  }
+  .mobile-menu__link:hover { color: var(--color-primary); }
+
+  .mobile-menu__group-toggle svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-muted);
+    transition: transform var(--transition-fast);
+  }
+  .mobile-menu__group[data-open] .mobile-menu__group-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .mobile-menu__sublist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition);
+  }
+  .mobile-menu__group[data-open] .mobile-menu__sublist {
+    max-height: 400px;
+  }
+
+  .mobile-menu__sublink {
+    display: block;
+    padding: 0.625rem 0 0.625rem 1rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-base);
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+  }
+  .mobile-menu__sublink:hover { color: var(--color-primary); }
+  .mobile-menu__sublink--all {
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-menu { display: none; }
+  }
+</style>
+
+<script>
+  // Toggle de grupos (Datos, Nosotros) en mobile menu
+  document.querySelectorAll<HTMLButtonElement>('[data-group-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest<HTMLElement>('[data-group]');
+      if (!group) return;
+      const open = group.hasAttribute('data-open');
+      group.toggleAttribute('data-open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+  });
+</script>

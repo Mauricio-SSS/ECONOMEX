@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Comparador estatal — vista mock">
+  <defs>
+    <style>
+      .pane   { fill: #FFFFFF; stroke: #E5E7EB; stroke-width: 1; rx: 12; }
+      .label  { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #6B7280; }
+      .value  { font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; fill: #111111; font-weight: 700; }
+      .title  { font-family: 'Source Serif 4', Georgia, serif; font-size: 14px; fill: #111111; font-weight: 600; }
+      .barbg  { fill: #F1F3F5; }
+      .bar    { fill: #005C3A; }
+      .bar2   { fill: #C9282D; }
+      .pill   { fill: #DDEFE5; }
+      .pillt  { font-family: Inter, system-ui, sans-serif; font-size: 10px; font-weight: 600; fill: #005C3A; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <!-- Toolbar -->
+  <rect x="40" y="40" width="560" height="56" rx="12" fill="#FAF7F0" stroke="#E5E7EB"/>
+  <g transform="translate(60, 60)">
+    <rect class="pill" width="80" height="28" rx="14"/>
+    <text class="pillt" x="14" y="18">NUEVO LEÓN</text>
+  </g>
+  <g transform="translate(150, 60)">
+    <rect width="80" height="28" rx="14" fill="#F2D6D8"/>
+    <text class="pillt" x="20" y="18" fill="#C9282D">JALISCO</text>
+  </g>
+  <g transform="translate(240, 60)">
+    <rect width="100" height="28" rx="14" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text class="pillt" x="14" y="18" fill="#3F3F3F">+ Agregar estado</text>
+  </g>
+  <g transform="translate(490, 60)">
+    <rect width="90" height="28" rx="14" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text class="pillt" x="14" y="18" fill="#3F3F3F">2010 — 2026</text>
+  </g>
+
+  <!-- Card: PIB per cápita -->
+  <rect x="40" y="120" width="270" height="150" rx="12" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text class="label"  x="60" y="146">PIB per cápita</text>
+  <text class="value"  x="60" y="180">$348,500</text>
+  <text class="label"  x="60" y="200" fill="#005C3A">▲ +18% vs. promedio nacional</text>
+  <g transform="translate(60, 220)">
+    <rect class="barbg" width="220" height="8" rx="4"/>
+    <rect class="bar"   width="180" height="8" rx="4"/>
+  </g>
+  <g transform="translate(60, 238)">
+    <rect class="barbg" width="220" height="8" rx="4"/>
+    <rect class="bar2"  width="120" height="8" rx="4"/>
+  </g>
+
+  <!-- Card: Tasa de empleo formal -->
+  <rect x="330" y="120" width="270" height="150" rx="12" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text class="label"  x="350" y="146">Empleo formal</text>
+  <text class="value"  x="350" y="180">62.4%</text>
+  <text class="label"  x="350" y="200" fill="#005C3A">▲ +4.2 pp vs. nacional</text>
+  <g transform="translate(350, 220)">
+    <rect class="barbg" width="220" height="8" rx="4"/>
+    <rect class="bar"   width="160" height="8" rx="4"/>
+  </g>
+  <g transform="translate(350, 238)">
+    <rect class="barbg" width="220" height="8" rx="4"/>
+    <rect class="bar2"  width="140" height="8" rx="4"/>
+  </g>
+
+  <!-- Card: Línea de tiempo simple -->
+  <rect x="40" y="290" width="560" height="160" rx="12" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text class="title" x="60" y="316">Evolución del PIB per cápita</text>
+  <g transform="translate(60, 330)" stroke="#E5E7EB" stroke-dasharray="2 4">
+    <line x1="0" y1="20" x2="520" y2="20"/>
+    <line x1="0" y1="60" x2="520" y2="60"/>
+    <line x1="0" y1="100" x2="520" y2="100"/>
+  </g>
+  <path d="M60,420 L130,400 L200,395 L270,385 L340,360 L410,340 L480,330 L580,318" fill="none" stroke="#005C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M60,430 L130,425 L200,420 L270,420 L340,400 L410,395 L480,385 L580,370" fill="none" stroke="#C9282D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6 4"/>
+
+  <g class="label" transform="translate(60, 460)">
+    <text x="0">2010</text>
+    <text x="245">2018</text>
+    <text x="500">2026</text>
+  </g>
+</svg>

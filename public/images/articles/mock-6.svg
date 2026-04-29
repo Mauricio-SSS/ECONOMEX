@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Mock — Gasto público">
+  <rect width="640" height="400" fill="#F2D6D8"/>
+  <g>
+    <circle cx="200" cy="200" r="120" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+    <path d="M200,200 L200,80 A120,120 0 0,1 320,200 Z" fill="#C9282D"/>
+    <path d="M200,200 L320,200 A120,120 0 0,1 240,310 Z" fill="#005C3A"/>
+    <path d="M200,200 L240,310 A120,120 0 0,1 90,250 Z" fill="#0B7A4B"/>
+  </g>
+  <g font-family="Inter, sans-serif" font-size="13" fill="#111">
+    <rect x="380" y="140" width="14" height="14" fill="#C9282D"/>
+    <text x="404" y="152">Servicios personales</text>
+    <rect x="380" y="170" width="14" height="14" fill="#005C3A"/>
+    <text x="404" y="182">Inversión pública</text>
+    <rect x="380" y="200" width="14" height="14" fill="#0B7A4B"/>
+    <text x="404" y="212">Operación</text>
+  </g>
+</svg>

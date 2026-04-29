@@ -1,0 +1,284 @@
+---
+import { primaryNav } from '../../data/navigation';
+import MobileMenu from './MobileMenu.astro';
+---
+<header class="header">
+  <div class="container header__inner">
+    <a class="header__brand" href="/" aria-label="Centro Economex — Inicio">
+      <img
+        src="/images/logo-centro-economex.png"
+        alt=""
+        width="771"
+        height="669"
+        class="header__logo"
+      />
+      <span class="visually-hidden">Centro Economex</span>
+    </a>
+
+    <nav class="header__nav" aria-label="Principal">
+      <ul>
+        {primaryNav.map((item) => {
+          const hasChildren = !!item.children?.length;
+          return (
+            <li class={`header__nav-item${hasChildren ? ' header__nav-item--parent' : ''}`}>
+              <a
+                href={item.href}
+                aria-haspopup={hasChildren ? 'true' : undefined}
+                aria-expanded={hasChildren ? 'false' : undefined}
+              >
+                {item.label}
+                {hasChildren && (
+                  <svg class="header__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                )}
+              </a>
+              {hasChildren && (
+                <ul class="header__dropdown" role="menu">
+                  {item.children!.map((child) => (
+                    <li role="none">
+                      <a href={child.href} role="menuitem">{child.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button
+        type="button"
+        class="header__icon-btn"
+        aria-label="Buscar en Centro Economex"
+        data-search-trigger
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="header__icon-btn header__menu-btn"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-trigger
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 7h16 M4 12h16 M4 17h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileMenu />
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--header-height);
+  }
+
+  .header__brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .header__logo {
+    height: 48px;
+    width: auto;
+    display: block;
+  }
+
+  .header__nav {
+    display: none;
+    flex: 1;
+    justify-content: center;
+  }
+  .header__nav > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  .header__nav-item {
+    position: relative;
+  }
+
+  .header__nav-item > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: 36px;
+    padding: 0 0.85rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  .header__nav-item > a:hover,
+  .header__nav-item > a[aria-current="page"] {
+    background: var(--color-green-100);
+    color: var(--color-green-900);
+  }
+
+  .header__chevron {
+    width: 14px;
+    height: 14px;
+    transition: transform var(--transition-fast);
+  }
+  .header__nav-item--parent:hover .header__chevron,
+  .header__nav-item--parent:focus-within .header__chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown menus -------------------------------- */
+  .header__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    min-width: 220px;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--transition-fast), transform var(--transition-fast),
+      visibility var(--transition-fast);
+    z-index: 60;
+  }
+  .header__nav-item--parent:hover > .header__dropdown,
+  .header__nav-item--parent:focus-within > .header__dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+  .header__nav-item--parent:hover > a,
+  .header__nav-item--parent:focus-within > a {
+    background: var(--color-green-100);
+    color: var(--color-green-900);
+  }
+
+  .header__dropdown a {
+    display: block;
+    padding: 0.625rem 0.875rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  .header__dropdown a:hover,
+  .header__dropdown a:focus-visible {
+    background: var(--color-green-100);
+    color: var(--color-green-900);
+  }
+
+  /* Bridge invisible para que no se cierre al pasar al dropdown */
+  .header__nav-item--parent::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .header__icon-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-ink);
+    transition: background var(--transition-fast);
+  }
+  .header__icon-btn:hover { background: #F1F3F5; }
+  .header__icon-btn svg { width: 20px; height: 20px; }
+
+  @media (min-width: 1024px) {
+    .header__nav { display: flex; }
+    .header__menu-btn { display: none; }
+    .header__logo { height: 56px; width: auto; }
+  }
+</style>
+
+<script>
+  // Toggle del menú móvil. Vanilla JS, sin framework.
+  const trigger = document.querySelector<HTMLButtonElement>('[data-menu-trigger]');
+  const menu = document.getElementById('mobile-menu');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  const overlay = document.querySelector<HTMLElement>('[data-menu-overlay]');
+
+  function setOpen(open: boolean) {
+    if (!trigger || !menu) return;
+    trigger.setAttribute('aria-expanded', String(open));
+    menu.toggleAttribute('data-open', open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+  }
+
+  trigger?.addEventListener('click', () => {
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    setOpen(!isOpen);
+  });
+
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  overlay?.addEventListener('click', () => setOpen(false));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
+
+  // Submenús desktop: sincroniza aria-expanded al hover/focus
+  document.querySelectorAll<HTMLElement>('.header__nav-item--parent').forEach((item) => {
+    const link = item.querySelector<HTMLAnchorElement>(':scope > a');
+    if (!link) return;
+    const setExpanded = (v: boolean) => link.setAttribute('aria-expanded', String(v));
+    item.addEventListener('mouseenter', () => setExpanded(true));
+    item.addEventListener('mouseleave', () => setExpanded(false));
+    item.addEventListener('focusin', () => setExpanded(true));
+    item.addEventListener('focusout', (e) => {
+      if (!item.contains(e.relatedTarget as Node)) setExpanded(false);
+    });
+  });
+</script>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroCarousel from '../components/home/HeroCarousel.astro';
+import MissionBar from '../components/home/MissionBar.astro';
+import TopicGrid from '../components/home/TopicGrid.astro';
+import NewsletterCard from '../components/home/NewsletterCard.astro';
+import LatestArticles from '../components/home/LatestArticles.astro';
+import DataToolsGrid from '../components/home/DataToolsGrid.astro';
+import ResearchTranslationSection from '../components/home/ResearchTranslationSection.astro';
+import PolicyBriefsSection from '../components/home/PolicyBriefsSection.astro';
+---
+<BaseLayout
+  title="Centro Economex — Economía aplicada al bien común"
+  description="Investigación académica, datos y análisis claros para entender los problemas públicos y construir soluciones."
+>
+  <HeroCarousel />
+  <MissionBar />
+  <TopicGrid />
+  <LatestArticles />
+  <DataToolsGrid />
+  <NewsletterCard />
+  <ResearchTranslationSection />
+  <PolicyBriefsSection />
+</BaseLayout>

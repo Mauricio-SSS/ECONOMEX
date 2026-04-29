@@ -1,0 +1,48 @@
+---
+import ArticleCard from '../ui/ArticleCard.astro';
+import { latestArticles } from '../../data/articles';
+---
+<section class="section latest" aria-labelledby="latest-title">
+  <div class="container">
+    <header class="section-header">
+      <h2 id="latest-title">Lo más reciente</h2>
+      <a class="link-more" href="/articulos">Ver todos →</a>
+    </header>
+
+    <div class="latest__grid">
+      {latestArticles.map((article) => (
+        <ArticleCard article={article} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .latest__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 600px) {
+    .latest__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .latest__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .latest__grid > :first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .latest__grid > :first-child :global(.article-card__title) {
+      font-size: var(--fs-2xl);
+      line-height: 1.15;
+    }
+    .latest__grid > :first-child :global(.article-card__media) {
+      aspect-ratio: 16 / 11;
+    }
+  }
+</style>

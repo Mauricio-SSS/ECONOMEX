@@ -1,0 +1,105 @@
+---
+interface Props {
+  variant?: 'card' | 'wide';
+}
+const { variant = 'card' } = Astro.props;
+---
+<section class={`newsletter newsletter--${variant}`} aria-labelledby="newsletter-title">
+  <div class="container">
+    <div class="newsletter__card">
+      <div class="newsletter__copy">
+        <span class="eyebrow">Boletín</span>
+        <h2 id="newsletter-title" class="editorial-title">
+          Recibe análisis y datos en tu correo
+        </h2>
+        <p>
+          Explicamos la economía de México con claridad y evidencia. Una entrega cuidada cada semana.
+        </p>
+      </div>
+      <form class="newsletter__form" action="/api/newsletter" method="post">
+        <label for="nl-email" class="visually-hidden">Tu correo electrónico</label>
+        <input
+          id="nl-email"
+          type="email"
+          name="email"
+          placeholder="Tu correo electrónico"
+          required
+          autocomplete="email"
+        />
+        <button type="submit" class="newsletter__submit">Suscribirme</button>
+        <p class="newsletter__small">Sin spam. Cancela cuando quieras.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .newsletter { padding: var(--space-7) 0; }
+
+  .newsletter__card {
+    background: var(--color-bg-warm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter__copy h2 {
+    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    margin: 0.25rem 0 0.5rem;
+  }
+  .newsletter__copy p {
+    margin: 0;
+    color: var(--color-text);
+    max-width: 50ch;
+  }
+
+  .newsletter__form {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .newsletter__form input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    border-radius: var(--radius-md);
+    font-size: var(--fs-base);
+  }
+  .newsletter__submit {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    transition: background var(--transition-fast);
+  }
+  .newsletter__submit:hover { background: var(--color-primary-hover); }
+  .newsletter__small {
+    margin: 0;
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .newsletter__card {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: center;
+      padding: var(--space-7);
+      gap: var(--space-7);
+    }
+    .newsletter__form {
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "input button"
+        "small small";
+      gap: 0.5rem 0.75rem;
+    }
+    .newsletter__form input { grid-area: input; }
+    .newsletter__submit { grid-area: button; padding-left: 1.5rem; padding-right: 1.5rem; }
+    .newsletter__small { grid-area: small; }
+  }
+</style>

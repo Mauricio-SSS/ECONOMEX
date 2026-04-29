@@ -1,0 +1,204 @@
+---
+import { footerSections } from '../../data/navigation';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src="/images/logo-centro-economex.png" alt="Centro Economex" width="771" height="669" />
+      <p class="footer__tagline">
+        Traducimos investigación económica para impulsar decisiones que generen bien común.
+      </p>
+      <div class="footer__social" aria-label="Redes sociales">
+        <a href="https://twitter.com/centroeconomex" aria-label="X / Twitter" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2H21l-6.518 7.45L22 22h-6.764l-5.297-6.84L3.847 22H1l7.005-8.005L1.5 2h6.93l4.79 6.27L18.243 2Zm-1.187 18h1.872L7.04 4H5.05l12.007 16Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/centroeconomex" aria-label="LinkedIn" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14ZM8.339 18V9.967H5.667V18H8.34Zm-1.336-9.13a1.55 1.55 0 1 0 0-3.1 1.55 1.55 0 0 0 0 3.1ZM18.333 18v-4.4c0-2.367-1.262-3.466-2.946-3.466-1.36 0-1.97.748-2.31 1.273V9.967h-2.672c.035.754 0 8.033 0 8.033h2.672v-4.487c0-.24.018-.48.089-.65.193-.479.633-.975 1.371-.975.967 0 1.354.737 1.354 1.819V18h2.442Z"/></svg>
+        </a>
+        <a href="https://instagram.com/centroeconomex" aria-label="Instagram" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="Pie de página">
+      {footerSections.map((section) => (
+        <div class="footer__col">
+          <h3 class="footer__col-title">{section.title}</h3>
+          <ul>
+            {section.items.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </nav>
+
+    <div class="footer__newsletter">
+      <h3 class="footer__col-title">Newsletter</h3>
+      <p>Análisis y datos en tu correo.</p>
+      <form action="/newsletter" method="post" class="footer__form">
+        <label for="footer-email" class="visually-hidden">Correo electrónico</label>
+        <input id="footer-email" type="email" name="email" placeholder="tu@correo.com" required />
+        <button type="submit" class="footer__form-btn">Suscribirme</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <span>© {year} Centro Economex. Todos los derechos reservados.</span>
+      <ul>
+        <li><a href="/privacidad">Privacidad</a></li>
+        <li><a href="/terminos">Términos</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-bg-warm);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-12);
+    color: var(--color-text);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-7);
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-7);
+  }
+
+  .footer__brand img { height: 80px; width: auto; }
+  .footer__tagline {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    color: var(--color-ink);
+    max-width: 36ch;
+    margin: var(--space-4) 0;
+  }
+  .footer__social {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .footer__social a {
+    width: 36px; height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--color-ink);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+  .footer__social a:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .footer__social svg { width: 16px; height: 16px; }
+
+  .footer__nav {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  .footer__col-title {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--space-3);
+  }
+  .footer__col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .footer__col a {
+    color: var(--color-text);
+    font-size: var(--fs-sm);
+  }
+  .footer__col a:hover { color: var(--color-primary); }
+
+  .footer__newsletter p {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .footer__form {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .footer__form input {
+    flex: 1 1 200px;
+    min-width: 0;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: #fff;
+    font-size: var(--fs-sm);
+  }
+  .footer__form-btn {
+    padding: 0.625rem 1rem;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    transition: background var(--transition-fast);
+  }
+  .footer__form-btn:hover { background: var(--color-primary-hover); }
+
+  .footer__bottom {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+    background: #fff;
+  }
+  .footer__bottom-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+  .footer__bottom ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-4);
+  }
+  .footer__bottom a { color: var(--color-text-muted); }
+  .footer__bottom a:hover { color: var(--color-ink); }
+
+  @media (min-width: 768px) {
+    .footer__inner {
+      grid-template-columns: 1.4fr 2fr 1.4fr;
+      gap: var(--space-8);
+    }
+    .footer__nav { grid-template-columns: repeat(4, 1fr); }
+    .footer__bottom-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+</style>

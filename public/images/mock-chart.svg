@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Gráfica lineal de inflación por mes">
+  <defs>
+    <style>
+      .axis  { stroke: #E5E7EB; stroke-width: 1; }
+      .grid  { stroke: #F1F3F5; stroke-width: 1; stroke-dasharray: 2 4; }
+      .label { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #6B7280; }
+      .title { font-family: 'Source Serif 4', Georgia, serif; font-size: 16px; fill: #111111; font-weight: 600; }
+      .line  { fill: none; stroke: #005C3A; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .area  { fill: #DDEFE5; opacity: 0.6; }
+      .dot   { fill: #005C3A; }
+      .annot { fill: #C9282D; }
+    </style>
+  </defs>
+
+  <text class="title" x="60" y="50">Inflación general anualizada</text>
+  <text class="label" x="60" y="68">% var. anual · ene 2024 — abr 2026</text>
+
+  <!-- Grid -->
+  <g class="grid">
+    <line x1="60"  y1="120" x2="600" y2="120"/>
+    <line x1="60"  y1="180" x2="600" y2="180"/>
+    <line x1="60"  y1="240" x2="600" y2="240"/>
+    <line x1="60"  y1="300" x2="600" y2="300"/>
+    <line x1="60"  y1="360" x2="600" y2="360"/>
+  </g>
+
+  <!-- Y axis -->
+  <line class="axis" x1="60" y1="100" x2="60" y2="380"/>
+  <g class="label">
+    <text x="50" y="124" text-anchor="end">7%</text>
+    <text x="50" y="184" text-anchor="end">6%</text>
+    <text x="50" y="244" text-anchor="end">5%</text>
+    <text x="50" y="304" text-anchor="end">4%</text>
+    <text x="50" y="364" text-anchor="end">3%</text>
+  </g>
+
+  <!-- X axis -->
+  <line class="axis" x1="60" y1="380" x2="600" y2="380"/>
+  <g class="label">
+    <text x="60"  y="400">2024</text>
+    <text x="240" y="400">2025</text>
+    <text x="420" y="400">2026</text>
+    <text x="585" y="400">abr</text>
+  </g>
+
+  <!-- Area + line -->
+  <path class="area" d="M60,160 L120,180 L180,200 L240,170 L300,150 L360,210 L420,260 L480,290 L540,310 L600,300 L600,380 L60,380 Z"/>
+  <path class="line" d="M60,160 L120,180 L180,200 L240,170 L300,150 L360,210 L420,260 L480,290 L540,310 L600,300"/>
+
+  <!-- Dots -->
+  <g>
+    <circle class="dot" cx="60"  cy="160" r="3.5"/>
+    <circle class="dot" cx="180" cy="200" r="3.5"/>
+    <circle class="dot" cx="300" cy="150" r="3.5"/>
+    <circle class="dot" cx="420" cy="260" r="3.5"/>
+    <circle class="dot" cx="540" cy="310" r="3.5"/>
+    <circle class="annot" cx="600" cy="300" r="5"/>
+  </g>
+
+  <!-- Annotation -->
+  <g transform="translate(500, 250)">
+    <rect width="90" height="34" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text class="label" x="10" y="15" fill="#111">abr 2026</text>
+    <text class="label" x="10" y="28" fill="#C9282D" font-weight="600">4.1%</text>
+  </g>
+</svg>

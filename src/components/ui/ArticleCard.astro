@@ -1,0 +1,116 @@
+---
+import Badge from './Badge.astro';
+import type { Article } from '../../data/articles';
+
+interface Props {
+  article: Article;
+  variant?: 'vertical' | 'horizontal';
+  loading?: 'eager' | 'lazy';
+}
+
+const { article, variant = 'vertical', loading = 'lazy' } = Astro.props;
+const toneByCategory: Record<string, 'green' | 'red' | 'neutral' | 'warm'> = {
+  'ANÁLISIS': 'green',
+  'DATOS': 'neutral',
+  'POLICY BRIEF': 'red',
+  'INVESTIGACIÓN TRADUCIDA': 'warm',
+  'GRÁFICO EXPLICA': 'neutral',
+};
+const tone = toneByCategory[article.category] ?? 'neutral';
+---
+<a class={`article-card article-card--${variant}`} href={article.href}>
+  {article.image && (
+    <div class="article-card__media">
+      <img
+        src={article.image}
+        alt=""
+        width="640"
+        height="400"
+        loading={loading}
+        decoding="async"
+      />
+    </div>
+  )}
+  <div class="article-card__body">
+    <Badge tone={tone}>{article.category}</Badge>
+    <h3 class="article-card__title">{article.title}</h3>
+    <p class="article-card__meta">
+      <time datetime={article.date}>{article.dateLabel}</time>
+      <span aria-hidden="true">·</span>
+      <span>{article.readingTime}</span>
+    </p>
+  </div>
+</a>
+
+<style>
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: transform var(--transition-fast);
+  }
+  .article-card:hover .article-card__title {
+    color: var(--color-primary-hover);
+  }
+  .article-card:hover .article-card__media img {
+    transform: scale(1.02);
+  }
+
+  .article-card__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-warm);
+  }
+  .article-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition);
+  }
+
+  .article-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .article-card__title {
+    font-family: var(--font-serif);
+    color: var(--color-ink);
+    font-size: var(--fs-md);
+    line-height: 1.25;
+    margin: 0;
+    transition: color var(--transition-fast);
+  }
+
+  .article-card__meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* Horizontal variant for "lo más leído" featured rows on desktop */
+  .article-card--horizontal {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+  .article-card--horizontal .article-card__media {
+    flex: 0 0 40%;
+    max-width: 240px;
+  }
+  .article-card--horizontal .article-card__body {
+    flex: 1;
+  }
+
+  @media (min-width: 768px) {
+    .article-card__title { font-size: var(--fs-lg); }
+  }
+</style>

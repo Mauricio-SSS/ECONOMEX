@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Mapa estilizado de México por entidad">
+  <defs>
+    <style>
+      .land  { fill: #DDEFE5; stroke: #FFFFFF; stroke-width: 2; }
+      .light { fill: #B7DDC8; }
+      .mid   { fill: #6FB78F; }
+      .dark  { fill: #0B7A4B; }
+      .deep  { fill: #005C3A; }
+      .cap   { fill: #C9282D; }
+      .label { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #3F3F3F; }
+      .legend-title { font-family: Inter, system-ui, sans-serif; font-size: 11px; fill: #3F3F3F; font-weight: 600; }
+    </style>
+  </defs>
+
+  <!-- Tile cartogram of Mexico (32 entidades, abstract grid) -->
+  <!-- Cell size 44 with 4px gap. Top-left starts (60, 60) -->
+  <g class="land">
+    <!-- Row 1 (norte) -->
+    <rect class="light" x="60"  y="60"  width="44" height="44" rx="6"/>  <!-- BCN -->
+    <rect class="mid"   x="156" y="60"  width="44" height="44" rx="6"/>  <!-- SON -->
+    <rect class="dark"  x="204" y="60"  width="44" height="44" rx="6"/>  <!-- CHIH -->
+    <rect class="dark"  x="252" y="60"  width="44" height="44" rx="6"/>  <!-- COAH -->
+    <rect class="deep"  x="300" y="60"  width="44" height="44" rx="6"/>  <!-- NL -->
+    <rect class="mid"   x="348" y="60"  width="44" height="44" rx="6"/>  <!-- TAM -->
+
+    <!-- Row 2 -->
+    <rect class="light" x="60"  y="108" width="44" height="44" rx="6"/>  <!-- BCS -->
+    <rect class="mid"   x="156" y="108" width="44" height="44" rx="6"/>  <!-- SIN -->
+    <rect class="dark"  x="204" y="108" width="44" height="44" rx="6"/>  <!-- DGO -->
+    <rect class="mid"   x="252" y="108" width="44" height="44" rx="6"/>  <!-- ZAC -->
+    <rect class="dark"  x="300" y="108" width="44" height="44" rx="6"/>  <!-- SLP -->
+    <rect class="mid"   x="348" y="108" width="44" height="44" rx="6"/>  <!-- VER1 -->
+
+    <!-- Row 3 (centro-norte) -->
+    <rect class="mid"   x="156" y="156" width="44" height="44" rx="6"/>  <!-- NAY -->
+    <rect class="dark"  x="204" y="156" width="44" height="44" rx="6"/>  <!-- AGS -->
+    <rect class="deep"  x="252" y="156" width="44" height="44" rx="6"/>  <!-- GTO -->
+    <rect class="dark"  x="300" y="156" width="44" height="44" rx="6"/>  <!-- QRO -->
+    <rect class="mid"   x="348" y="156" width="44" height="44" rx="6"/>  <!-- HID -->
+    <rect class="mid"   x="396" y="156" width="44" height="44" rx="6"/>  <!-- TAB -->
+
+    <!-- Row 4 (centro) — capital roja -->
+    <rect class="dark"  x="156" y="204" width="44" height="44" rx="6"/>  <!-- JAL -->
+    <rect class="mid"   x="204" y="204" width="44" height="44" rx="6"/>  <!-- COL -->
+    <rect class="deep"  x="252" y="204" width="44" height="44" rx="6"/>  <!-- MICH -->
+    <rect class="cap"   x="300" y="204" width="44" height="44" rx="6"/>  <!-- CDMX -->
+    <rect class="dark"  x="348" y="204" width="44" height="44" rx="6"/>  <!-- TLAX -->
+    <rect class="mid"   x="396" y="204" width="44" height="44" rx="6"/>  <!-- PUE -->
+    <rect class="light" x="444" y="204" width="44" height="44" rx="6"/>  <!-- YUC -->
+
+    <!-- Row 5 (sur) -->
+    <rect class="mid"   x="252" y="252" width="44" height="44" rx="6"/>  <!-- MEX -->
+    <rect class="mid"   x="300" y="252" width="44" height="44" rx="6"/>  <!-- MOR -->
+    <rect class="dark"  x="348" y="252" width="44" height="44" rx="6"/>  <!-- GRO -->
+    <rect class="mid"   x="396" y="252" width="44" height="44" rx="6"/>  <!-- OAX -->
+    <rect class="light" x="444" y="252" width="44" height="44" rx="6"/>  <!-- CAMP -->
+    <rect class="mid"   x="492" y="252" width="44" height="44" rx="6"/>  <!-- QROO -->
+
+    <!-- Row 6 (sureste) -->
+    <rect class="dark"  x="396" y="300" width="44" height="44" rx="6"/>  <!-- CHIS -->
+  </g>
+
+  <!-- Capital marker -->
+  <circle cx="322" cy="226" r="6" fill="#FFFFFF"/>
+  <circle cx="322" cy="226" r="3" fill="#C9282D"/>
+
+  <!-- Legend -->
+  <g transform="translate(60, 380)">
+    <text class="legend-title" x="0" y="0">Indicador económico (mock)</text>
+    <g transform="translate(0, 14)">
+      <rect class="light" x="0"   y="0" width="22" height="14" rx="3"/>
+      <rect class="mid"   x="28"  y="0" width="22" height="14" rx="3"/>
+      <rect class="dark"  x="56"  y="0" width="22" height="14" rx="3"/>
+      <rect class="deep"  x="84"  y="0" width="22" height="14" rx="3"/>
+      <text class="label" x="0"   y="30">Bajo</text>
+      <text class="label" x="86"  y="30">Alto</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,100 @@
+---
+import { dataTools } from '../../data/topics';
+---
+<section class="section tools" aria-labelledby="tools-title">
+  <div class="container">
+    <header class="section-header">
+      <h2 id="tools-title">Datos y herramientas</h2>
+      <a class="link-more" href="/datos">Explorar todo →</a>
+    </header>
+
+    <div class="tools__grid">
+      {dataTools.map((tool) => (
+        <a class="tools__card" href={tool.href}>
+          <span class="tools__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d={tool.icon} />
+            </svg>
+          </span>
+          <h3 class="tools__title">{tool.label}</h3>
+          <p class="tools__desc">{tool.description}</p>
+          <span class="tools__cta">
+            {tool.cta}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14 M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .tools__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-ink);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+      transform var(--transition-fast);
+  }
+  .tools__card:hover {
+    border-color: var(--color-green-700);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .tools__icon {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: var(--color-green-100);
+    color: var(--color-green-900);
+  }
+  .tools__icon svg { width: 22px; height: 22px; }
+
+  .tools__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    margin: 0;
+    color: var(--color-ink);
+  }
+  .tools__desc {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+  .tools__cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+  }
+  .tools__cta svg { width: 14px; height: 14px; }
+
+  @media (min-width: 600px) {
+    .tools__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .tools__grid { grid-template-columns: repeat(5, 1fr); }
+  }
+</style>

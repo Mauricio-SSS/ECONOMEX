@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Mock — Inflación">
+  <rect width="640" height="400" fill="#FAF7F0"/>
+  <g stroke="#E5E7EB" stroke-dasharray="2 4">
+    <line x1="40" y1="120" x2="600" y2="120"/>
+    <line x1="40" y1="200" x2="600" y2="200"/>
+    <line x1="40" y1="280" x2="600" y2="280"/>
+  </g>
+  <path d="M40,260 L120,240 L200,200 L280,160 L360,180 L440,250 L520,290 L600,280" fill="none" stroke="#005C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="600" cy="280" r="6" fill="#C9282D"/>
+  <text x="40" y="60" font-family="'Source Serif 4', Georgia, serif" font-size="22" font-weight="700" fill="#111">Inflación anualizada</text>
+  <text x="40" y="84" font-family="Inter, sans-serif" font-size="12" fill="#3F3F3F">% var. anual</text>
+</svg>

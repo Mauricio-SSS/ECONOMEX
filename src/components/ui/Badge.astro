@@ -1,0 +1,37 @@
+---
+type Tone = 'green' | 'red' | 'neutral' | 'warm';
+
+interface Props {
+  tone?: Tone;
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const { tone = 'green', size = 'sm', class: className = '' } = Astro.props;
+const classes = ['badge', `badge--${tone}`, `badge--${size}`, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<span class={classes}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--radius-full);
+    line-height: 1;
+  }
+  .badge--sm { font-size: 0.6875rem; padding: 0.35rem 0.625rem; }
+  .badge--md { font-size: var(--fs-xs); padding: 0.45rem 0.75rem; }
+
+  .badge--green   { background: var(--color-green-100); color: var(--color-green-900); }
+  .badge--red     { background: var(--color-red-100);   color: var(--color-red-700); }
+  .badge--neutral { background: #F1F3F5;                color: var(--color-text); }
+  .badge--warm    { background: var(--color-bg-warm);   color: var(--color-ink); border: 1px solid var(--color-border); }
+</style>
