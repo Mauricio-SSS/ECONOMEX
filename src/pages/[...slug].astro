@@ -1,147 +1,104 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionPlaceholder from '../components/placeholder/SectionPlaceholder.astro';
 
-const plannedPages = [
-  { path: 'buscar', title: 'Buscar', description: 'Busca artículos, datos y recursos de Centro Economex.', kind: 'search' },
-  { path: 'investigacion', title: 'Investigación', description: 'Investigación económica traducida a lenguaje claro.' },
-  { path: 'datos', title: 'Datos', description: 'Herramientas, bases de datos y visualizaciones de Centro Economex.' },
-  { path: 'datos/monitoreo', title: 'Monitoreo', description: 'Indicadores económicos y sociales en seguimiento.' },
-  { path: 'datos/historia', title: 'Historia', description: 'Series históricas y contexto económico.' },
-  { path: 'datos/economia', title: 'Economía', description: 'Indicadores y análisis económico.' },
-  { path: 'datos/base-de-datos', title: 'Base de datos', description: 'Bases limpias y documentadas para análisis.' },
-  { path: 'datos/comparador-estatal', title: 'Comparador estatal', description: 'Compara indicadores económicos y sociales por entidad.' },
-  { path: 'datos/mapas', title: 'Mapas interactivos', description: 'Mapas económicos y sociales de México.' },
-  { path: 'datos/descargas', title: 'Descarga de datos', description: 'Datasets abiertos y documentados.' },
-  { path: 'datos/metodologias', title: 'Metodologías', description: 'Notas técnicas, fuentes y supuestos.' },
-  { path: 'datos/grafico-explica', title: 'Un gráfico explica', description: 'Ideas económicas explicadas visualmente.' },
-  { path: 'newsletter', title: 'Newsletter', description: 'Recibe análisis y datos de Centro Economex en tu correo.', kind: 'newsletter' },
-  { path: 'nosotros', title: 'Nosotros', description: 'Conoce la misión y el equipo de Centro Economex.' },
-  { path: 'nosotros/quienes-somos', title: '¿Quiénes somos?', description: 'Traducimos investigación económica para el bien común.' },
-  { path: 'nosotros/unete', title: 'Únete', description: 'Colabora con Centro Economex.' },
-  { path: 'nosotros/redes', title: 'Redes', description: 'Encuentra Centro Economex en redes sociales.' },
-  { path: 'ayudanos', title: 'Ayúdanos', description: 'Apoya la misión de Centro Economex.' },
-  { path: 'contacto', title: 'Contacto', description: 'Ponte en contacto con Centro Economex.' },
-  { path: 'prensa', title: 'Prensa', description: 'Recursos para prensa y medios.' },
-  { path: 'privacidad', title: 'Privacidad', description: 'Política de privacidad de Centro Economex.' },
-  { path: 'terminos', title: 'Términos', description: 'Términos de uso de Centro Economex.' },
-  { path: 'temas', title: 'Temas', description: 'Explora artículos y datos por tema.' },
-  { path: 'temas/crecimiento', title: 'Crecimiento económico', description: 'Análisis sobre crecimiento económico.' },
-  { path: 'temas/trabajo', title: 'Trabajo y salarios', description: 'Análisis sobre empleo, trabajo y salarios.' },
-  { path: 'temas/desigualdad', title: 'Desigualdad y pobreza', description: 'Investigación sobre desigualdad y pobreza.' },
-  { path: 'temas/finanzas-publicas', title: 'Finanzas públicas', description: 'Análisis sobre gasto, ingresos y finanzas públicas.' },
-  { path: 'temas/educacion', title: 'Educación y capital humano', description: 'Evidencia sobre educación y capital humano.' },
-  { path: 'temas/gobierno', title: 'Gobierno y política pública', description: 'Evidencia para mejorar políticas públicas.' },
-  { path: 'temas/salud', title: 'Salud', description: 'Datos y evidencia sobre salud.' },
-  { path: 'temas/desarrollo-regional', title: 'Desarrollo regional', description: 'Economía regional y desarrollo local.' },
-  { path: 'policy-briefs', title: 'Policy briefs', description: 'Recomendaciones cortas basadas en evidencia.' },
-  { path: 'policy-briefs/movilidad-social', title: '3 políticas para aumentar movilidad social', description: 'Policy brief de Centro Economex.' },
-  { path: 'policy-briefs/gasto-publico-local', title: 'Gasto público local: dónde mirar primero', description: 'Policy brief de Centro Economex.' },
-  { path: 'policy-briefs/productividad-regional', title: 'Productividad regional: evidencia y recomendaciones', description: 'Policy brief de Centro Economex.' },
-  { path: 'articulos/crecimiento-estados-mexico', title: '¿Por qué crecen distinto los estados de México?', description: 'Artículo destacado de Centro Economex.' },
-  { path: 'articulos/inflacion-datos-recientes', title: 'Inflación: lo que muestran los datos más recientes', description: 'Gráfico explica de Centro Economex.' },
-  { path: 'articulos/jornada-laboral-4-dias', title: '¿Qué dice la evidencia sobre la jornada laboral de 4 días?', description: 'Investigación traducida de Centro Economex.' },
-  { path: 'articulos/nearshoring-estados-mexicanos', title: 'Nearshoring: ¿qué pueden aprovechar los estados mexicanos?', description: 'Artículo destacado de Centro Economex.' },
+type Page = {
+  path: string;
+  title: string;
+  description: string;
+  eyebrow?: string;
+  status?: string;
+  features?: string[];
+  nextSteps?: string[];
+  kind?: 'search' | 'newsletter';
+};
+
+const defaultSteps = [
+  'Cambiar este placeholder por contenido final.',
+  'Conectar Decap CMS, datos o componentes interactivos cuando la sección esté lista.',
+  'Agregar enlaces internos, SEO y visuales finales.',
+];
+
+const pages: Page[] = [
+  { path: 'buscar', title: 'Buscar', description: 'Busca artículos, datos y recursos de Centro Economex.', eyebrow: 'Búsqueda', status: 'Búsqueda en desarrollo', features: ['Buscador por palabra clave', 'Filtros por tema y tipo de publicación', 'Resultados rápidos'], nextSteps: defaultSteps, kind: 'search' },
+  { path: 'investigacion', title: 'Investigación', description: 'Investigación económica traducida a lenguaje claro.', eyebrow: 'Investigación traducida', features: ['Traducciones de papers', 'Resúmenes ejecutivos', 'Fuentes visibles'], nextSteps: defaultSteps },
+  { path: 'datos', title: 'Datos', description: 'Herramientas, bases de datos y visualizaciones para explicar problemas públicos.', eyebrow: 'Laboratorio de datos', features: ['Comparadores', 'Mapas', 'Gráficas interactivas'], nextSteps: defaultSteps },
+  { path: 'datos/monitoreo', title: 'Monitoreo', description: 'Indicadores económicos y sociales en seguimiento.', eyebrow: 'Datos', features: ['Indicadores actualizados', 'Series temporales', 'Lectura visual'], nextSteps: defaultSteps },
+  { path: 'datos/historia', title: 'Historia', description: 'Series históricas y contexto económico.', eyebrow: 'Datos', features: ['Líneas del tiempo', 'Contexto histórico', 'Gráficas comparativas'], nextSteps: defaultSteps },
+  { path: 'datos/economia', title: 'Economía', description: 'Indicadores económicos explicados con claridad.', eyebrow: 'Datos', features: ['Inflación', 'Empleo', 'Crecimiento'], nextSteps: defaultSteps },
+  { path: 'datos/base-de-datos', title: 'Base de datos', description: 'Bases limpias y documentadas para análisis.', eyebrow: 'Datos abiertos', features: ['Datasets', 'Diccionarios', 'Fuentes'], nextSteps: defaultSteps },
+  { path: 'datos/comparador-estatal', title: 'Comparador estatal', description: 'Compara entidades por indicadores económicos y sociales.', eyebrow: 'Herramienta', features: ['Comparación estatal', 'Indicadores visuales', 'Tarjetas compartibles'], nextSteps: defaultSteps },
+  { path: 'datos/mapas', title: 'Mapas interactivos', description: 'Mapas económicos y sociales de México.', eyebrow: 'Visualización', features: ['Mapas nacionales', 'Capas por indicador', 'Diseño móvil'], nextSteps: defaultSteps },
+  { path: 'datos/descargas', title: 'Descarga de datos', description: 'Datasets listos para análisis propio.', eyebrow: 'Datos abiertos', features: ['CSV', 'Metadatos', 'Documentación'], nextSteps: defaultSteps },
+  { path: 'datos/metodologias', title: 'Metodologías', description: 'Notas técnicas, fuentes y supuestos.', eyebrow: 'Transparencia', features: ['Fuentes', 'Supuestos', 'Reproducibilidad'], nextSteps: defaultSteps },
+  { path: 'datos/grafico-explica', title: 'Un gráfico explica', description: 'Una idea económica explicada con una visualización clara.', eyebrow: 'Visual editorial', features: ['Una gráfica principal', 'Explicación breve', 'Social card'], nextSteps: defaultSteps },
+  { path: 'newsletter', title: 'Newsletter', description: 'Recibe análisis económico y nuevas publicaciones.', eyebrow: 'Boletín', status: 'Formulario temporal', features: ['Resumen semanal', 'Datos explicados', 'Publicaciones nuevas'], nextSteps: defaultSteps, kind: 'newsletter' },
+  { path: 'nosotros', title: 'Nosotros', description: 'Conoce la misión y el equipo de Centro Economex.', eyebrow: 'Institución', features: ['Misión', 'Equipo', 'Red de colaboradores'], nextSteps: defaultSteps },
+  { path: 'nosotros/quienes-somos', title: '¿Quiénes somos?', description: 'Traducimos investigación económica para el bien común.', eyebrow: 'Misión', features: ['Propósito', 'Modelo de impacto', 'Academia y público'], nextSteps: defaultSteps },
+  { path: 'nosotros/unete', title: 'Únete', description: 'Colabora con Centro Economex.', eyebrow: 'Comunidad', features: ['Convocatorias', 'Roles', 'Alianzas'], nextSteps: defaultSteps },
+  { path: 'nosotros/redes', title: 'Redes', description: 'Encuentra nuestros canales de distribución.', eyebrow: 'Distribución', features: ['Instagram', 'X / Threads', 'Reels y tarjetas'], nextSteps: defaultSteps },
+  { path: 'ayudanos', title: 'Ayúdanos', description: 'Apoya la misión de Centro Economex.', eyebrow: 'Apoyo', features: ['Donaciones futuras', 'Voluntariado', 'Alianzas'], nextSteps: defaultSteps },
+  { path: 'ayuda', title: 'Ayuda', description: 'Respuestas rápidas sobre el sitio y sus publicaciones.', eyebrow: 'Soporte', features: ['Preguntas frecuentes', 'Guías', 'Contacto'], nextSteps: defaultSteps },
+  { path: 'contacto', title: 'Contacto', description: 'Ponte en contacto para colaboraciones, prensa o dudas editoriales.', eyebrow: 'Contacto', features: ['Formulario', 'Correo editorial', 'Solicitudes'], nextSteps: defaultSteps },
+  { path: 'prensa', title: 'Prensa', description: 'Recursos para periodistas, medios y aliados.', eyebrow: 'Medios', features: ['Kit institucional', 'Comunicados', 'Contacto'], nextSteps: defaultSteps },
+  { path: 'privacidad', title: 'Privacidad', description: 'Información sobre el manejo de datos y formularios.', eyebrow: 'Legal', features: ['Política de datos', 'Analítica', 'Derechos de usuarios'], nextSteps: defaultSteps },
+  { path: 'terminos', title: 'Términos', description: 'Condiciones de uso del sitio y materiales.', eyebrow: 'Legal', features: ['Uso del contenido', 'Atribución', 'Licencias'], nextSteps: defaultSteps },
+  { path: 'temas', title: 'Temas', description: 'Explora publicaciones por áreas de interés.', eyebrow: 'Índice editorial', features: ['Crecimiento', 'Trabajo', 'Desigualdad'], nextSteps: defaultSteps },
+  { path: 'temas/crecimiento', title: 'Crecimiento económico', description: 'Productividad, inversión y crecimiento de largo plazo.', eyebrow: 'Tema', features: ['Artículos', 'Datos', 'Visuales'], nextSteps: defaultSteps },
+  { path: 'temas/trabajo', title: 'Trabajo y salarios', description: 'Empleo, salarios y condiciones de trabajo.', eyebrow: 'Tema', features: ['Mercado laboral', 'Salarios', 'Evidencia'], nextSteps: defaultSteps },
+  { path: 'temas/desigualdad', title: 'Desigualdad y pobreza', description: 'Distribución del ingreso, movilidad y bienestar.', eyebrow: 'Tema', features: ['Indicadores', 'Mapas', 'Programas'], nextSteps: defaultSteps },
+  { path: 'temas/finanzas-publicas', title: 'Finanzas públicas', description: 'Gasto, ingresos, presupuesto y calidad del gasto.', eyebrow: 'Tema', features: ['Presupuesto', 'Gasto', 'Recomendaciones'], nextSteps: defaultSteps },
+  { path: 'temas/educacion', title: 'Educación y capital humano', description: 'Educación, habilidades y movilidad.', eyebrow: 'Tema', features: ['Indicadores', 'Investigación', 'Comparaciones'], nextSteps: defaultSteps },
+  { path: 'temas/gobierno', title: 'Gobierno y política pública', description: 'Evidencia para mejorar decisiones públicas.', eyebrow: 'Tema', features: ['Policy briefs', 'Evaluación', 'Instituciones'], nextSteps: defaultSteps },
+  { path: 'temas/salud', title: 'Salud', description: 'Datos y evidencia económica sobre salud y bienestar.', eyebrow: 'Tema', features: ['Indicadores', 'Acceso', 'Bienestar'], nextSteps: defaultSteps },
+  { path: 'temas/desarrollo-regional', title: 'Desarrollo regional', description: 'Diferencias territoriales e infraestructura.', eyebrow: 'Tema', features: ['Comparaciones', 'Mapas', 'Política territorial'], nextSteps: defaultSteps },
+  { path: 'policy-briefs', title: 'Policy briefs', description: 'Recomendaciones breves y accionables basadas en evidencia.', eyebrow: 'Política pública', features: ['Síntesis ejecutivas', 'Recomendaciones', 'PDFs'], nextSteps: defaultSteps },
+  { path: 'policy-briefs/movilidad-social', title: '3 políticas para aumentar movilidad social', description: 'Placeholder para policy brief.', eyebrow: 'Policy brief', features: ['Diagnóstico', 'Evidencia', 'Recomendaciones'], nextSteps: defaultSteps },
+  { path: 'policy-briefs/gasto-publico-local', title: 'Gasto público local: dónde mirar primero', description: 'Placeholder para policy brief.', eyebrow: 'Policy brief', features: ['Diagnóstico', 'Indicadores', 'Recomendaciones'], nextSteps: defaultSteps },
+  { path: 'policy-briefs/productividad-regional', title: 'Productividad regional: evidencia y recomendaciones', description: 'Placeholder para policy brief.', eyebrow: 'Policy brief', features: ['Evidencia', 'Barreras', 'Recomendaciones'], nextSteps: defaultSteps },
+  { path: 'policy-briefs/calidad-gasto-publico', title: 'Cómo mejorar la calidad del gasto público en México', description: 'Placeholder para policy brief.', eyebrow: 'Policy brief', features: ['Problema público', 'Evidencia', 'Recomendaciones'], nextSteps: defaultSteps },
+  { path: 'articulos/crecimiento-estados-mexico', title: '¿Por qué crecen distinto los estados de México?', description: 'Placeholder editorial para artículo destacado.', eyebrow: 'Artículo', features: ['Artículo largo', 'Visual principal', 'Fuentes'], nextSteps: defaultSteps },
+  { path: 'articulos/inflacion-datos-recientes', title: 'Inflación: lo que muestran los datos más recientes', description: 'Placeholder editorial para gráfico explica.', eyebrow: 'Gráfico explica', features: ['Gráfica principal', 'Explicación breve', 'Social card'], nextSteps: defaultSteps },
+  { path: 'articulos/jornada-laboral-4-dias', title: '¿Qué dice la evidencia sobre la jornada laboral de 4 días?', description: 'Placeholder para investigación traducida.', eyebrow: 'Investigación traducida', features: ['Paper original', 'Traducción clara', 'Fuentes'], nextSteps: defaultSteps },
+  { path: 'articulos/nearshoring-estados-mexicanos', title: 'Nearshoring: ¿qué pueden aprovechar los estados mexicanos?', description: 'Placeholder editorial para análisis.', eyebrow: 'Análisis', features: ['Diagnóstico', 'Datos comparativos', 'Mapa'], nextSteps: defaultSteps },
 ];
 
 export function getStaticPaths() {
-  return plannedPages.map((page) => ({
-    params: { slug: page.path },
-    props: { page },
-  }));
+  return pages.map((page) => ({ params: { slug: page.path }, props: { page } }));
 }
 
-const { page } = Astro.props;
+const { page } = Astro.props as { page: Page };
 const query = Astro.url.searchParams.get('q') ?? '';
 const email = Astro.url.searchParams.get('email') ?? '';
 ---
 
-<BaseLayout title={`${page.title} — Centro Economex`} description={page.description}>
-  <section class="placeholder-page">
-    <div class="container placeholder-page__inner">
-      <p class="eyebrow">Centro Economex</p>
-      <h1>{page.title}</h1>
-      <p class="placeholder-page__description">{page.description}</p>
+<SectionPlaceholder
+  title={page.title}
+  description={page.description}
+  eyebrow={page.eyebrow}
+  status={page.status}
+  features={page.features ?? []}
+  nextSteps={page.nextSteps ?? []}
+>
+  {page.kind === 'search' && (
+    <form class="inline-form" action="/buscar" method="get" role="search">
+      <label for="search-q" class="visually-hidden">Buscar</label>
+      <input id="search-q" name="q" type="search" value={query} placeholder="Buscar artículos, datos o temas" />
+      <button type="submit">Buscar</button>
+      {query && <p class="form-note">La búsqueda avanzada se conectará pronto. Consulta mientras tanto la sección de artículos.</p>}
+    </form>
+  )}
 
-      {page.kind === 'search' && (
-        <form class="inline-form" action="/buscar" method="get" role="search">
-          <label for="search-q" class="visually-hidden">Buscar</label>
-          <input id="search-q" name="q" type="search" value={query} placeholder="Buscar artículos, datos o temas" />
-          <button type="submit">Buscar</button>
-          {query && <p class="form-note">La búsqueda avanzada se conectará pronto. Consulta mientras tanto la sección de artículos.</p>}
-        </form>
-      )}
-
-      {page.kind === 'newsletter' && (
-        <form class="inline-form" action="/newsletter" method="get">
-          <label for="newsletter-email" class="visually-hidden">Correo electrónico</label>
-          <input id="newsletter-email" name="email" type="email" value={email} placeholder="tu@correo.com" autocomplete="email" />
-          <button type="submit">Suscribirme</button>
-          {email && <p class="form-note">Gracias. El alta automática del newsletter se conectará en la siguiente fase.</p>}
-        </form>
-      )}
-
-      <div class="placeholder-page__actions">
-        <a href="/articulos">Ver artículos</a>
-        <a href="/">Volver al inicio</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+  {page.kind === 'newsletter' && (
+    <form class="inline-form" action="/newsletter" method="get">
+      <label for="newsletter-email" class="visually-hidden">Correo electrónico</label>
+      <input id="newsletter-email" name="email" type="email" value={email} placeholder="tu@correo.com" autocomplete="email" />
+      <button type="submit">Suscribirme</button>
+      {email && <p class="form-note">Gracias. El alta automática del newsletter se conectará en la siguiente fase.</p>}
+    </form>
+  )}
+</SectionPlaceholder>
 
 <style>
-  .placeholder-page {
-    min-height: 60vh;
-    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 380px);
-    padding: var(--space-10) 0 var(--space-12);
-  }
-
-  .placeholder-page__inner {
-    max-width: 760px;
-  }
-
-  .placeholder-page__description {
-    font-size: var(--fs-md);
-    line-height: 1.65;
-    color: var(--color-text);
-  }
-
-  .placeholder-page__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-
-  .placeholder-page__actions a,
-  .inline-form button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    border-radius: var(--radius-full);
-    padding: 0.75rem 1.1rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .placeholder-page__actions a:first-child,
-  .inline-form button {
-    background: var(--color-primary);
-    color: #fff;
-  }
-
-  .placeholder-page__actions a:first-child:hover,
-  .inline-form button:hover {
-    background: var(--color-primary-hover);
-    color: #fff;
-  }
-
-  .placeholder-page__actions a:last-child {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    color: var(--color-ink);
-  }
-
   .inline-form {
     display: grid;
     gap: var(--space-3);
@@ -150,6 +107,7 @@ const email = Astro.url.searchParams.get('email') ?? '';
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
   }
 
   .inline-form input {
@@ -160,6 +118,17 @@ const email = Astro.url.searchParams.get('email') ?? '';
     background: var(--color-bg-warm);
   }
 
+  .inline-form button {
+    min-height: 46px;
+    border-radius: var(--radius-full);
+    padding: 0.75rem 1.1rem;
+    font-weight: 700;
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .inline-form button:hover { background: var(--color-primary-hover); }
+
   .form-note {
     margin: 0;
     color: var(--color-text-muted);
@@ -167,13 +136,7 @@ const email = Astro.url.searchParams.get('email') ?? '';
   }
 
   @media (min-width: 700px) {
-    .inline-form {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-    }
-
-    .inline-form .form-note {
-      grid-column: 1 / -1;
-    }
+    .inline-form { grid-template-columns: 1fr auto; align-items: center; }
+    .inline-form .form-note { grid-column: 1 / -1; }
   }
 </style>
