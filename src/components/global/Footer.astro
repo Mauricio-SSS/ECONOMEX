@@ -42,9 +42,9 @@ const year = new Date().getFullYear();
     <div class="footer__newsletter">
       <h3 class="footer__col-title">Newsletter</h3>
       <p>Análisis y datos en tu correo.</p>
-      <form action="/newsletter" method="post" class="footer__form">
+      <form action="/newsletter" method="get" class="footer__form">
         <label for="footer-email" class="visually-hidden">Correo electrónico</label>
-        <input id="footer-email" type="email" name="email" placeholder="tu@correo.com" required />
+        <input id="footer-email" type="email" name="email" placeholder="tu@correo.com" required autocomplete="email" />
         <button type="submit" class="footer__form-btn">Suscribirme</button>
       </form>
     </div>
