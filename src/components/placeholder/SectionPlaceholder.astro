@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  status?: string;
+  features?: string[];
+  nextSteps?: string[];
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+
+const {
+  title,
+  description,
+  eyebrow = 'Centro Economex',
+  status = 'Página en desarrollo',
+  features = [],
+  nextSteps = [],
+  primaryHref = '/articulos',
+  primaryLabel = 'Ver artículos',
+  secondaryHref = '/',
+  secondaryLabel = 'Volver al inicio',
+} = Astro.props;
+---
+
+<BaseLayout title={`${title} — Centro Economex`} description={description}>
+  <section class="placeholder-hero">
+    <div class="container placeholder-hero__inner">
+      <div class="placeholder-hero__copy">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        <p class="placeholder-hero__description">{description}</p>
+        <div class="placeholder-hero__actions">
+          <a href={primaryHref} class="placeholder-button placeholder-button--primary">{primaryLabel}</a>
+          <a href={secondaryHref} class="placeholder-button placeholder-button--secondary">{secondaryLabel}</a>
+        </div>
+      </div>
+
+      <aside class="placeholder-card" aria-label="Estado de la sección">
+        <span class="placeholder-card__label">{status}</span>
+        <div class="placeholder-card__visual" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p>
+          Esta sección ya tiene una página base con el estilo editorial de Centro Economex. El contenido final se podrá conectar a Decap CMS, datos o componentes interactivos después.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  {(features.length > 0 || nextSteps.length > 0) && (
+    <section class="placeholder-details">
+      <div class="container placeholder-details__grid">
+        {features.length > 0 && (
+          <div class="placeholder-panel">
+            <h2>Qué tendrá esta sección</h2>
+            <ul>
+              {features.map((feature) => <li>{feature}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {nextSteps.length > 0 && (
+          <div class="placeholder-panel placeholder-panel--warm">
+            <h2>Siguientes pasos</h2>
+            <ul>
+              {nextSteps.map((step) => <li>{step}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .placeholder-hero {
+    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 520px);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-8) 0 var(--space-10);
+  }
+
+  .placeholder-hero__inner {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .placeholder-hero__copy {
+    max-width: 760px;
+  }
+
+  .placeholder-hero h1 {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .placeholder-hero__description {
+    color: var(--color-text);
+    font-size: clamp(1.08rem, 2vw, 1.3rem);
+    line-height: 1.65;
+    max-width: 62ch;
+  }
+
+  .placeholder-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .placeholder-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: var(--radius-full);
+    padding: 0.75rem 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .placeholder-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .placeholder-button--primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .placeholder-button--primary:hover {
+    background: var(--color-primary-hover);
+    color: #fff;
+  }
+
+  .placeholder-button--secondary {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    color: var(--color-ink);
+  }
+
+  .placeholder-button--secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .placeholder-card {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-5);
+  }
+
+  .placeholder-card__label {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-full);
+    background: var(--color-green-100);
+    color: var(--color-green-900);
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .placeholder-card__visual {
+    display: grid;
+    gap: 0.65rem;
+    margin: var(--space-5) 0;
+  }
+
+  .placeholder-card__visual span {
+    display: block;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(90deg, var(--color-green-100), var(--color-bg-warm));
+    border: 1px solid var(--color-border);
+  }
+
+  .placeholder-card__visual span:nth-child(2) {
+    width: 78%;
+  }
+
+  .placeholder-card__visual span:nth-child(3) {
+    width: 58%;
+    background: linear-gradient(90deg, var(--color-red-100), var(--color-bg-warm));
+  }
+
+  .placeholder-card p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+
+  .placeholder-details {
+    padding: var(--space-8) 0 var(--space-12);
+  }
+
+  .placeholder-details__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .placeholder-panel {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .placeholder-panel--warm {
+    background: var(--color-bg-warm);
+  }
+
+  .placeholder-panel h2 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-4);
+  }
+
+  .placeholder-panel ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .placeholder-panel li {
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  @media (min-width: 860px) {
+    .placeholder-hero__inner {
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    }
+
+    .placeholder-details__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
