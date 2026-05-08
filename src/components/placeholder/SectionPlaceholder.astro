@@ -35,6 +35,9 @@ const {
         <p class="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
         <p class="placeholder-hero__description">{description}</p>
+
+        <slot />
+
         <div class="placeholder-hero__actions">
           <a href={primaryHref} class="placeholder-button placeholder-button--primary">{primaryLabel}</a>
           <a href={secondaryHref} class="placeholder-button placeholder-button--secondary">{secondaryLabel}</a>
