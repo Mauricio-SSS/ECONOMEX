@@ -15,9 +15,11 @@ collections:
     label: "Artículos"
     folder: "content/articulos"
     create: true
+    delete: true
     extension: "mdx"
     format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "title"
 
     fields:
       - label: "Template"
@@ -86,9 +88,11 @@ collections:
     label: "Autores"
     folder: "content/autores"
     create: true
+    delete: true
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
+    identifier_field: "name"
     fields:
       - { label: "Nombre", name: "name", widget: "string" }
       - { label: "Bio", name: "bio", widget: "text" }
@@ -98,9 +102,11 @@ collections:
     label: "Temas"
     folder: "content/temas"
     create: true
+    delete: true
     extension: "md"
     format: "frontmatter"
     slug: "{{slug}}"
+    identifier_field: "name"
     fields:
       - { label: "Nombre", name: "name", widget: "string" }
       - { label: "Descripción", name: "description", widget: "text" }
