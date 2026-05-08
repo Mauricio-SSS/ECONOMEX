@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const articulos = (await getCollection('articulos')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('es-MX', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(date);
+---
+
+<BaseLayout
+  title="Artículos — Centro Economex"
+  description="Análisis, investigación traducida, policy briefs y visualizaciones de Centro Economex."
+>
+  <section class="articles-page">
+    <div class="container">
+      <header class="page-header">
+        <p class="eyebrow">Publicaciones</p>
+        <h1>Artículos</h1>
+        <p>
+          Análisis económico, investigación traducida y datos explicados con claridad para el bien común.
+        </p>
+      </header>
+
+      <div class="articles-grid">
+        {articulos.map((articulo) => {
+          const slug = articulo.id.replace(/\.(md|mdx)$/, '');
+          return (
+            <article class="article-card">
+              <p class="eyebrow">{articulo.data.template.replaceAll('-', ' ')}</p>
+              <h2><a href={`/articulos/${slug}`}>{articulo.data.title}</a></h2>
+              <p>{articulo.data.oneSentence}</p>
+              <div class="meta">
+                <span>{articulo.data.author}</span>
+                <span aria-hidden="true">•</span>
+                <time datetime={articulo.data.date.toISOString()}>{formatDate(articulo.data.date)}</time>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .articles-page {
+    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 380px);
+    padding: var(--space-8) 0 var(--space-12);
+  }
+
+  .page-header {
+    max-width: 760px;
+    margin-bottom: var(--space-8);
+  }
+
+  .page-header p:last-child {
+    font-size: var(--fs-md);
+    color: var(--color-text);
+  }
+
+  .articles-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .article-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .article-card h2 {
+    font-size: var(--fs-lg);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .article-card h2 a {
+    color: var(--color-ink);
+  }
+
+  .article-card h2 a:hover {
+    color: var(--color-primary);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 760px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .articles-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
