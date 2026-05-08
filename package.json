@@ -9,12 +9,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "preview": "npm run build && wrangler dev",
+    "build": "rm -rf dist .astro && astro build",
+    "preview": "npm run build && astro preview",
     "astro": "astro",
-    "check": "astro check",
-    "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler deploy"
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.2.2",
