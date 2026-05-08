@@ -1,0 +1,104 @@
+backend:
+  name: github
+  repo: Mauricio-SSS/ECONOMEX
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "articulos"
+    label: "Artículos"
+    folder: "content/articulos"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
+    fields:
+      - label: "Template"
+        name: "template"
+        widget: "select"
+        options:
+          - { label: "Artículo normal con visuales", value: "articulo-visual" }
+          - { label: "Investigación traducida", value: "investigacion-traducida" }
+          - { label: "Especial interactivo", value: "especial-interactivo" }
+          - { label: "Policy brief", value: "policy-brief" }
+
+      - { label: "Título", name: "title", widget: "string" }
+
+      - label: "Tema en una oración"
+        name: "oneSentence"
+        widget: "text"
+
+      - { label: "Autor", name: "author", widget: "string" }
+
+      - label: "Fecha"
+        name: "date"
+        widget: "datetime"
+
+      - label: "Resumen / abstract"
+        name: "abstract"
+        widget: "text"
+
+      - label: "Imagen principal"
+        name: "heroImage"
+        widget: "image"
+        required: false
+
+      - label: "Elemento visual principal"
+        name: "mainVisual"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Tipo"
+            name: "type"
+            widget: "select"
+            options:
+              - { label: "Sin visual", value: "none" }
+              - { label: "Mapa", value: "map" }
+              - { label: "Gráfica de línea", value: "line-chart" }
+              - { label: "Gráfica de barras", value: "bar-chart" }
+              - { label: "Scrollytelling", value: "scrolly-chart" }
+
+          - { label: "Título del visual", name: "title", widget: "string", required: false }
+          - { label: "Dataset", name: "dataset", widget: "string", required: false }
+          - { label: "Variable", name: "variable", widget: "string", required: false }
+          - { label: "Año", name: "year", widget: "number", required: false }
+
+      - label: "Artículo normal apoyado de visuales"
+        name: "body"
+        widget: "markdown"
+
+      - label: "Fuentes"
+        name: "sources"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Nombre", name: "label", widget: "string" }
+          - { label: "URL", name: "url", widget: "string" }
+
+  - name: "autores"
+    label: "Autores"
+    folder: "content/autores"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nombre", name: "name", widget: "string" }
+      - { label: "Bio", name: "bio", widget: "text" }
+      - { label: "Foto", name: "photo", widget: "image", required: false }
+
+  - name: "temas"
+    label: "Temas"
+    folder: "content/temas"
+    create: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nombre", name: "name", widget: "string" }
+      - { label: "Descripción", name: "description", widget: "text" }
