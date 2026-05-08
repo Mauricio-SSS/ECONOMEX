@@ -10,7 +10,9 @@ const date = new Intl.DateTimeFormat('es-MX', {
 
 const templateLabel = article.template?.replaceAll('-', ' ') ?? 'artículo';
 const visualType = article.mainVisual?.type;
-const hasMainVisual = visualType && visualType !== 'none';
+const hasMainVisual = Boolean(visualType && visualType !== 'none');
+const hasSummaryPoints = (article.summaryPoints?.length ?? 0) > 0;
+const hasSources = (article.sources?.length ?? 0) > 0;
 ---
 
 <BaseLayout title={`${article.title} — Centro Economex`} description={article.abstract} ogImage={article.heroImage}>
@@ -40,7 +42,7 @@ const hasMainVisual = visualType && visualType !== 'none';
           <p>{article.abstract}</p>
         </div>
 
-        {article.summaryPoints?.length > 0 && (
+        {hasSummaryPoints && (
           <div class="summary-card">
             <h2>La idea en puntos</h2>
             <ol>
@@ -50,7 +52,7 @@ const hasMainVisual = visualType && visualType !== 'none';
         )}
       </aside>
 
-      <main class="article-content">
+      <div class="article-content">
         {hasMainVisual && (
           <figure class="visual-placeholder">
             <p class="eyebrow">Elemento visual principal</p>
@@ -64,7 +66,7 @@ const hasMainVisual = visualType && visualType !== 'none';
 
         <slot />
 
-        {article.sources?.length > 0 && (
+        {hasSources && (
           <section class="sources" aria-labelledby="sources-heading">
             <h2 id="sources-heading">Fuentes</h2>
             <ul>
@@ -74,7 +76,7 @@ const hasMainVisual = visualType && visualType !== 'none';
             </ul>
           </section>
         )}
-      </main>
+      </div>
     </div>
   </article>
 </BaseLayout>
