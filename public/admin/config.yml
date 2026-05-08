@@ -2,6 +2,8 @@ backend:
   name: github
   repo: Mauricio-SSS/ECONOMEX
   branch: main
+  base_url: https://centro-economex-decap-oauth.YOUR-SUBDOMAIN.workers.dev
+  auth_endpoint: auth
 
 publish_mode: editorial_workflow
 
