@@ -2,9 +2,8 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
-import cloudflare from '@astrojs/cloudflare';
-
-// https://astro.build/config
+// Static editorial site for Cloudflare Pages.
+// No server adapter is needed while the site is fully prerendered/static.
 export default defineConfig({
   site: 'https://centroeconomex.org',
   integrations: [mdx(), sitemap()],
@@ -12,6 +11,4 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
-
-  adapter: cloudflare(),
 });
