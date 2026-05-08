@@ -49,17 +49,16 @@ import MobileMenu from './MobileMenu.astro';
     </nav>
 
     <div class="header__actions">
-      <button
-        type="button"
+      <a
         class="header__icon-btn"
+        href="/buscar"
         aria-label="Buscar en Centro Economex"
-        data-search-trigger
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
-      </button>
+      </a>
 
       <button
         type="button"
@@ -157,7 +156,6 @@ import MobileMenu from './MobileMenu.astro';
     transform: rotate(180deg);
   }
 
-  /* Dropdown menus -------------------------------- */
   .header__dropdown {
     position: absolute;
     top: calc(100% + 4px);
@@ -208,7 +206,6 @@ import MobileMenu from './MobileMenu.astro';
     color: var(--color-green-900);
   }
 
-  /* Bridge invisible para que no se cierre al pasar al dropdown */
   .header__nav-item--parent::after {
     content: '';
     position: absolute;
@@ -232,8 +229,9 @@ import MobileMenu from './MobileMenu.astro';
     border-radius: var(--radius-full);
     color: var(--color-ink);
     transition: background var(--transition-fast);
+    text-decoration: none;
   }
-  .header__icon-btn:hover { background: #F1F3F5; }
+  .header__icon-btn:hover { background: #F1F3F5; color: var(--color-ink); }
   .header__icon-btn svg { width: 20px; height: 20px; }
 
   @media (min-width: 1024px) {
@@ -244,7 +242,6 @@ import MobileMenu from './MobileMenu.astro';
 </style>
 
 <script>
-  // Toggle del menú móvil. Vanilla JS, sin framework.
   const trigger = document.querySelector<HTMLButtonElement>('[data-menu-trigger]');
   const menu = document.getElementById('mobile-menu');
   const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
@@ -269,7 +266,6 @@ import MobileMenu from './MobileMenu.astro';
     if (event.key === 'Escape') setOpen(false);
   });
 
-  // Submenús desktop: sincroniza aria-expanded al hover/focus
   document.querySelectorAll<HTMLElement>('.header__nav-item--parent').forEach((item) => {
     const link = item.querySelector<HTMLAnchorElement>(':scope > a');
     if (!link) return;
