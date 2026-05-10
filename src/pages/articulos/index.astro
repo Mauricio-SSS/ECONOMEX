@@ -18,29 +18,35 @@ const formatDate = (date: Date) =>
   title="Artículos — Centro Economex"
   description="Análisis, investigación traducida, policy briefs y visualizaciones de Centro Economex."
 >
-  <section class="articles-page">
+  <section class="archive-page">
     <div class="container">
-      <header class="page-header">
-        <p class="eyebrow">Publicaciones</p>
-        <h1>Artículos</h1>
+      <header class="archive-header">
+        <div>
+          <p class="archive-eyebrow">Publicaciones</p>
+          <h1>Artículos</h1>
+        </div>
         <p>
-          Análisis económico, investigación traducida y datos explicados con claridad para el bien común.
+          Análisis económico, investigación traducida y datos explicados con claridad para entender los retos públicos de México.
         </p>
       </header>
 
-      <div class="articles-grid">
-        {articulos.map((articulo) => {
+      <div class="archive-list">
+        {articulos.map((articulo, index) => {
           const slug = articulo.id.replace(/\.(md|mdx)$/, '');
+          const number = String(index + 1).padStart(2, '0');
           return (
-            <article class="article-card">
-              <p class="eyebrow">{articulo.data.template.replaceAll('-', ' ')}</p>
-              <h2><a href={`/articulos/${slug}`}>{articulo.data.title}</a></h2>
-              <p>{articulo.data.oneSentence}</p>
-              <div class="meta">
-                <span>{articulo.data.author}</span>
-                <span aria-hidden="true">•</span>
-                <time datetime={articulo.data.date.toISOString()}>{formatDate(articulo.data.date)}</time>
+            <article class="archive-item">
+              <div class="archive-item__number">{number}</div>
+              <div class="archive-item__body">
+                <p class="archive-item__kicker">{articulo.data.template.replaceAll('-', ' ')}</p>
+                <h2><a href={`/articulos/${slug}`}>{articulo.data.title}</a></h2>
+                <p>{articulo.data.oneSentence}</p>
+                <div class="archive-meta">
+                  <span>{articulo.data.author}</span>
+                  <time datetime={articulo.data.date.toISOString()}>{formatDate(articulo.data.date)}</time>
+                </div>
               </div>
+              <a class="archive-item__arrow" href={`/articulos/${slug}`} aria-label={`Leer ${articulo.data.title}`}>→</a>
             </article>
           );
         })}
@@ -50,67 +56,137 @@ const formatDate = (date: Date) =>
 </BaseLayout>
 
 <style>
-  .articles-page {
-    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 380px);
-    padding: var(--space-8) 0 var(--space-12);
-  }
-
-  .page-header {
-    max-width: 760px;
-    margin-bottom: var(--space-8);
-  }
-
-  .page-header p:last-child {
-    font-size: var(--fs-md);
-    color: var(--color-text);
-  }
-
-  .articles-grid {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .article-card {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-5);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .article-card h2 {
-    font-size: var(--fs-lg);
-    margin-top: var(--space-2);
-    margin-bottom: var(--space-3);
-  }
-
-  .article-card h2 a {
+  .archive-page {
+    background: #fff;
     color: var(--color-ink);
+    padding: clamp(3rem, 7vw, 6rem) 0 clamp(4rem, 8vw, 6rem);
   }
 
-  .article-card h2 a:hover {
+  .archive-header {
+    display: grid;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: end;
+    border-bottom: 2px solid var(--color-ink);
+    padding-bottom: clamp(1.25rem, 3vw, 2rem);
+    margin-bottom: clamp(1rem, 3vw, 2rem);
+  }
+
+  .archive-eyebrow,
+  .archive-item__kicker {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .archive-header h1 {
+    margin: 0.55rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 600;
+    letter-spacing: -0.058em;
+    line-height: 0.9;
+  }
+
+  .archive-header > p {
+    max-width: 560px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1rem, 1.6vw, 1.16rem);
+    line-height: 1.6;
+  }
+
+  .archive-list {
+    display: grid;
+  }
+
+  .archive-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: start;
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.35rem, 3vw, 2.15rem) 0;
+  }
+
+  .archive-item__number {
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    line-height: 1;
+  }
+
+  .archive-item h2 {
+    max-width: 780px;
+    margin: 0.45rem 0 0.55rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 3vw, 2.3rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .archive-item h2 a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .archive-item h2 a:hover {
     color: var(--color-primary);
   }
 
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    font-weight: 500;
-    margin-top: var(--space-4);
+  .archive-item__body > p:not(.archive-item__kicker) {
+    max-width: 680px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.55;
   }
 
-  @media (min-width: 760px) {
-    .articles-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  .archive-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .archive-item__arrow {
+    color: var(--color-primary);
+    font-size: 1.6rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .archive-item:hover .archive-item__arrow {
+    color: var(--color-red-700, #c51d23);
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 860px) {
+    .archive-header {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.55fr);
     }
   }
 
-  @media (min-width: 1100px) {
-    .articles-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+  @media (max-width: 640px) {
+    .archive-item {
+      grid-template-columns: 1fr auto;
+    }
+
+    .archive-item__number {
+      grid-column: 1 / -1;
     }
   }
 </style>
