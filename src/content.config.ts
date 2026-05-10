@@ -35,6 +35,26 @@ const narrativeVisualSchema = z
   })
   .optional();
 
+const articleContentBlockSchema = z
+  .array(
+    z.object({
+      type: z.string().optional(),
+      heading: z.string().optional(),
+      text: z.string().optional(),
+      quote: z.string().optional(),
+      attribution: z.string().optional(),
+      image: z.string().optional(),
+      alt: z.string().optional(),
+      title: z.string().optional(),
+      caption: z.string().optional(),
+      source: z.string().optional(),
+      kicker: z.string().optional(),
+      value: z.string().optional(),
+      label: z.string().optional(),
+    })
+  )
+  .optional();
+
 const sourceSchema = z.object({
   label: z.string(),
   url: z.string(),
@@ -56,6 +76,7 @@ const articulos = defineCollection({
     mainVisual: visualSchema,
     visualSummary: visualSummarySchema,
     narrativeVisual: narrativeVisualSchema,
+    contentBlocks: articleContentBlockSchema,
     sources: z.array(sourceSchema).optional(),
     topics: z.array(z.string()).optional(),
     summaryPoints: z.array(z.string()).optional(),
