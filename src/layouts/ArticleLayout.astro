@@ -11,6 +11,8 @@ const date = new Intl.DateTimeFormat('es-MX', {
 const templateLabel = article.template?.replaceAll('-', ' ') ?? 'artículo';
 const hasSummaryPoints = (article.summaryPoints?.length ?? 0) > 0;
 const hasSources = (article.sources?.length ?? 0) > 0;
+const contentBlocks = article.contentBlocks ?? [];
+const hasContentBlocks = contentBlocks.length > 0;
 const readTime = article.readTime ?? '12 min de lectura';
 const visualSummary = article.visualSummary ?? {};
 const narrativeVisual = article.narrativeVisual ?? {};
@@ -51,15 +53,9 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
             </div>
 
             <div class="article-actions" aria-label="Acciones del artículo">
-              <button type="button" aria-label="Compartir artículo">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 12.5 15.5 8.5M8.5 14.5l7 4M7 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm10-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
-              </button>
-              <button type="button" aria-label="Guardar artículo">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M7 4.5h10v15l-5-3-5 3v-15Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
-              </button>
-              <button type="button" aria-label="Imprimir artículo">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M7 8V4h10v4M7 17H5.5A2.5 2.5 0 0 1 3 14.5v-3A2.5 2.5 0 0 1 5.5 9h13a2.5 2.5 0 0 1 2.5 2.5v3a2.5 2.5 0 0 1-2.5 2.5H17M7 14h10v6H7v-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
-              </button>
+              <button type="button" aria-label="Compartir artículo"><svg viewBox="0 0 24 24" fill="none"><path d="M8.5 12.5 15.5 8.5M8.5 14.5l7 4M7 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm10-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button type="button" aria-label="Guardar artículo"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4.5h10v15l-5-3-5 3v-15Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+              <button type="button" aria-label="Imprimir artículo"><svg viewBox="0 0 24 24" fill="none"><path d="M7 8V4h10v4M7 17H5.5A2.5 2.5 0 0 1 3 14.5v-3A2.5 2.5 0 0 1 5.5 9h13a2.5 2.5 0 0 1 2.5 2.5v3a2.5 2.5 0 0 1-2.5 2.5H17M7 14h10v6H7v-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
             </div>
           </div>
 
@@ -72,11 +68,7 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
           <section class="executive-summary" aria-labelledby="summary-heading">
             <h2 id="summary-heading">Resumen ejecutivo</h2>
             <p>{article.abstract}</p>
-            {hasSummaryPoints && (
-              <ol>
-                {article.summaryPoints.map((point) => <li>{point}</li>)}
-              </ol>
-            )}
+            {hasSummaryPoints && <ol>{article.summaryPoints.map((point) => <li>{point}</li>)}</ol>}
           </section>
         </header>
 
@@ -85,48 +77,59 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
             <section class="visual-summary" aria-labelledby="visual-summary-title-mobile">
               <p class="rail-kicker">Resumen visual</p>
               <h2 id="visual-summary-title-mobile">{visualTitle}</h2>
-              <div class="visual-map" aria-hidden="true">
-                <span class="region region--one"></span><span class="region region--two"></span><span class="region region--three"></span><span class="region region--four"></span><span class="region region--five"></span>
-              </div>
+              <div class="visual-map" aria-hidden="true"><span class="region region--one"></span><span class="region region--two"></span><span class="region region--three"></span><span class="region region--four"></span><span class="region region--five"></span></div>
               <p class="visual-caption">{visualCaption}</p>
               <div class="visual-legend" aria-hidden="true"><span>{visualLowLabel}</span><i></i><i></i><i></i><i></i><span>{visualHighLabel}</span></div>
-              <dl class="visual-stats">
-                {visualStats.map((stat) => <div><dt>{stat.value}</dt><dd>{stat.label}</dd></div>)}
-              </dl>
+              <dl class="visual-stats">{visualStats.map((stat) => <div><dt>{stat.value}</dt><dd>{stat.label}</dd></div>)}</dl>
             </section>
-
             <details class="scroll-visual" open data-scrollytelling-panel>
               <summary class="scroll-visual__header">
-                <span class="scroll-visual__heading-group">
-                  <span class="rail-kicker rail-kicker--red">Narrativa visual</span>
-                  <span class="scroll-visual__title">{narrativeTitle}</span>
-                  <span class="reading-progress" aria-hidden="true">
-                    <span data-reading-progress-label>Progreso de lectura</span>
-                    <i><b data-reading-progress-bar></b></i>
-                  </span>
-                </span>
+                <span class="scroll-visual__heading-group"><span class="rail-kicker rail-kicker--red">Narrativa visual</span><span class="scroll-visual__title">{narrativeTitle}</span><span class="reading-progress" aria-hidden="true"><span data-reading-progress-label>Progreso de lectura</span><i><b data-reading-progress-bar></b></i></span></span>
                 <span class="scroll-visual__toggle" aria-hidden="true"></span>
               </summary>
-              <div class="scroll-visual__content">
-                <p>{narrativeDescription}</p>
-                <ol>
-                  {narrativeSteps.map((step, index) => <li data-scrolly-step data-step-index={index}>{step}</li>)}
-                </ol>
-              </div>
+              <div class="scroll-visual__content"><p>{narrativeDescription}</p><ol>{narrativeSteps.map((step, index) => <li data-scrolly-step data-step-index={index}>{step}</li>)}</ol></div>
             </details>
           </aside>
         )}
 
         <div class="article-content" data-article-content>
-          <slot />
+          {hasContentBlocks ? (
+            contentBlocks.map((block, index) => (
+              <>
+                {(block.type === 'paragraph' || !block.type) && (
+                  <section class="article-content-block article-content-block--paragraph">
+                    {block.heading && <h2>{block.heading}</h2>}
+                    {block.text && <div class="article-block-text">{block.text}</div>}
+                  </section>
+                )}
+                {block.type === 'image' && (
+                  <figure class="article-inline-visual article-content-block">
+                    {block.title && <h3>{block.title}</h3>}
+                    {block.image && <img src={block.image} alt={block.alt ?? ''} loading="lazy" decoding="async" />}
+                    {(block.caption || block.source) && <figcaption>{block.caption}{block.source && <span> Fuente: {block.source}</span>}</figcaption>}
+                  </figure>
+                )}
+                {block.type === 'quote' && (
+                  <blockquote class="article-content-block article-block-quote">
+                    <p>{block.quote}</p>
+                    {block.attribution && <cite>{block.attribution}</cite>}
+                  </blockquote>
+                )}
+                {block.type === 'stat' && (
+                  <aside class="article-content-block article-data-callout">
+                    {block.kicker && <p class="article-data-callout__kicker">{block.kicker}</p>}
+                    <strong>{block.value}</strong>
+                    <p>{block.label}</p>
+                  </aside>
+                )}
+              </>
+            ))
+          ) : (
+            <slot />
+          )}
 
           {hasSources && (
-            <section class="sources" aria-labelledby="sources-heading">
-              <h2 id="sources-heading">Fuentes</h2>
-              <ul>
-                {article.sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}
-              </ul>
-            </section>
+            <section class="sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Fuentes</h2><ul>{article.sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul></section>
           )}
         </div>
       </main>
@@ -134,36 +137,14 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
       {showVisualStorytelling && (
         <aside class="article-visual-rail article-visual-rail--desktop" aria-label="Resumen visual del artículo">
           <section class="visual-summary" aria-labelledby="visual-summary-title">
-            <p class="rail-kicker">Resumen visual</p>
-            <h2 id="visual-summary-title">{visualTitle}</h2>
-            <div class="visual-map" aria-hidden="true">
-              <span class="region region--one"></span><span class="region region--two"></span><span class="region region--three"></span><span class="region region--four"></span><span class="region region--five"></span>
-            </div>
-            <p class="visual-caption">{visualCaption}</p>
-            <div class="visual-legend" aria-hidden="true"><span>{visualLowLabel}</span><i></i><i></i><i></i><i></i><span>{visualHighLabel}</span></div>
-            <dl class="visual-stats">
-              {visualStats.map((stat) => <div><dt>{stat.value}</dt><dd>{stat.label}</dd></div>)}
-            </dl>
+            <p class="rail-kicker">Resumen visual</p><h2 id="visual-summary-title">{visualTitle}</h2>
+            <div class="visual-map" aria-hidden="true"><span class="region region--one"></span><span class="region region--two"></span><span class="region region--three"></span><span class="region region--four"></span><span class="region region--five"></span></div>
+            <p class="visual-caption">{visualCaption}</p><div class="visual-legend" aria-hidden="true"><span>{visualLowLabel}</span><i></i><i></i><i></i><i></i><span>{visualHighLabel}</span></div>
+            <dl class="visual-stats">{visualStats.map((stat) => <div><dt>{stat.value}</dt><dd>{stat.label}</dd></div>)}</dl>
           </section>
-
           <details class="scroll-visual" open data-scrollytelling-panel>
-            <summary class="scroll-visual__header">
-              <span class="scroll-visual__heading-group">
-                <span class="rail-kicker rail-kicker--red">Narrativa visual</span>
-                <span class="scroll-visual__title">{narrativeTitle}</span>
-                <span class="reading-progress" aria-hidden="true">
-                  <span data-reading-progress-label>Progreso de lectura</span>
-                  <i><b data-reading-progress-bar></b></i>
-                </span>
-              </span>
-              <span class="scroll-visual__toggle" aria-hidden="true"></span>
-            </summary>
-            <div class="scroll-visual__content">
-              <p>{narrativeDescription}</p>
-              <ol>
-                {narrativeSteps.map((step, index) => <li data-scrolly-step data-step-index={index}>{step}</li>)}
-              </ol>
-            </div>
+            <summary class="scroll-visual__header"><span class="scroll-visual__heading-group"><span class="rail-kicker rail-kicker--red">Narrativa visual</span><span class="scroll-visual__title">{narrativeTitle}</span><span class="reading-progress" aria-hidden="true"><span data-reading-progress-label>Progreso de lectura</span><i><b data-reading-progress-bar></b></i></span></span><span class="scroll-visual__toggle" aria-hidden="true"></span></summary>
+            <div class="scroll-visual__content"><p>{narrativeDescription}</p><ol>{narrativeSteps.map((step, index) => <li data-scrolly-step data-step-index={index}>{step}</li>)}</ol></div>
           </details>
         </aside>
       )}
@@ -177,14 +158,11 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
   .article-grid--no-visual { max-width: 940px; }
   .article-main { min-width: 0; }
   .article-hero { border-top: 2px solid var(--color-ink); padding-top: 1rem; }
-
   .article-eyebrow, .rail-kicker { display: inline-flex; margin: 0; color: #f7f3ea; background: var(--color-primary); padding: 0.34rem 0.68rem; font-family: var(--font-sans); font-size: 0.7rem; font-weight: 850; letter-spacing: 0.13em; line-height: 1; text-transform: uppercase; }
   .rail-kicker { display: block; width: fit-content; background: transparent; color: var(--color-primary); padding: 0; font-size: 0.68rem; }
   .rail-kicker--red { color: var(--color-red-700, #c51d23); }
-
   .article-hero h1 { max-width: 940px; margin: 1rem 0 1.25rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(2.8rem, 5.85vw, 5.85rem); font-weight: 600; letter-spacing: -0.058em; line-height: 0.96; text-wrap: balance; }
   .one-sentence { max-width: 820px; margin: 0; color: #3f454d; font-family: var(--font-serif); font-size: clamp(1.18rem, 2vw, 1.6rem); font-style: italic; font-weight: 600; letter-spacing: -0.03em; line-height: 1.34; }
-
   .article-meta-panel { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); margin-top: clamp(1.75rem, 4vw, 2.65rem); padding: 1rem 0; }
   .article-institution { display: flex; gap: 0.9rem; align-items: center; }
   .article-author-image { width: 56px; height: 56px; flex: 0 0 auto; display: block; border-radius: 50%; border: 1px solid var(--color-border); object-fit: cover; background: var(--color-bg-warm); }
@@ -195,35 +173,39 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
   .article-actions button { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 0; background: transparent; color: #48504f; cursor: pointer; transition: color var(--transition-fast), transform var(--transition-fast); }
   .article-actions button:hover, .article-actions button:focus-visible { color: var(--color-red-700, #c51d23); transform: translateY(-2px); }
   .article-actions svg { width: 21px; height: 21px; }
-
-  .article-hero-image { border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); margin: clamp(1.25rem, 3vw, 2rem) 0 0; padding: clamp(1rem, 2.5vw, 1.4rem) 0; }
-  .article-hero-image img { display: block; width: 100%; max-height: min(58vh, 560px); object-fit: cover; }
-
+  .article-hero-image, .article-inline-visual { border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); margin: clamp(1.25rem, 3vw, 2rem) 0; padding: clamp(1rem, 2.5vw, 1.4rem) 0; }
+  .article-hero-image img, .article-inline-visual img { display: block; width: 100%; max-height: min(58vh, 560px); object-fit: cover; }
+  .article-inline-visual h3 { margin: 0 0 0.9rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.35rem, 2.4vw, 2rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; text-transform: none; }
+  .article-inline-visual figcaption { margin-top: 0.75rem; color: var(--color-text-muted); font-family: var(--font-sans); font-size: 0.78rem; line-height: 1.5; }
+  .article-inline-visual figcaption span { color: var(--color-primary); font-weight: 700; }
   .executive-summary, .visual-summary, .scroll-visual, .sources { border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); }
   .executive-summary { margin-top: clamp(1.35rem, 3vw, 2rem); padding: clamp(1.15rem, 2.6vw, 1.5rem) 0; }
   .executive-summary h2, .visual-summary h2, .sources h2, .scroll-visual__title { margin: 0 0 0.75rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.35rem, 2.25vw, 1.85rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.1; }
   .executive-summary p, .executive-summary li { color: var(--color-text); font-size: clamp(0.98rem, 1.25vw, 1.06rem); line-height: 1.68; }
   .executive-summary p { margin: 0; }
   .executive-summary ol { display: grid; gap: 0.5rem; margin: 1rem 0 0; padding-left: 1.25rem; }
-
   .article-content { max-width: 780px; min-width: 0; padding-top: clamp(2rem, 5vw, 4rem); }
   .article-grid--no-visual .article-content { max-width: 820px; }
   .article-content :global(h2) { margin: clamp(2rem, 5vw, 3.5rem) 0 1rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.85rem, 3.4vw, 3rem); font-weight: 600; letter-spacing: -0.044em; line-height: 1.08; scroll-margin-top: calc(var(--header-height) + 2rem); }
   .article-content :global(h3) { margin: 1.9rem 0 0.75rem; color: var(--color-ink); font-family: var(--font-sans); font-size: 0.85rem; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; scroll-margin-top: calc(var(--header-height) + 2rem); }
-  .article-content :global(p), .article-content :global(li) { color: #1f252d; font-size: clamp(1.02rem, 1.28vw, 1.12rem); line-height: 1.78; }
+  .article-content :global(p), .article-content :global(li), .article-block-text { color: #1f252d; font-size: clamp(1.02rem, 1.28vw, 1.12rem); line-height: 1.78; }
+  .article-block-text { white-space: pre-line; margin: 0 0 1.32rem; }
   .article-content :global(p) { margin: 0 0 1.32rem; }
   .article-content :global(a) { color: var(--color-primary); text-decoration: underline; text-underline-offset: 0.18em; }
-  .article-content :global(blockquote) { border-top: 3px solid var(--color-primary); border-bottom: 1px solid var(--color-border); margin: clamp(2rem, 5vw, 3rem) 0; padding: 1.3rem 0; color: var(--color-primary); font-family: var(--font-serif); font-size: clamp(1.3rem, 2.2vw, 1.82rem); font-weight: 600; letter-spacing: -0.032em; line-height: 1.25; }
-  .article-content :global(blockquote p) { margin: 0; color: inherit; font: inherit; line-height: inherit; }
+  .article-content :global(blockquote), .article-block-quote { border-top: 3px solid var(--color-primary); border-bottom: 1px solid var(--color-border); margin: clamp(2rem, 5vw, 3rem) 0; padding: 1.3rem 0; color: var(--color-primary); font-family: var(--font-serif); font-size: clamp(1.3rem, 2.2vw, 1.82rem); font-weight: 600; letter-spacing: -0.032em; line-height: 1.25; }
+  .article-content :global(blockquote p), .article-block-quote p { margin: 0; color: inherit; font: inherit; line-height: inherit; }
+  .article-block-quote cite { display: block; margin-top: 0.9rem; color: var(--color-text-muted); font-family: var(--font-sans); font-size: 0.78rem; font-style: normal; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .article-data-callout { border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); margin: clamp(2rem, 5vw, 3rem) 0; padding: 1.25rem 0; }
+  .article-data-callout__kicker { margin: 0 0 0.55rem; color: var(--color-red-700, #c51d23); font-family: var(--font-sans); font-size: 0.68rem; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; }
+  .article-data-callout strong { display: block; color: var(--color-primary); font-family: var(--font-serif); font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 600; letter-spacing: -0.06em; line-height: 0.95; }
+  .article-data-callout p:last-child { max-width: 520px; margin: 0.8rem 0 0; color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.55; }
   .sources { margin-top: clamp(2.5rem, 6vw, 4rem); padding: 1.2rem 0 1.4rem; }
   .sources ul { margin: 0; padding-left: 1.25rem; }
-
   .article-visual-rail { display: grid; gap: clamp(1.5rem, 3vw, 2rem); align-content: start; }
   .article-visual-rail--mobile { display: none; }
   .visual-summary, .scroll-visual { padding: clamp(1.1rem, 2.6vw, 1.45rem) 0; }
   .visual-summary { background: #fffdfa; }
   .visual-summary h2 { margin-top: 0.58rem; }
-
   .visual-map { position: relative; aspect-ratio: 1.38; margin-top: 1.2rem; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); overflow: hidden; }
   .region { position: absolute; display: block; clip-path: polygon(10% 18%, 80% 0, 100% 42%, 72% 100%, 0 76%); border: 1px solid #fffdfa; }
   .region--one { left: 7%; top: 15%; width: 33%; height: 31%; background: #b7d6c7; }
@@ -235,15 +217,11 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
   .visual-legend { display: grid; grid-template-columns: auto repeat(4, 1fr) auto; gap: 0.35rem; align-items: center; margin-top: 0.9rem; }
   .visual-legend span { color: var(--color-text-muted); font-size: 0.7rem; font-weight: 750; }
   .visual-legend i { height: 10px; display: block; }
-  .visual-legend i:nth-of-type(1) { background: #dceee5; }
-  .visual-legend i:nth-of-type(2) { background: #a5ccb9; }
-  .visual-legend i:nth-of-type(3) { background: #5a9d82; }
-  .visual-legend i:nth-of-type(4) { background: #0c5f46; }
+  .visual-legend i:nth-of-type(1) { background: #dceee5; } .visual-legend i:nth-of-type(2) { background: #a5ccb9; } .visual-legend i:nth-of-type(3) { background: #5a9d82; } .visual-legend i:nth-of-type(4) { background: #0c5f46; }
   .visual-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; border-top: 1px solid var(--color-border); margin: 1.15rem 0 0; padding-top: 0.95rem; }
   .visual-stats dt { color: var(--color-primary); font-family: var(--font-serif); font-size: clamp(1.32rem, 2.1vw, 1.78rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
   .visual-stats div:nth-child(2) dt { color: var(--color-red-700, #c51d23); }
   .visual-stats dd { margin: 0.35rem 0 0; color: var(--color-text-muted); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-
   .scroll-visual { transition: border-color var(--transition-fast); background: #fffdfa; }
   .scroll-visual__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; cursor: pointer; list-style: none; }
   .scroll-visual__header::-webkit-details-marker { display: none; }
@@ -258,114 +236,54 @@ const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la le
   .scroll-visual li { border-top: 1px solid var(--color-border); color: var(--color-ink); font-size: 0.9rem; font-weight: 650; line-height: 1.35; padding: 0.72rem 0; cursor: pointer; transition: color var(--transition-fast), padding-left var(--transition-fast), border-color var(--transition-fast); }
   .scroll-visual li:hover, .scroll-visual li:focus-visible { color: var(--color-primary); }
   .scroll-visual li.is-active { border-top-color: var(--color-red-700, #c51d23); color: var(--color-red-700, #c51d23); padding-left: 0.6rem; }
-
   .reading-progress { display: grid; grid-template-columns: auto 1fr; gap: 0.85rem; align-items: center; margin-top: 1.15rem; }
   .reading-progress span { color: var(--color-text-muted); font-size: 0.7rem; font-weight: 750; }
   .reading-progress i { height: 8px; border: 1px solid var(--color-border); position: relative; min-width: 70px; }
   .reading-progress b { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--color-primary); transition: width 120ms linear; }
-
-  @media (min-width: 1080px) {
-    .article-grid:not(.article-grid--no-visual) { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); }
-    .article-visual-rail--desktop { align-self: start; }
-    .article-visual-rail--desktop .visual-summary { position: sticky; top: calc(var(--header-height) + 1.5rem); z-index: 2; }
-  }
-
-  @media (max-width: 1079px) {
-    .article-visual-rail--desktop { display: none; }
-    .article-visual-rail--mobile { display: grid; margin-top: clamp(1.5rem, 4vw, 2.25rem); }
-  }
-
-  @media (max-width: 760px) {
-    .article-page { padding-top: 1.5rem; }
-    .article-meta-panel { align-items: flex-start; }
-    .article-actions { width: 100%; justify-content: flex-start; }
-    .visual-stats { grid-template-columns: 1fr; }
-  }
+  @media (min-width: 1080px) { .article-grid:not(.article-grid--no-visual) { grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); } .article-visual-rail--desktop { align-self: start; } .article-visual-rail--desktop .visual-summary { position: sticky; top: calc(var(--header-height) + 1.5rem); z-index: 2; } }
+  @media (max-width: 1079px) { .article-visual-rail--desktop { display: none; } .article-visual-rail--mobile { display: grid; margin-top: clamp(1.5rem, 4vw, 2.25rem); } }
+  @media (max-width: 760px) { .article-page { padding-top: 1.5rem; } .article-meta-panel { align-items: flex-start; } .article-actions { width: 100%; justify-content: flex-start; } .visual-stats { grid-template-columns: 1fr; } }
 </style>
 
 <script is:inline>
   (() => {
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
     document.querySelectorAll('[data-scrollytelling-root]').forEach((root) => {
       const articleContent = root.querySelector('[data-article-content]');
       const progressBars = Array.from(root.querySelectorAll('[data-reading-progress-bar]'));
       const progressLabels = Array.from(root.querySelectorAll('[data-reading-progress-label]'));
       const stepItems = Array.from(root.querySelectorAll('[data-scrolly-step]'));
-
       if (!articleContent || !progressBars.length) return;
-
       let sections = Array.from(articleContent.querySelectorAll('h2, h3')).filter((section) => section.textContent?.trim());
-      if (!sections.length) {
-        sections = Array.from(articleContent.querySelectorAll('p')).filter((section) => section.textContent?.trim()).slice(0, Math.max(stepItems.length, 1));
-      }
-
-      sections.forEach((section, index) => {
-        if (!section.id) section.id = `article-section-${index + 1}`;
-        section.dataset.scrollySection = String(index);
-      });
-
+      if (!sections.length) sections = Array.from(articleContent.querySelectorAll('p, figure, blockquote, aside')).filter((section) => section.textContent?.trim()).slice(0, Math.max(stepItems.length, 1));
+      sections.forEach((section, index) => { if (!section.id) section.id = `article-section-${index + 1}`; section.dataset.scrollySection = String(index); });
       stepItems.forEach((item) => {
         const index = Number(item.dataset.stepIndex || 0);
         item.tabIndex = 0;
         item.setAttribute('role', 'button');
         item.setAttribute('aria-label', `Ir a la sección ${index + 1}`);
-
-        const goToSection = () => {
-          const target = sections[Math.min(index, sections.length - 1)];
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        };
-
+        const goToSection = () => { const target = sections[Math.min(index, sections.length - 1)]; if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
         item.addEventListener('click', goToSection);
-        item.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            goToSection();
-          }
-        });
+        item.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); goToSection(); } });
       });
-
       let ticking = false;
-
-      const setActiveStep = (activeIndex) => {
-        stepItems.forEach((item) => {
-          const index = Number(item.dataset.stepIndex || 0);
-          const isActive = index === activeIndex;
-          item.classList.toggle('is-active', isActive);
-          if (isActive) item.setAttribute('aria-current', 'step');
-          else item.removeAttribute('aria-current');
-        });
-      };
-
+      const setActiveStep = (activeIndex) => { stepItems.forEach((item) => { const index = Number(item.dataset.stepIndex || 0); const isActive = index === activeIndex; item.classList.toggle('is-active', isActive); if (isActive) item.setAttribute('aria-current', 'step'); else item.removeAttribute('aria-current'); }); };
       const updateScrollytelling = () => {
         ticking = false;
-
         const articleRect = articleContent.getBoundingClientRect();
         const articleTop = window.scrollY + articleRect.top;
         const articleBottom = articleTop + articleContent.scrollHeight;
         const readerLine = window.scrollY + window.innerHeight * 0.38;
         const progress = clamp((readerLine - articleTop) / Math.max(articleBottom - articleTop, 1), 0, 1);
         const percent = Math.round(progress * 100);
-
         progressBars.forEach((bar) => { bar.style.width = `${percent}%`; });
         progressLabels.forEach((label) => { label.textContent = `Progreso de lectura ${percent}%`; });
-
         let activeSection = 0;
-        sections.forEach((section, index) => {
-          const top = window.scrollY + section.getBoundingClientRect().top;
-          if (top <= readerLine) activeSection = index;
-        });
-
+        sections.forEach((section, index) => { const top = window.scrollY + section.getBoundingClientRect().top; if (top <= readerLine) activeSection = index; });
         const activeStep = stepItems.length ? Math.min(activeSection, stepItems.length - 1) : 0;
         setActiveStep(activeStep);
       };
-
-      const requestUpdate = () => {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(updateScrollytelling);
-      };
-
+      const requestUpdate = () => { if (ticking) return; ticking = true; window.requestAnimationFrame(updateScrollytelling); };
       updateScrollytelling();
       window.addEventListener('scroll', requestUpdate, { passive: true });
       window.addEventListener('resize', requestUpdate);
