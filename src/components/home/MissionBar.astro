@@ -1,7 +1,14 @@
 ---
 ---
 <section class="mission" aria-label="Misión de Centro Economex">
-  <img class="mission__image" src="/images/mission/palacio-nacional-clean.svg?v=2" alt="" aria-hidden="true" loading="eager" decoding="async" />
+  <img
+    class="mission__image"
+    src="/images/mission/palacio-nacional-photo.svg?v=photo-final-3"
+    alt=""
+    aria-hidden="true"
+    loading="eager"
+    decoding="async"
+  />
 
   <div class="container mission__inner">
     <div class="mission__copy">
@@ -45,9 +52,7 @@
     padding-bottom: clamp(1.45rem, 2.6vw, 2.4rem);
   }
 
-  .mission__copy {
-    max-width: 900px;
-  }
+  .mission__copy { max-width: 900px; }
 
   .mission__copy h2 {
     margin: 0;
@@ -100,19 +105,13 @@
   }
 
   @media (max-width: 900px) {
-    .mission__inner {
-      grid-template-columns: 1fr;
-      gap: 1.2rem;
-    }
-
-    .mission__cta {
-      width: fit-content;
-    }
+    .mission__inner { grid-template-columns: 1fr; gap: 1.2rem; }
+    .mission__cta { width: fit-content; }
   }
 
   @media (max-width: 640px) {
     .mission { min-height: auto; }
-    .mission__image { object-fit: cover; object-position: 66% center; }
+    .mission__image { object-fit: cover; object-position: 68% center; }
     .mission__inner { min-height: auto; padding-top: 1.9rem; padding-bottom: 1.9rem; }
     .mission__copy h2 { font-size: clamp(1.45rem, 7.1vw, 2.05rem); line-height: 1.08; }
     .mission__copy p { font-size: 0.9rem; }
