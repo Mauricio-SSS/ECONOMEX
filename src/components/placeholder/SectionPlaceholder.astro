@@ -29,228 +29,251 @@ const {
 ---
 
 <BaseLayout title={`${title} — Centro Economex`} description={description}>
-  <section class="placeholder-hero">
-    <div class="container placeholder-hero__inner">
-      <div class="placeholder-hero__copy">
-        <p class="eyebrow">{eyebrow}</p>
+  <section class="interior-hero">
+    <div class="container interior-hero__inner">
+      <div class="interior-hero__copy">
+        <p class="interior-eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
-        <p class="placeholder-hero__description">{description}</p>
-
+        <p class="interior-hero__description">{description}</p>
         <slot />
-
-        <div class="placeholder-hero__actions">
-          <a href={primaryHref} class="placeholder-button placeholder-button--primary">{primaryLabel}</a>
-          <a href={secondaryHref} class="placeholder-button placeholder-button--secondary">{secondaryLabel}</a>
-        </div>
       </div>
 
-      <aside class="placeholder-card" aria-label="Estado de la sección">
-        <span class="placeholder-card__label">{status}</span>
-        <div class="placeholder-card__visual" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+      <aside class="interior-status" aria-label="Estado de la sección">
+        <span>{status}</span>
         <p>
-          Esta sección ya tiene una página base con el estilo editorial de Centro Economex. El contenido final se podrá conectar a Decap CMS, datos o componentes interactivos después.
+          Esta página forma parte del sistema editorial de Centro Economex. Su contenido final se integrará con publicaciones, bases de datos y componentes interactivos conforme avance la plataforma.
         </p>
       </aside>
     </div>
   </section>
 
-  {(features.length > 0 || nextSteps.length > 0) && (
-    <section class="placeholder-details">
-      <div class="container placeholder-details__grid">
-        {features.length > 0 && (
-          <div class="placeholder-panel">
-            <h2>Qué tendrá esta sección</h2>
-            <ul>
-              {features.map((feature) => <li>{feature}</li>)}
-            </ul>
-          </div>
-        )}
-
-        {nextSteps.length > 0 && (
-          <div class="placeholder-panel placeholder-panel--warm">
-            <h2>Siguientes pasos</h2>
-            <ul>
-              {nextSteps.map((step) => <li>{step}</li>)}
-            </ul>
-          </div>
-        )}
+  <section class="interior-body">
+    <div class="container interior-body__grid">
+      <div class="interior-actions" aria-label="Acciones principales">
+        <a href={primaryHref} class="interior-link interior-link--primary">{primaryLabel}<span aria-hidden="true">→</span></a>
+        <a href={secondaryHref} class="interior-link">{secondaryLabel}<span aria-hidden="true">→</span></a>
       </div>
-    </section>
-  )}
+
+      {(features.length > 0 || nextSteps.length > 0) && (
+        <div class="interior-panels">
+          {features.length > 0 && (
+            <section class="interior-panel" aria-labelledby={`${title}-features`}>
+              <p class="interior-panel__kicker">Contenido</p>
+              <h2 id={`${title}-features`}>Qué tendrá esta sección</h2>
+              <ul>
+                {features.map((feature) => <li>{feature}</li>)}
+              </ul>
+            </section>
+          )}
+
+          {nextSteps.length > 0 && (
+            <section class="interior-panel" aria-labelledby={`${title}-next`}>
+              <p class="interior-panel__kicker interior-panel__kicker--red">Desarrollo</p>
+              <h2 id={`${title}-next`}>Siguientes pasos</h2>
+              <ul>
+                {nextSteps.map((step) => <li>{step}</li>)}
+              </ul>
+            </section>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .placeholder-hero {
-    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 520px);
+  .interior-hero {
+    background: var(--color-bg-warm);
     border-bottom: 1px solid var(--color-border);
-    padding: var(--space-8) 0 var(--space-10);
-  }
-
-  .placeholder-hero__inner {
-    display: grid;
-    gap: var(--space-7);
-    align-items: center;
-  }
-
-  .placeholder-hero__copy {
-    max-width: 760px;
-  }
-
-  .placeholder-hero h1 {
-    margin-top: var(--space-3);
-    margin-bottom: var(--space-4);
-  }
-
-  .placeholder-hero__description {
-    color: var(--color-text);
-    font-size: clamp(1.08rem, 2vw, 1.3rem);
-    line-height: 1.65;
-    max-width: 62ch;
-  }
-
-  .placeholder-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-
-  .placeholder-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    border-radius: var(--radius-full);
-    padding: 0.75rem 1.15rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
-  }
-
-  .placeholder-button:hover {
-    transform: translateY(-1px);
-  }
-
-  .placeholder-button--primary {
-    background: var(--color-primary);
-    color: #fff;
-  }
-
-  .placeholder-button--primary:hover {
-    background: var(--color-primary-hover);
-    color: #fff;
-  }
-
-  .placeholder-button--secondary {
-    background: #fff;
-    border: 1px solid var(--color-border);
     color: var(--color-ink);
   }
 
-  .placeholder-button--secondary:hover {
-    border-color: var(--color-primary);
+  .interior-hero__inner {
+    display: grid;
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-top: clamp(3rem, 7vw, 6rem);
+    padding-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .interior-hero__copy {
+    max-width: 860px;
+  }
+
+  .interior-eyebrow,
+  .interior-panel__kicker,
+  .interior-status span {
+    margin: 0;
     color: var(--color-primary);
-  }
-
-  .placeholder-card {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
-    padding: var(--space-5);
-  }
-
-  .placeholder-card__label {
-    display: inline-flex;
-    align-items: center;
-    border-radius: var(--radius-full);
-    background: var(--color-green-100);
-    color: var(--color-green-900);
-    font-size: var(--fs-xs);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    padding: 0.35rem 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
     text-transform: uppercase;
   }
 
-  .placeholder-card__visual {
-    display: grid;
-    gap: 0.65rem;
-    margin: var(--space-5) 0;
+  .interior-hero h1 {
+    max-width: 920px;
+    margin: 0.65rem 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 8vw, 6.7rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.9;
+    text-wrap: balance;
   }
 
-  .placeholder-card__visual span {
-    display: block;
-    height: 52px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(90deg, var(--color-green-100), var(--color-bg-warm));
-    border: 1px solid var(--color-border);
-  }
-
-  .placeholder-card__visual span:nth-child(2) {
-    width: 78%;
-  }
-
-  .placeholder-card__visual span:nth-child(3) {
-    width: 58%;
-    background: linear-gradient(90deg, var(--color-red-100), var(--color-bg-warm));
-  }
-
-  .placeholder-card p {
+  .interior-hero__description {
+    max-width: 760px;
     margin: 0;
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    line-height: 1.6;
-  }
-
-  .placeholder-details {
-    padding: var(--space-8) 0 var(--space-12);
-  }
-
-  .placeholder-details__grid {
-    display: grid;
-    gap: var(--space-5);
-  }
-
-  .placeholder-panel {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .placeholder-panel--warm {
-    background: var(--color-bg-warm);
-  }
-
-  .placeholder-panel h2 {
-    font-family: var(--font-sans);
-    font-size: var(--fs-md);
-    margin-bottom: var(--space-4);
-  }
-
-  .placeholder-panel ul {
-    margin: 0;
-    padding-left: 1.25rem;
-  }
-
-  .placeholder-panel li {
-    margin-bottom: var(--space-2);
     color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: clamp(1.05rem, 2vw, 1.32rem);
+    line-height: 1.55;
   }
 
-  @media (min-width: 860px) {
-    .placeholder-hero__inner {
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  .interior-status {
+    align-self: end;
+    border-top: 2px solid var(--color-ink);
+    padding-top: 1.1rem;
+  }
+
+  .interior-status p {
+    max-width: 42ch;
+    margin: 0.85rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .interior-body {
+    background: #fff;
+    padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .interior-body__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .interior-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.25rem;
+    align-items: center;
+  }
+
+  .interior-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    border-bottom: 2px solid var(--color-ink);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .interior-link--primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .interior-link:hover,
+  .interior-link:focus-visible {
+    color: var(--color-red-700, #c51d23);
+    border-color: var(--color-red-700, #c51d23);
+    transform: translateY(-2px);
+  }
+
+  .interior-panels {
+    display: grid;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .interior-panel {
+    padding: clamp(1.35rem, 3vw, 2rem) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .interior-panel__kicker--red {
+    color: var(--color-red-700, #c51d23);
+  }
+
+  .interior-panel h2 {
+    margin: 0.6rem 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+  }
+
+  .interior-panel ul {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .interior-panel li {
+    position: relative;
+    padding-left: 1.4rem;
+    color: var(--color-text);
+    font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+    line-height: 1.55;
+  }
+
+  .interior-panel li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 0.45rem;
+    height: 0.45rem;
+    background: var(--color-primary);
+    transform: translateY(-50%);
+  }
+
+  @media (min-width: 920px) {
+    .interior-hero__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
+      align-items: end;
     }
 
-    .placeholder-details__grid {
+    .interior-body__grid {
+      grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .interior-actions {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .interior-panels {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    .interior-panel {
+      border-bottom: 0;
+    }
+
+    .interior-panel + .interior-panel {
+      border-left: 1px solid var(--color-border);
+      padding-left: clamp(2rem, 5vw, 4rem);
     }
   }
 </style>
