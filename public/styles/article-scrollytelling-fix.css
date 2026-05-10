@@ -41,20 +41,35 @@
 }
 
 @media (max-width: 1079px) {
+  /* The mobile visual rail originally ended before the article body, which
+     made position: sticky stop too early. display: contents lets the visual
+     summary and narrative participate directly in the full article flow, so
+     Narrativa visual can remain sticky while the reader moves through the body. */
   .article-visual-rail--mobile {
-    position: relative;
-    overflow: visible;
+    display: contents !important;
+    position: static !important;
+    overflow: visible !important;
+  }
+
+  .article-visual-rail--mobile .visual-summary {
+    margin-top: clamp(1.5rem, 4vw, 2.25rem) !important;
   }
 
   .article-visual-rail--mobile .scroll-visual {
     position: sticky !important;
     top: calc(var(--header-height) + 0.75rem) !important;
-    z-index: 20;
+    z-index: 40;
     background: #fffdfa !important;
     max-height: calc(100vh - var(--header-height) - 1.5rem);
     overflow-y: auto;
     overscroll-behavior: contain;
     box-shadow: 0 10px 18px rgba(18, 24, 33, 0.05);
+    margin-top: clamp(1.5rem, 4vw, 2.25rem) !important;
+  }
+
+  .article-content {
+    position: relative;
+    z-index: 1;
   }
 }
 
