@@ -6,7 +6,6 @@ export interface NavItem {
 
 export const primaryNav: NavItem[] = [
   { label: 'Artículos', href: '/articulos' },
-  { label: 'Investigación', href: '/investigacion' },
   {
     label: 'Datos',
     href: '/datos',
@@ -17,17 +16,9 @@ export const primaryNav: NavItem[] = [
       { label: 'Base de datos', href: '/datos/base-de-datos' },
     ],
   },
-  { label: 'Newsletter', href: '/newsletter' },
-  {
-    label: 'Nosotros',
-    href: '/nosotros',
-    children: [
-      { label: '¿Quiénes somos?', href: '/nosotros/quienes-somos' },
-      { label: 'Únete', href: '/nosotros/unete' },
-      { label: 'Redes', href: '/nosotros/redes' },
-    ],
-  },
-  { label: 'Ayúdanos', href: '/ayudanos' },
+  { label: 'Investigación', href: '/investigacion' },
+  { label: 'Policy briefs', href: '/policy-briefs' },
+  { label: 'Quiénes somos', href: '/nosotros/quienes-somos' },
 ];
 
 export const footerSections = [

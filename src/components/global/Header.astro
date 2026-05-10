@@ -5,14 +5,7 @@ import MobileMenu from './MobileMenu.astro';
 <header class="header">
   <div class="container header__inner">
     <a class="header__brand" href="/" aria-label="Centro Economex — Inicio">
-      <img
-        src="/images/logo-centro-economex.png"
-        alt=""
-        width="771"
-        height="669"
-        class="header__logo"
-      />
-      <span class="visually-hidden">Centro Economex</span>
+      <span class="header__wordmark">Centro Economex</span>
     </a>
 
     <nav class="header__nav" aria-label="Principal">
@@ -50,19 +43,21 @@ import MobileMenu from './MobileMenu.astro';
 
     <div class="header__actions">
       <a
-        class="header__icon-btn"
+        class="header__search"
         href="/buscar"
         aria-label="Buscar en Centro Economex"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
       </a>
 
+      <a class="header__newsletter" href="/newsletter">Newsletter</a>
+
       <button
         type="button"
-        class="header__icon-btn header__menu-btn"
+        class="header__menu-btn"
         aria-label="Abrir menú"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -83,43 +78,55 @@ import MobileMenu from './MobileMenu.astro';
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: saturate(140%) blur(8px);
-    -webkit-backdrop-filter: saturate(140%) blur(8px);
-    border-bottom: 1px solid var(--color-border);
+    min-height: var(--header-height);
+    background: linear-gradient(180deg, #f7f7f5 0%, #ededeb 100%);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.12);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
   }
 
   .header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: clamp(1rem, 2.5vw, 2.6rem);
     height: var(--header-height);
   }
 
   .header__brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    color: var(--color-green-900);
+    text-decoration: none;
   }
-  .header__logo {
-    height: 48px;
-    width: auto;
-    display: block;
+
+  .header__brand:hover {
+    color: var(--color-green-900);
+  }
+
+  .header__wordmark {
+    font-family: var(--font-serif);
+    font-weight: 800;
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: var(--color-green-900);
+    white-space: nowrap;
   }
 
   .header__nav {
     display: none;
-    flex: 1;
+    flex: 1 1 auto;
     justify-content: center;
   }
+
   .header__nav > ul {
     list-style: none;
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.05rem);
     margin: 0;
     padding: 0;
-    display: flex;
-    gap: 0.25rem;
-    align-items: center;
   }
 
   .header__nav-item {
@@ -127,30 +134,56 @@ import MobileMenu from './MobileMenu.astro';
   }
 
   .header__nav-item > a {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    height: 36px;
-    padding: 0 0.85rem;
+    gap: 0.26rem;
+    min-height: 44px;
+    padding: 0.25rem 0;
+    color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-text);
-    border-radius: var(--radius-full);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     text-decoration: none;
-    transition: background var(--transition-fast), color var(--transition-fast);
+    transition: color var(--transition-fast), transform var(--transition-fast);
   }
+
+  .header__nav-item > a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 7px;
+    height: 2px;
+    background: var(--color-red-700);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-fast);
+  }
+
   .header__nav-item > a:hover,
-  .header__nav-item > a[aria-current="page"] {
-    background: var(--color-green-100);
-    color: var(--color-green-900);
+  .header__nav-item > a:focus-visible,
+  .header__nav-item--parent:focus-within > a,
+  .header__nav-item--parent:hover > a {
+    color: var(--color-red-700);
+    transform: translateY(-2px);
+  }
+
+  .header__nav-item > a:hover::after,
+  .header__nav-item > a:focus-visible::after,
+  .header__nav-item--parent:focus-within > a::after,
+  .header__nav-item--parent:hover > a::after {
+    transform: scaleX(1);
   }
 
   .header__chevron {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     transition: transform var(--transition-fast);
   }
+
   .header__nav-item--parent:hover .header__chevron,
   .header__nav-item--parent:focus-within .header__chevron {
     transform: rotate(180deg);
@@ -158,24 +191,23 @@ import MobileMenu from './MobileMenu.astro';
 
   .header__dropdown {
     position: absolute;
-    top: calc(100% + 4px);
+    top: calc(100% + 2px);
     left: 50%;
-    transform: translateX(-50%) translateY(-6px);
-    min-width: 220px;
+    transform: translateX(-50%) translateY(-8px);
+    min-width: 230px;
     list-style: none;
     margin: 0;
-    padding: 0.5rem;
-    background: #fff;
+    padding: 0.55rem;
+    background: rgba(255, 255, 255, 0.98);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
     box-shadow: var(--shadow-lg);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity var(--transition-fast), transform var(--transition-fast),
-      visibility var(--transition-fast);
-    z-index: 60;
+    transition: opacity var(--transition-fast), transform var(--transition-fast), visibility var(--transition-fast);
   }
+
   .header__nav-item--parent:hover > .header__dropdown,
   .header__nav-item--parent:focus-within > .header__dropdown {
     opacity: 1;
@@ -183,61 +215,109 @@ import MobileMenu from './MobileMenu.astro';
     pointer-events: auto;
     transform: translateX(-50%) translateY(0);
   }
-  .header__nav-item--parent:hover > a,
-  .header__nav-item--parent:focus-within > a {
-    background: var(--color-green-100);
-    color: var(--color-green-900);
-  }
 
   .header__dropdown a {
     display: block;
-    padding: 0.625rem 0.875rem;
-    font-family: var(--font-sans);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--color-text);
+    padding: 0.7rem 0.85rem;
     border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
     text-decoration: none;
-    transition: background var(--transition-fast), color var(--transition-fast);
-  }
-  .header__dropdown a:hover,
-  .header__dropdown a:focus-visible {
-    background: var(--color-green-100);
-    color: var(--color-green-900);
+    transition: color var(--transition-fast), background var(--transition-fast);
   }
 
-  .header__nav-item--parent::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 8px;
+  .header__dropdown a:hover,
+  .header__dropdown a:focus-visible {
+    background: var(--color-red-100);
+    color: var(--color-red-700);
   }
 
   .header__actions {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: clamp(0.45rem, 1.4vw, 1rem);
+    flex: 0 0 auto;
   }
-  .header__icon-btn {
-    width: 40px;
-    height: 40px;
+
+  .header__search,
+  .header__menu-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-full);
+    width: 42px;
+    height: 42px;
     color: var(--color-ink);
-    transition: background var(--transition-fast);
     text-decoration: none;
+    transition: color var(--transition-fast), transform var(--transition-fast);
   }
-  .header__icon-btn:hover { background: #F1F3F5; color: var(--color-ink); }
-  .header__icon-btn svg { width: 20px; height: 20px; }
 
-  @media (min-width: 1024px) {
-    .header__nav { display: flex; }
-    .header__menu-btn { display: none; }
-    .header__logo { height: 56px; width: auto; }
+  .header__search:hover,
+  .header__menu-btn:hover {
+    color: var(--color-red-700);
+    transform: translateY(-2px);
+  }
+
+  .header__search svg,
+  .header__menu-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .header__newsletter {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 126px;
+    height: 33px;
+    padding: 0 1.1rem;
+    background: #103f2f;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .header__newsletter:hover {
+    background: var(--color-green-900);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  .header__menu-btn {
+    border-radius: 0;
+  }
+
+  @media (min-width: 760px) {
+    .header__newsletter {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 1060px) {
+    .header__nav {
+      display: flex;
+    }
+
+    .header__menu-btn {
+      display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .header__wordmark {
+      font-size: 1.18rem;
+    }
+
+    .header__search {
+      width: 38px;
+    }
   }
 </style>
 
