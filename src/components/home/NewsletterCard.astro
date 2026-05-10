@@ -5,101 +5,151 @@ interface Props {
 const { variant = 'card' } = Astro.props;
 ---
 <section class={`newsletter newsletter--${variant}`} aria-labelledby="newsletter-title">
-  <div class="container">
-    <div class="newsletter__card">
-      <div class="newsletter__copy">
-        <span class="eyebrow">Boletín</span>
-        <h2 id="newsletter-title" class="editorial-title">
-          Recibe análisis y datos en tu correo
-        </h2>
-        <p>
-          Explicamos la economía de México con claridad y evidencia. Una entrega cuidada cada semana.
-        </p>
-      </div>
-      <form class="newsletter__form" action="/newsletter" method="get">
-        <label for="nl-email" class="visually-hidden">Tu correo electrónico</label>
+  <div class="container newsletter__inner">
+    <div class="newsletter__copy">
+      <span class="newsletter__eyebrow">Boletín</span>
+      <h2 id="newsletter-title">Análisis económico cada semana</h2>
+      <p>Reciba lecturas breves, datos y publicaciones nuevas de Centro Economex.</p>
+    </div>
+
+    <form class="newsletter__form" action="/newsletter" method="get">
+      <div class="newsletter__field-row">
+        <label for="nl-email" class="visually-hidden">Correo electrónico</label>
         <input
           id="nl-email"
           type="email"
           name="email"
-          placeholder="Tu correo electrónico"
+          placeholder="correo@institución.mx"
           required
           autocomplete="email"
         />
-        <button type="submit" class="newsletter__submit">Suscribirme</button>
-        <p class="newsletter__small">Sin spam. Cancela cuando quieras.</p>
-      </form>
-    </div>
+        <button type="submit" class="newsletter__submit">Suscribirse</button>
+      </div>
+      <p class="newsletter__small">Sin spam. Una entrega cuidada cada semana.</p>
+    </form>
   </div>
 </section>
 
 <style>
-  .newsletter { padding: var(--space-7) 0; }
-
-  .newsletter__card {
+  .newsletter {
     background: var(--color-bg-warm);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: var(--space-6);
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.35rem 0 1.45rem;
+    color: var(--color-ink);
+  }
+
+  .newsletter__inner {
     display: grid;
-    gap: var(--space-5);
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .newsletter__eyebrow {
+    display: block;
+    margin: 0 0 0.45rem;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
   .newsletter__copy h2 {
-    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-    margin: 0.25rem 0 0.5rem;
-  }
-  .newsletter__copy p {
     margin: 0;
-    color: var(--color-text);
-    max-width: 50ch;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+  }
+
+  .newsletter__copy p {
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+    line-height: 1.45;
   }
 
   .newsletter__form {
     display: grid;
-    gap: 0.5rem;
-  }
-  .newsletter__form input {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border: 1px solid var(--color-border);
-    background: #fff;
-    border-radius: var(--radius-md);
-    font-size: var(--fs-base);
-  }
-  .newsletter__submit {
-    background: var(--color-primary);
-    color: #fff;
-    padding: 0.875rem 1rem;
-    border-radius: var(--radius-md);
-    font-family: var(--font-sans);
-    font-weight: 600;
-    transition: background var(--transition-fast);
-  }
-  .newsletter__submit:hover { background: var(--color-primary-hover); }
-  .newsletter__small {
-    margin: 0;
-    font-size: var(--fs-xs);
-    color: var(--color-text-muted);
+    gap: 0.6rem;
   }
 
-  @media (min-width: 768px) {
-    .newsletter__card {
-      grid-template-columns: 1.4fr 1fr;
-      align-items: center;
-      padding: var(--space-7);
-      gap: var(--space-7);
+  .newsletter__field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .newsletter__form input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(18, 24, 33, 0.24);
+    border-radius: 0;
+    background: #fffdfa;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.98rem;
+    outline: none;
+  }
+
+  .newsletter__form input::placeholder {
+    color: rgba(76, 83, 96, 0.66);
+  }
+
+  .newsletter__form input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .newsletter__submit {
+    min-height: 48px;
+    padding: 0.85rem 1.45rem;
+    border-radius: 0;
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .newsletter__submit:hover,
+  .newsletter__submit:focus-visible {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .newsletter__small {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 860px) {
+    .newsletter__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(420px, 0.72fr);
+      gap: clamp(2rem, 6vw, 6rem);
     }
-    .newsletter__form {
-      grid-template-columns: 1fr auto;
-      grid-template-areas:
-        "input button"
-        "small small";
-      gap: 0.5rem 0.75rem;
+
+    .newsletter__field-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
     }
-    .newsletter__form input { grid-area: input; }
-    .newsletter__submit { grid-area: button; padding-left: 1.5rem; padding-right: 1.5rem; }
-    .newsletter__small { grid-area: small; }
+
+    .newsletter__submit {
+      min-width: 210px;
+    }
   }
 </style>
