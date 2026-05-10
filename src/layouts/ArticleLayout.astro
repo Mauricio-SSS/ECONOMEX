@@ -68,6 +68,12 @@ const narrativeSteps = narrativeVisual.steps?.length
             </div>
           </div>
 
+          {article.heroImage && (
+            <figure class="article-hero-image">
+              <img src={article.heroImage} alt="" loading="eager" decoding="async" />
+            </figure>
+          )}
+
           <section class="executive-summary" aria-labelledby="summary-heading">
             <h2 id="summary-heading">Resumen ejecutivo</h2>
             <p>{article.abstract}</p>
@@ -349,6 +355,20 @@ const narrativeSteps = narrativeVisual.steps?.length
   .article-actions svg {
     width: 21px;
     height: 21px;
+  }
+
+  .article-hero-image {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    margin: clamp(1.25rem, 3vw, 2rem) 0 0;
+    padding: clamp(1rem, 2.5vw, 1.4rem) 0;
+  }
+
+  .article-hero-image img {
+    display: block;
+    width: 100%;
+    max-height: min(58vh, 560px);
+    object-fit: cover;
   }
 
   .executive-summary,
