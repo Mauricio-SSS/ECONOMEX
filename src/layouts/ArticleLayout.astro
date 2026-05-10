@@ -78,6 +78,51 @@ const narrativeSteps = narrativeVisual.steps?.length
           </section>
         </header>
 
+        <aside class="article-visual-rail article-visual-rail--mobile" aria-label="Resumen visual del artículo">
+          <section class="visual-summary" aria-labelledby="visual-summary-title-mobile">
+            <p class="rail-kicker">Resumen visual</p>
+            <h2 id="visual-summary-title-mobile">{visualTitle}</h2>
+
+            <div class="visual-map" aria-hidden="true">
+              <span class="region region--one"></span>
+              <span class="region region--two"></span>
+              <span class="region region--three"></span>
+              <span class="region region--four"></span>
+              <span class="region region--five"></span>
+            </div>
+
+            <p class="visual-caption">{visualCaption}</p>
+
+            <div class="visual-legend" aria-hidden="true">
+              <span>{visualLowLabel}</span>
+              <i></i><i></i><i></i><i></i>
+              <span>{visualHighLabel}</span>
+            </div>
+
+            <dl class="visual-stats">
+              {visualStats.map((stat) => (
+                <div>
+                  <dt>{stat.value}</dt>
+                  <dd>{stat.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section class="scroll-visual" aria-labelledby="scroll-visual-title-mobile">
+            <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
+            <h2 id="scroll-visual-title-mobile">{narrativeVisual.title ?? 'La historia visual'}</h2>
+            <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
+            <ol>
+              {narrativeSteps.map((step) => <li>{step}</li>)}
+            </ol>
+            <div class="reading-progress" aria-hidden="true">
+              <span>Progreso de lectura</span>
+              <i><b></b></i>
+            </div>
+          </section>
+        </aside>
+
         <div class="article-content">
           <slot />
 
@@ -94,7 +139,7 @@ const narrativeSteps = narrativeVisual.steps?.length
         </div>
       </main>
 
-      <aside class="article-visual-rail" aria-label="Resumen visual del artículo">
+      <aside class="article-visual-rail article-visual-rail--desktop" aria-label="Resumen visual del artículo">
         <section class="visual-summary" aria-labelledby="visual-summary-title">
           <p class="rail-kicker">Resumen visual</p>
           <h2 id="visual-summary-title">{visualTitle}</h2>
@@ -423,6 +468,10 @@ const narrativeSteps = narrativeVisual.steps?.length
     gap: clamp(1.5rem, 3vw, 2rem);
   }
 
+  .article-visual-rail--mobile {
+    display: none;
+  }
+
   .visual-summary,
   .scroll-visual {
     padding: clamp(1.1rem, 2.6vw, 1.45rem) 0;
@@ -576,9 +625,20 @@ const narrativeSteps = narrativeVisual.steps?.length
       grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     }
 
-    .article-visual-rail {
+    .article-visual-rail--desktop {
       position: sticky;
       top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  @media (max-width: 1079px) {
+    .article-visual-rail--desktop {
+      display: none;
+    }
+
+    .article-visual-rail--mobile {
+      display: grid;
+      margin-top: clamp(1.5rem, 4vw, 2.25rem);
     }
   }
 
