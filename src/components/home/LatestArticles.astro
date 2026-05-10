@@ -15,6 +15,7 @@ type Dossier = {
   accent: Accent;
   icon: 'institution' | 'chart' | 'society';
   image: string;
+  imageAlt: string;
   title: string;
   author: string;
   date: string;
@@ -28,7 +29,8 @@ const dossiers: Dossier[] = [
     category: 'Política pública',
     accent: 'green',
     icon: 'institution',
-    image: '/images/articles/mock-5.svg',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mexican%20flag%20flying%20over%20Zocalo.jpg',
+    imageAlt: 'Bandera mexicana ondeando sobre el Zócalo de la Ciudad de México.',
     title: 'Descentralización fiscal: retos para las administraciones locales.',
     author: 'Por Dr. Mario Valdés',
     date: '20 oct 2024',
@@ -55,7 +57,8 @@ const dossiers: Dossier[] = [
     category: 'Economía',
     accent: 'red',
     icon: 'chart',
-    image: '/images/articles/mock-2.svg',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Electricity%20power%20lines%20in%20Mexico.jpg',
+    imageAlt: 'Líneas de transmisión eléctrica en México.',
     title: 'Transición energética: un dilema de costos hundidos.',
     author: 'Roberto Méndez',
     date: '17 oct 2024',
@@ -82,7 +85,8 @@ const dossiers: Dossier[] = [
     category: 'Sociedad y desarrollo',
     accent: 'teal',
     icon: 'society',
-    image: '/images/articles/mock-6.svg',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Water%20tank%20Kasaan%20AK.jpg',
+    imageAlt: 'Tanque de almacenamiento de agua usado para infraestructura comunitaria rural.',
     title: 'Seguridad social: Modelos de financiamiento comparados.',
     author: 'Dra. Ana Sofía Luz',
     date: '12 oct 2024',
@@ -147,11 +151,12 @@ const iconPaths = {
             <img
               class="dossier__image"
               src={dossier.image}
-              alt=""
+              alt={dossier.imageAlt}
               width="640"
               height="420"
               loading="lazy"
               decoding="async"
+              referrerpolicy="no-referrer"
             />
           </a>
 
@@ -344,12 +349,12 @@ const iconPaths = {
     height: auto;
     object-fit: cover;
     transition: transform 360ms ease, filter 360ms ease;
-    filter: saturate(0.9) contrast(1.02);
+    filter: saturate(0.82) contrast(1.05) sepia(0.08);
   }
 
   .dossier__image-link:hover .dossier__image {
     transform: scale(1.025);
-    filter: saturate(1.02) contrast(1.04);
+    filter: saturate(0.98) contrast(1.08) sepia(0.04);
   }
 
   .dossier__title {
