@@ -1,48 +1,686 @@
 ---
-import ArticleCard from '../ui/ArticleCard.astro';
-import { latestArticles } from '../../data/articles';
+type Accent = 'green' | 'red' | 'teal';
+
+type MiniArticle = {
+  type: string;
+  title: string;
+  author: string;
+  date: string;
+  href: string;
+};
+
+type Dossier = {
+  number: string;
+  category: string;
+  accent: Accent;
+  icon: 'institution' | 'chart' | 'society';
+  image: string;
+  title: string;
+  author: string;
+  date: string;
+  href: string;
+  articles: MiniArticle[];
+};
+
+const dossiers: Dossier[] = [
+  {
+    number: '01',
+    category: 'Política pública',
+    accent: 'green',
+    icon: 'institution',
+    image: '/images/articles/mock-5.svg',
+    title: 'Descentralización fiscal: retos para las administraciones locales.',
+    author: 'Por Dr. Mario Valdés',
+    date: '20 oct 2024',
+    href: '/policy-briefs/gasto-publico-local',
+    articles: [
+      {
+        type: 'Datos',
+        title: 'Inflación subyacente y su persistencia en el sector servicios.',
+        author: 'Equipo de análisis',
+        date: '19 oct 2024',
+        href: '/articulos/inflacion-datos-recientes',
+      },
+      {
+        type: 'Artículo',
+        title: 'El papel de la IA en la optimización de recursos públicos.',
+        author: 'Elena Garza',
+        date: '18 oct 2024',
+        href: '/articulos/nearshoring-estados-mexicanos',
+      },
+    ],
+  },
+  {
+    number: '02',
+    category: 'Economía',
+    accent: 'red',
+    icon: 'chart',
+    image: '/images/articles/mock-2.svg',
+    title: 'Transición energética: un dilema de costos hundidos.',
+    author: 'Roberto Méndez',
+    date: '17 oct 2024',
+    href: '/investigacion',
+    articles: [
+      {
+        type: 'Artículo',
+        title: 'Mercados de capitales en América Latina: Volatilidad y flujo.',
+        author: 'Carlos Peña',
+        date: '15 oct 2024',
+        href: '/articulos/inflacion-datos-recientes',
+      },
+      {
+        type: 'Datos',
+        title: 'Balance comercial: Exportaciones manufactureras al alza.',
+        author: 'Dept. Estadística',
+        date: '14 oct 2024',
+        href: '/datos/economia',
+      },
+    ],
+  },
+  {
+    number: '03',
+    category: 'Sociedad y desarrollo',
+    accent: 'teal',
+    icon: 'society',
+    image: '/images/articles/mock-6.svg',
+    title: 'Seguridad social: Modelos de financiamiento comparados.',
+    author: 'Dra. Ana Sofía Luz',
+    date: '12 oct 2024',
+    href: '/policy-briefs/movilidad-social',
+    articles: [
+      {
+        type: 'Artículo',
+        title: 'Inclusión financiera: Digitalización en zonas rurales.',
+        author: 'Fernando Ruiz',
+        date: '10 oct 2024',
+        href: '/temas/desarrollo-regional',
+      },
+      {
+        type: 'Investigación',
+        title: 'Educación técnica y su correlación con el empleo formal.',
+        author: 'Marta Castro',
+        date: '08 oct 2024',
+        href: '/temas/educacion',
+      },
+    ],
+  },
+];
+
+const stats = [
+  { icon: 'document', value: '324', label: 'Publicaciones\ndesde 2018' },
+  { icon: 'people', value: '58', label: 'Investigadores\ny colaboradores' },
+  { icon: 'globe', value: '12', label: 'Dossiers temáticos\nespecializados' },
+];
+
+const iconPaths = {
+  institution: 'M4 10h16M6 10v8M10 10v8M14 10v8M18 10v8M3 18h18M12 4l8 4H4l8-4Z',
+  chart: 'M4 19V5M4 19h16M7 15l3-4 4 2 5-7M18 6h2v2',
+  society: 'M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 19a5 5 0 0 1 10 0M11 19a5 5 0 0 1 10 0',
+  document: 'M8 4h6l4 4v12H8V4Zm6 0v5h5M10 13h7M10 16h7',
+  people: 'M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3 19a5 5 0 0 1 10 0M11 19a5 5 0 0 1 10 0',
+  globe: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm-8-9h16M12 3c2.2 2.4 3.4 5.4 3.4 9S14.2 18.6 12 21c-2.2-2.4-3.4-5.4-3.4-9S9.8 5.4 12 3Z',
+};
 ---
-<section class="section latest" aria-labelledby="latest-title">
-  <div class="container">
-    <header class="section-header">
+
+<section class="latest-editorial" aria-labelledby="latest-title">
+  <div class="container latest-editorial__inner">
+    <header class="latest-editorial__header">
       <h2 id="latest-title">Lo más reciente</h2>
-      <a class="link-more" href="/articulos">Ver todos →</a>
+      <a href="/articulos" class="latest-editorial__archive">Ver todo el archivo →</a>
     </header>
 
-    <div class="latest__grid">
-      {latestArticles.map((article) => (
-        <ArticleCard article={article} />
+    <div class="latest-editorial__rule" aria-hidden="true"></div>
+
+    <div class="latest-editorial__grid">
+      {dossiers.map((dossier) => (
+        <article class={`dossier dossier--${dossier.accent}`}>
+          <div class="dossier__heading">
+            <span class="dossier__number">{dossier.number}</span>
+            <span class="dossier__sep" aria-hidden="true"></span>
+            <span class="dossier__category">{dossier.category}</span>
+            <svg class="dossier__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={iconPaths[dossier.icon]} />
+            </svg>
+          </div>
+
+          <a href={dossier.href} class="dossier__image-link" aria-label={dossier.title}>
+            <img
+              class="dossier__image"
+              src={dossier.image}
+              alt=""
+              width="640"
+              height="420"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+
+          <h3 class="dossier__title"><a href={dossier.href}>{dossier.title}</a></h3>
+
+          <div class="dossier__meta">
+            <span>{dossier.author}</span>
+            <time>{dossier.date}</time>
+          </div>
+
+          <div class="dossier__divider" aria-hidden="true"></div>
+
+          <div class="dossier__list">
+            {dossier.articles.map((article) => (
+              <a class="dossier__row" href={article.href}>
+                <span class="dossier__type">{article.type}</span>
+                <span class="dossier__row-title">{article.title}</span>
+                <span class="dossier__row-meta">
+                  <span>{article.author}</span>
+                  <time>{article.date}</time>
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <a href={dossier.href} class="dossier__link">Ver dossier →</a>
+        </article>
       ))}
+    </div>
+
+    <aside class="latest-editorial__stats" aria-label="Indicadores de Centro Economex">
+      {stats.map((stat) => (
+        <div class="stat">
+          <span class="stat__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+              <path d={iconPaths[stat.icon]} />
+            </svg>
+          </span>
+          <span class="stat__value">{stat.value}</span>
+          <span class="stat__label">{stat.label.split('\n').map((line) => <>{line}<br /></>)}</span>
+        </div>
+      ))}
+    </aside>
+
+    <div class="latest-editorial__mark" aria-hidden="true">
+      <span></span>
+      <strong>Centro Economex</strong>
+      <img src="/images/logo-centro-economex.png" alt="" width="771" height="669" loading="lazy" decoding="async" />
+      <span></span>
     </div>
   </div>
 </section>
 
 <style>
-  .latest__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
+  .latest-editorial {
+    background: #fbfaf7;
+    padding: clamp(3.8rem, 7vw, 6.25rem) 0 clamp(4.2rem, 8vw, 6.75rem);
+    color: #162033;
   }
 
-  @media (min-width: 600px) {
-    .latest__grid {
-      grid-template-columns: repeat(2, 1fr);
+  .latest-editorial__inner {
+    max-width: 1260px;
+  }
+
+  .latest-editorial__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .latest-editorial h2 {
+    margin: 0;
+    color: #172032;
+    font-family: var(--font-serif);
+    font-size: clamp(2.45rem, 4vw, 3.55rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .latest-editorial__archive {
+    color: #0b563e;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .latest-editorial__archive:hover {
+    color: var(--color-red-700);
+  }
+
+  .latest-editorial__rule {
+    height: 2px;
+    margin-top: 1.1rem;
+    background: #192334;
+  }
+
+  .latest-editorial__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 2.35rem;
+  }
+
+  .dossier {
+    --accent: #0a5c43;
+    --accent-soft: rgba(10, 92, 67, 0.12);
+    min-width: 0;
+    padding: 0 2.45rem;
+    border-right: 1px solid rgba(22, 32, 51, 0.18);
+  }
+
+  .dossier:first-child {
+    padding-left: 0;
+  }
+
+  .dossier:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .dossier--red {
+    --accent: #b9272e;
+    --accent-soft: rgba(185, 39, 46, 0.12);
+  }
+
+  .dossier--teal {
+    --accent: #40786b;
+    --accent-soft: rgba(64, 120, 107, 0.13);
+  }
+
+  .dossier__heading {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.88rem;
+    color: var(--accent);
+    min-height: 32px;
+  }
+
+  .dossier__number {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .dossier__sep {
+    width: 1px;
+    height: 21px;
+    background: rgba(22, 32, 51, 0.25);
+  }
+
+  .dossier__category {
+    min-width: 0;
+    color: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    overflow: hidden;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dossier__icon {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+    opacity: 0.82;
+  }
+
+  .dossier__image-link {
+    display: block;
+    margin-top: 1.05rem;
+    background: #f1eee8;
+    border: 1px solid rgba(22, 32, 51, 0.12);
+    overflow: hidden;
+  }
+
+  .dossier__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    height: auto;
+    object-fit: cover;
+    transition: transform 360ms ease, filter 360ms ease;
+    filter: saturate(0.9) contrast(1.02);
+  }
+
+  .dossier__image-link:hover .dossier__image {
+    transform: scale(1.025);
+    filter: saturate(1.02) contrast(1.04);
+  }
+
+  .dossier__title {
+    margin: 1.28rem 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2vw, 2.05rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.032em;
+  }
+
+  .dossier__title a {
+    color: #162033;
+    text-decoration: none;
+  }
+
+  .dossier__title a:hover {
+    color: var(--accent);
+  }
+
+  .dossier__meta,
+  .dossier__row-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: rgba(22, 32, 51, 0.68);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .dossier__meta {
+    margin-top: 1.35rem;
+  }
+
+  .dossier__divider,
+  .dossier__row {
+    border-top: 1px solid rgba(22, 32, 51, 0.2);
+  }
+
+  .dossier__divider {
+    margin-top: 1.15rem;
+  }
+
+  .dossier__list {
+    display: grid;
+  }
+
+  .dossier__row {
+    display: grid;
+    gap: 0.55rem;
+    padding: 1.05rem 0 1rem;
+    color: #162033;
+    text-decoration: none;
+  }
+
+  .dossier__row:hover .dossier__row-title {
+    color: var(--accent);
+  }
+
+  .dossier__type {
+    color: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .dossier__row-title {
+    color: #162033;
+    font-family: var(--font-serif);
+    font-size: 1.18rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    transition: color var(--transition-fast);
+  }
+
+  .dossier__link {
+    display: inline-flex;
+    margin-top: 0.8rem;
+    color: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .dossier__link:hover {
+    color: var(--color-red-700);
+  }
+
+  .latest-editorial__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    margin-top: 2.75rem;
+    background: #f4f1eb;
+    border: 1px solid rgba(22, 32, 51, 0.08);
+  }
+
+  .stat {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    min-height: 104px;
+    padding: 1.35rem 2rem;
+    border-right: 1px solid rgba(22, 32, 51, 0.17);
+  }
+
+  .stat:last-child {
+    border-right: 0;
+  }
+
+  .stat__icon {
+    display: inline-flex;
+    width: 54px;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(22, 32, 51, 0.55);
+    border-radius: 50%;
+    color: #162033;
+  }
+
+  .stat__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .stat__value {
+    color: #0a5c43;
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .stat:nth-child(2) .stat__value {
+    color: var(--color-red-700);
+  }
+
+  .stat__label {
+    color: #162033;
+    font-family: var(--font-serif);
+    font-size: 1.04rem;
+    line-height: 1.15;
+  }
+
+  .latest-editorial__mark {
+    display: grid;
+    grid-template-columns: 1fr auto auto 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    margin-top: 2.3rem;
+    color: rgba(22, 32, 51, 0.72);
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .latest-editorial__mark span {
+    height: 1px;
+    background: rgba(22, 32, 51, 0.22);
+  }
+
+  .latest-editorial__mark img {
+    width: auto;
+    height: 26px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 1020px) {
+    .latest-editorial__grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 0;
+    }
+
+    .dossier,
+    .dossier:first-child,
+    .dossier:last-child {
+      padding: 1.65rem 0;
+      border-right: 0;
+      border-bottom: 1px solid rgba(22, 32, 51, 0.18);
+    }
+
+    .dossier__image {
+      aspect-ratio: 16 / 8.4;
+    }
+
+    .latest-editorial__stats {
+      grid-template-columns: 1fr;
+    }
+
+    .stat {
+      border-right: 0;
+      border-bottom: 1px solid rgba(22, 32, 51, 0.15);
+    }
+
+    .stat:last-child {
+      border-bottom: 0;
     }
   }
-  @media (min-width: 1024px) {
-    .latest__grid {
-      grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 640px) {
+    .latest-editorial {
+      padding: 2.55rem 0 3.5rem;
     }
-    .latest__grid > :first-child {
-      grid-column: span 2;
-      grid-row: span 2;
+
+    .latest-editorial__header {
+      align-items: flex-end;
+      gap: 1rem;
     }
-    .latest__grid > :first-child :global(.article-card__title) {
-      font-size: var(--fs-2xl);
-      line-height: 1.15;
+
+    .latest-editorial h2 {
+      font-size: 2.1rem;
+      line-height: 1;
     }
-    .latest__grid > :first-child :global(.article-card__media) {
-      aspect-ratio: 16 / 11;
+
+    .latest-editorial__archive {
+      max-width: 9.5rem;
+      font-size: 0.63rem;
+      line-height: 1.25;
+      text-align: right;
+    }
+
+    .latest-editorial__rule {
+      margin-top: 0.75rem;
+    }
+
+    .latest-editorial__grid {
+      margin-top: 1rem;
+    }
+
+    .dossier,
+    .dossier:first-child,
+    .dossier:last-child {
+      padding: 1.05rem 0 1.28rem;
+    }
+
+    .dossier__heading {
+      gap: 0.62rem;
+    }
+
+    .dossier__number {
+      font-size: 1.18rem;
+    }
+
+    .dossier__category {
+      font-size: 0.61rem;
+    }
+
+    .dossier__icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .dossier__image-link {
+      margin-top: 0.85rem;
+    }
+
+    .dossier__image {
+      aspect-ratio: 16 / 9.4;
+    }
+
+    .dossier__title {
+      margin-top: 1rem;
+      font-size: 1.62rem;
+      line-height: 1.1;
+    }
+
+    .dossier__meta,
+    .dossier__row-meta {
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+    }
+
+    .dossier__row-title {
+      font-size: 1.03rem;
+    }
+
+    .dossier__row {
+      padding: 0.92rem 0;
+    }
+
+    .latest-editorial__stats {
+      margin-top: 1.65rem;
+    }
+
+    .stat {
+      min-height: 88px;
+      grid-template-columns: auto auto 1fr;
+      gap: 0.8rem;
+      padding: 1rem;
+    }
+
+    .stat__icon {
+      width: 46px;
+      height: 46px;
+    }
+
+    .stat__value {
+      font-size: 1.86rem;
+    }
+
+    .stat__label {
+      font-size: 0.92rem;
+    }
+
+    .latest-editorial__mark {
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.75rem;
+      margin-top: 1.55rem;
+    }
+
+    .latest-editorial__mark strong {
+      display: none;
+    }
+
+    .latest-editorial__mark img {
+      height: 32px;
     }
   }
 </style>
