@@ -14,6 +14,8 @@ const hasSources = (article.sources?.length ?? 0) > 0;
 const readTime = article.readTime ?? '12 min de lectura';
 const visualSummary = article.visualSummary ?? {};
 const narrativeVisual = article.narrativeVisual ?? {};
+const showVisualStorytelling = article.showVisualStorytelling ?? true;
+const authorImage = article.authorImage ?? '/images/authors/default-profile.svg';
 const visualTitle = visualSummary.title ?? article.mainVisual?.title ?? 'Brechas de crecimiento estatal';
 const visualCaption = visualSummary.caption ?? 'Índice sintético de productividad, inversión y educación.';
 const visualLowLabel = visualSummary.lowLabel ?? 'Bajo';
@@ -30,7 +32,7 @@ const narrativeSteps = narrativeVisual.steps?.length
 
 <BaseLayout title={`${article.title} — Centro Economex`} description={article.abstract} ogImage={article.heroImage}>
   <article class="article-page">
-    <div class="article-grid container">
+    <div class={`article-grid container ${showVisualStorytelling ? '' : 'article-grid--no-visual'}`}>
       <main class="article-main">
         <header class="article-hero">
           <p class="article-eyebrow">{templateLabel}</p>
@@ -39,15 +41,14 @@ const narrativeSteps = narrativeVisual.steps?.length
 
           <div class="article-meta-panel" aria-label="Información del artículo">
             <div class="article-institution">
-              <span class="article-institution__icon" aria-hidden="true">
-                <svg viewBox="0 0 64 64" fill="none">
-                  <rect x="6" y="6" width="52" height="52" stroke="currentColor" stroke-width="2" />
-                  <path d="M19 41V30M29 41V22M39 41V26M49 41V17" stroke="currentColor" stroke-width="3" stroke-linecap="square" />
-                  <path d="M16 45H52" stroke="currentColor" stroke-width="2" />
-                  <path d="M18 18c7-7 19-7 26 0" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
-                  <text x="14" y="28" fill="currentColor" font-family="Georgia, serif" font-size="14" font-weight="700">CE</text>
-                </svg>
-              </span>
+              <img
+                class="article-author-image"
+                src={authorImage}
+                alt=""
+                aria-hidden="true"
+                loading="eager"
+                decoding="async"
+              />
               <div>
                 <strong>{article.author ?? 'Centro Economex'}</strong>
                 <span>Publicado el {date} • {readTime}</span>
@@ -78,10 +79,74 @@ const narrativeSteps = narrativeVisual.steps?.length
           </section>
         </header>
 
-        <aside class="article-visual-rail article-visual-rail--mobile" aria-label="Resumen visual del artículo">
-          <section class="visual-summary" aria-labelledby="visual-summary-title-mobile">
+        {showVisualStorytelling && (
+          <aside class="article-visual-rail article-visual-rail--mobile" aria-label="Resumen visual del artículo">
+            <section class="visual-summary" aria-labelledby="visual-summary-title-mobile">
+              <p class="rail-kicker">Resumen visual</p>
+              <h2 id="visual-summary-title-mobile">{visualTitle}</h2>
+
+              <div class="visual-map" aria-hidden="true">
+                <span class="region region--one"></span>
+                <span class="region region--two"></span>
+                <span class="region region--three"></span>
+                <span class="region region--four"></span>
+                <span class="region region--five"></span>
+              </div>
+
+              <p class="visual-caption">{visualCaption}</p>
+
+              <div class="visual-legend" aria-hidden="true">
+                <span>{visualLowLabel}</span>
+                <i></i><i></i><i></i><i></i>
+                <span>{visualHighLabel}</span>
+              </div>
+
+              <dl class="visual-stats">
+                {visualStats.map((stat) => (
+                  <div>
+                    <dt>{stat.value}</dt>
+                    <dd>{stat.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+
+            <section class="scroll-visual" aria-labelledby="scroll-visual-title-mobile">
+              <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
+              <h2 id="scroll-visual-title-mobile">{narrativeVisual.title ?? 'La historia visual'}</h2>
+              <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
+              <ol>
+                {narrativeSteps.map((step) => <li>{step}</li>)}
+              </ol>
+              <div class="reading-progress" aria-hidden="true">
+                <span>Progreso de lectura</span>
+                <i><b></b></i>
+              </div>
+            </section>
+          </aside>
+        )}
+
+        <div class="article-content">
+          <slot />
+
+          {hasSources && (
+            <section class="sources" aria-labelledby="sources-heading">
+              <h2 id="sources-heading">Fuentes</h2>
+              <ul>
+                {article.sources.map((source) => (
+                  <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      </main>
+
+      {showVisualStorytelling && (
+        <aside class="article-visual-rail article-visual-rail--desktop" aria-label="Resumen visual del artículo">
+          <section class="visual-summary" aria-labelledby="visual-summary-title">
             <p class="rail-kicker">Resumen visual</p>
-            <h2 id="visual-summary-title-mobile">{visualTitle}</h2>
+            <h2 id="visual-summary-title">{visualTitle}</h2>
 
             <div class="visual-map" aria-hidden="true">
               <span class="region region--one"></span>
@@ -109,9 +174,9 @@ const narrativeSteps = narrativeVisual.steps?.length
             </dl>
           </section>
 
-          <section class="scroll-visual" aria-labelledby="scroll-visual-title-mobile">
+          <section class="scroll-visual" aria-labelledby="scroll-visual-title">
             <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
-            <h2 id="scroll-visual-title-mobile">{narrativeVisual.title ?? 'La historia visual'}</h2>
+            <h2 id="scroll-visual-title">{narrativeVisual.title ?? 'La historia visual'}</h2>
             <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
             <ol>
               {narrativeSteps.map((step) => <li>{step}</li>)}
@@ -122,67 +187,7 @@ const narrativeSteps = narrativeVisual.steps?.length
             </div>
           </section>
         </aside>
-
-        <div class="article-content">
-          <slot />
-
-          {hasSources && (
-            <section class="sources" aria-labelledby="sources-heading">
-              <h2 id="sources-heading">Fuentes</h2>
-              <ul>
-                {article.sources.map((source) => (
-                  <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
-                ))}
-              </ul>
-            </section>
-          )}
-        </div>
-      </main>
-
-      <aside class="article-visual-rail article-visual-rail--desktop" aria-label="Resumen visual del artículo">
-        <section class="visual-summary" aria-labelledby="visual-summary-title">
-          <p class="rail-kicker">Resumen visual</p>
-          <h2 id="visual-summary-title">{visualTitle}</h2>
-
-          <div class="visual-map" aria-hidden="true">
-            <span class="region region--one"></span>
-            <span class="region region--two"></span>
-            <span class="region region--three"></span>
-            <span class="region region--four"></span>
-            <span class="region region--five"></span>
-          </div>
-
-          <p class="visual-caption">{visualCaption}</p>
-
-          <div class="visual-legend" aria-hidden="true">
-            <span>{visualLowLabel}</span>
-            <i></i><i></i><i></i><i></i>
-            <span>{visualHighLabel}</span>
-          </div>
-
-          <dl class="visual-stats">
-            {visualStats.map((stat) => (
-              <div>
-                <dt>{stat.value}</dt>
-                <dd>{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
-        <section class="scroll-visual" aria-labelledby="scroll-visual-title">
-          <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
-          <h2 id="scroll-visual-title">{narrativeVisual.title ?? 'La historia visual'}</h2>
-          <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
-          <ol>
-            {narrativeSteps.map((step) => <li>{step}</li>)}
-          </ol>
-          <div class="reading-progress" aria-hidden="true">
-            <span>Progreso de lectura</span>
-            <i><b></b></i>
-          </div>
-        </section>
-      </aside>
+      )}
     </div>
   </article>
 </BaseLayout>
@@ -198,6 +203,10 @@ const narrativeSteps = narrativeVisual.steps?.length
     display: grid;
     gap: clamp(2.25rem, 4.5vw, 4rem);
     align-items: start;
+  }
+
+  .article-grid--no-visual {
+    max-width: 940px;
   }
 
   .article-main {
@@ -279,19 +288,15 @@ const narrativeSteps = narrativeVisual.steps?.length
     align-items: center;
   }
 
-  .article-institution__icon {
-    display: inline-flex;
+  .article-author-image {
     width: 56px;
     height: 56px;
-    align-items: center;
-    justify-content: center;
     flex: 0 0 auto;
-    color: var(--color-primary);
-  }
-
-  .article-institution__icon svg {
-    width: 56px;
-    height: 56px;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    object-fit: cover;
+    background: var(--color-bg-warm);
   }
 
   .article-institution strong,
@@ -394,6 +399,10 @@ const narrativeSteps = narrativeVisual.steps?.length
     max-width: 780px;
     min-width: 0;
     padding-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .article-grid--no-visual .article-content {
+    max-width: 820px;
   }
 
   .article-content :global(h2) {
@@ -621,7 +630,7 @@ const narrativeSteps = narrativeVisual.steps?.length
   }
 
   @media (min-width: 1080px) {
-    .article-grid {
+    .article-grid:not(.article-grid--no-visual) {
       grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     }
 
