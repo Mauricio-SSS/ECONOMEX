@@ -91,7 +91,6 @@ collections:
               - { label: "Gráfica de línea", value: "line-chart" }
               - { label: "Gráfica de barras", value: "bar-chart" }
               - { label: "Scrollytelling", value: "scrolly-chart" }
-
           - { label: "Título del visual", name: "title", widget: "string", required: false }
           - { label: "Dataset", name: "dataset", widget: "string", required: false }
           - { label: "Variable", name: "variable", widget: "string", required: false }
@@ -126,9 +125,47 @@ collections:
             required: false
             field: { label: "Paso", name: "step", widget: "string" }
 
-      - label: "Artículo normal apoyado de visuales"
+      - label: "Cuerpo del artículo por bloques"
+        name: "contentBlocks"
+        widget: "list"
+        required: false
+        summary: "{{fields.type}} — {{fields.heading}}{{fields.title}}{{fields.caption}}"
+        hint: "Use estos bloques para ordenar libremente párrafo → visual → párrafo → visual. Puede arrastrarlos para reordenar. Si no usa bloques, se publicará el campo markdown de respaldo."
+        types:
+          - label: "Párrafo / texto"
+            name: "paragraph"
+            widget: "object"
+            fields:
+              - { label: "Encabezado opcional", name: "heading", widget: "string", required: false }
+              - { label: "Texto", name: "text", widget: "markdown" }
+          - label: "Imagen / visual"
+            name: "image"
+            widget: "object"
+            fields:
+              - { label: "Título opcional", name: "title", widget: "string", required: false }
+              - { label: "Imagen", name: "image", widget: "image" }
+              - { label: "Texto alternativo", name: "alt", widget: "string", required: false }
+              - { label: "Pie de imagen", name: "caption", widget: "text", required: false }
+              - { label: "Fuente", name: "source", widget: "string", required: false }
+          - label: "Cita destacada"
+            name: "quote"
+            widget: "object"
+            fields:
+              - { label: "Cita", name: "quote", widget: "text" }
+              - { label: "Atribución", name: "attribution", widget: "string", required: false }
+          - label: "Dato destacado"
+            name: "stat"
+            widget: "object"
+            fields:
+              - { label: "Etiqueta / kicker", name: "kicker", widget: "string", required: false }
+              - { label: "Valor", name: "value", widget: "string" }
+              - { label: "Descripción", name: "label", widget: "text" }
+
+      - label: "Artículo markdown de respaldo"
         name: "body"
         widget: "markdown"
+        required: false
+        hint: "Se usa si no hay bloques en 'Cuerpo del artículo por bloques'."
 
       - label: "Fuentes"
         name: "sources"
