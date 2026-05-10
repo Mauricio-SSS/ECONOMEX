@@ -9,8 +9,6 @@ const date = new Intl.DateTimeFormat('es-MX', {
 }).format(article.date);
 
 const templateLabel = article.template?.replaceAll('-', ' ') ?? 'artículo';
-const visualType = article.mainVisual?.type;
-const hasMainVisual = Boolean(visualType && visualType !== 'none');
 const hasSummaryPoints = (article.summaryPoints?.length ?? 0) > 0;
 const hasSources = (article.sources?.length ?? 0) > 0;
 const readTime = article.readTime ?? '12 min de lectura';
@@ -82,7 +80,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
       <aside class="article-visual-rail" aria-label="Resumen visual del artículo">
         <section class="visual-summary" aria-labelledby="visual-summary-title">
-          <p class="rail-kicker">Visual summary</p>
+          <p class="rail-kicker">Resumen visual</p>
           <h2 id="visual-summary-title">{visualTitle}</h2>
 
           <div class="visual-map" aria-hidden="true">
@@ -120,7 +118,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
         </section>
 
         <section class="scroll-visual" aria-labelledby="scroll-visual-title">
-          <p class="rail-kicker rail-kicker--red">Scrollytelling</p>
+          <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
           <h2 id="scroll-visual-title">La historia visual</h2>
           <p>Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.</p>
           <ol>
@@ -141,10 +139,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
 <style>
   .article-page {
-    background:
-      linear-gradient(90deg, transparent 0 70%, rgba(18, 24, 33, 0.03) 70% 100%),
-      repeating-linear-gradient(90deg, rgba(18, 24, 33, 0.025) 0 54px, transparent 54px 108px),
-      var(--color-bg-warm);
+    background: var(--color-bg-warm);
     color: var(--color-ink);
     padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(4rem, 8vw, 7rem);
   }
@@ -301,10 +296,10 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   .executive-summary {
-    border: 2px solid var(--color-ink);
-    background: rgba(255, 255, 255, 0.55);
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
     margin-top: clamp(1.4rem, 3vw, 2rem);
-    padding: clamp(1.2rem, 3vw, 1.7rem);
+    padding: clamp(1.2rem, 3vw, 1.7rem) 0;
   }
 
   .executive-summary h2 {
@@ -427,9 +422,9 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   .visual-summary,
   .scroll-visual {
-    border: 2px solid var(--color-ink);
-    background: rgba(255, 255, 255, 0.58);
-    padding: clamp(1.15rem, 3vw, 1.65rem);
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.15rem, 3vw, 1.65rem) 0;
   }
 
   .visual-summary h2,
@@ -447,8 +442,8 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     position: relative;
     aspect-ratio: 1.38;
     margin-top: 1.25rem;
-    background: #f8f8fb;
-    border: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
     overflow: hidden;
   }
 
@@ -456,7 +451,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     position: absolute;
     display: block;
     clip-path: polygon(10% 18%, 80% 0, 100% 42%, 72% 100%, 0 76%);
-    border: 1px solid #f7f3ea;
+    border: 1px solid var(--color-bg-warm);
   }
 
   .region--one { left: 7%; top: 15%; width: 33%; height: 31%; background: #b7d6c7; }
@@ -593,10 +588,6 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   @media (max-width: 760px) {
-    .article-page {
-      background: var(--color-bg-warm);
-    }
-
     .article-meta-panel {
       align-items: flex-start;
     }
