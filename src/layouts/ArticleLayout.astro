@@ -28,6 +28,8 @@ const visualStats = [
 const narrativeSteps = narrativeVisual.steps?.length
   ? narrativeVisual.steps
   : ['Mapa estatal por productividad', 'Trayectoria de inversión pública', 'Educación técnica y salarios', 'Clusters regionales de crecimiento'];
+const narrativeTitle = narrativeVisual.title ?? 'La historia visual';
+const narrativeDescription = narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.';
 ---
 
 <BaseLayout title={`${article.title} — Centro Economex`} description={article.abstract} ogImage={article.heroImage}>
@@ -117,18 +119,25 @@ const narrativeSteps = narrativeVisual.steps?.length
               </dl>
             </section>
 
-            <section class="scroll-visual" aria-labelledby="scroll-visual-title-mobile">
-              <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
-              <h2 id="scroll-visual-title-mobile">{narrativeVisual.title ?? 'La historia visual'}</h2>
-              <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
-              <ol>
-                {narrativeSteps.map((step) => <li>{step}</li>)}
-              </ol>
+            <details class="scroll-visual" open>
+              <summary class="scroll-visual__header">
+                <span>
+                  <span class="rail-kicker rail-kicker--red">Narrativa visual</span>
+                  <span class="scroll-visual__title">{narrativeTitle}</span>
+                </span>
+                <span class="scroll-visual__toggle" aria-hidden="true"></span>
+              </summary>
               <div class="reading-progress" aria-hidden="true">
                 <span>Progreso de lectura</span>
                 <i><b></b></i>
               </div>
-            </section>
+              <div class="scroll-visual__content">
+                <p>{narrativeDescription}</p>
+                <ol>
+                  {narrativeSteps.map((step) => <li>{step}</li>)}
+                </ol>
+              </div>
+            </details>
           </aside>
         )}
 
@@ -180,18 +189,25 @@ const narrativeSteps = narrativeVisual.steps?.length
             </dl>
           </section>
 
-          <section class="scroll-visual" aria-labelledby="scroll-visual-title">
-            <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
-            <h2 id="scroll-visual-title">{narrativeVisual.title ?? 'La historia visual'}</h2>
-            <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
-            <ol>
-              {narrativeSteps.map((step) => <li>{step}</li>)}
-            </ol>
+          <details class="scroll-visual" open>
+            <summary class="scroll-visual__header">
+              <span>
+                <span class="rail-kicker rail-kicker--red">Narrativa visual</span>
+                <span class="scroll-visual__title">{narrativeTitle}</span>
+              </span>
+              <span class="scroll-visual__toggle" aria-hidden="true"></span>
+            </summary>
             <div class="reading-progress" aria-hidden="true">
               <span>Progreso de lectura</span>
               <i><b></b></i>
             </div>
-          </section>
+            <div class="scroll-visual__content">
+              <p>{narrativeDescription}</p>
+              <ol>
+                {narrativeSteps.map((step) => <li>{step}</li>)}
+              </ol>
+            </div>
+          </details>
         </aside>
       )}
     </div>
@@ -386,8 +402,8 @@ const narrativeSteps = narrativeVisual.steps?.length
 
   .executive-summary h2,
   .visual-summary h2,
-  .scroll-visual h2,
-  .sources h2 {
+  .sources h2,
+  .scroll-visual__title {
     margin: 0 0 0.75rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
@@ -506,8 +522,7 @@ const narrativeSteps = narrativeVisual.steps?.length
     padding: clamp(1.1rem, 2.6vw, 1.45rem) 0;
   }
 
-  .visual-summary h2,
-  .scroll-visual h2 {
+  .visual-summary h2 {
     margin-top: 0.58rem;
   }
 
@@ -599,7 +614,57 @@ const narrativeSteps = narrativeVisual.steps?.length
     text-transform: uppercase;
   }
 
-  .scroll-visual p {
+  .scroll-visual {
+    transition: border-color var(--transition-fast);
+  }
+
+  .scroll-visual__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .scroll-visual__header::-webkit-details-marker {
+    display: none;
+  }
+
+  .scroll-visual__title {
+    display: block;
+    margin: 0.58rem 0 0;
+  }
+
+  .scroll-visual__toggle {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border: 1px solid var(--color-border);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 850;
+    line-height: 1;
+    margin-top: 0.2rem;
+  }
+
+  .scroll-visual__toggle::before {
+    content: '+';
+  }
+
+  .scroll-visual[open] .scroll-visual__toggle::before {
+    content: '–';
+  }
+
+  .scroll-visual__content {
+    margin-top: 1rem;
+  }
+
+  .scroll-visual__content p {
     margin: 0;
     color: var(--color-text-muted);
     font-size: 0.88rem;
