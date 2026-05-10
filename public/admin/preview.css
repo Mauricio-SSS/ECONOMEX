@@ -136,6 +136,20 @@ body { margin: 0; background: var(--preview-bg); }
 .ce-preview__actions { display: inline-flex; gap: 8px; color: #48504f; }
 .ce-preview__actions span { font-size: 20px; line-height: 1; }
 
+.ce-preview__hero-image {
+  border-top: 2px solid var(--preview-ink);
+  border-bottom: 1px solid var(--preview-border);
+  margin: clamp(20px, 3vw, 32px) 0 0;
+  padding: clamp(16px, 2.5vw, 22px) 0;
+}
+
+.ce-preview__hero-image img {
+  display: block;
+  width: 100%;
+  max-height: min(58vh, 560px);
+  object-fit: cover;
+}
+
 .ce-preview__summary,
 .ce-preview__visual,
 .ce-preview__sources {
