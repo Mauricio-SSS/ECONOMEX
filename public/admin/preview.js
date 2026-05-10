@@ -53,6 +53,32 @@
       }).format(date);
     }
 
+    function narrativeDetails(data) {
+      const configuredSteps = listToArray(getIn(data, ['narrativeVisual', 'steps'], []));
+      const steps = configuredSteps.length
+        ? configuredSteps
+        : ['Mapa estatal por productividad', 'Trayectoria de inversión pública', 'Educación técnica y salarios', 'Clusters regionales de crecimiento'];
+      const title = getIn(data, ['narrativeVisual', 'title'], 'La historia visual');
+      const description = getIn(data, ['narrativeVisual', 'description'], 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.');
+
+      return h('details', { className: 'ce-preview__visual ce-preview__story', open: true },
+        h('summary', { className: 'ce-preview__story-header' },
+          h('span', {},
+            h('span', { className: 'ce-preview__badge ce-preview__badge--red' }, 'Narrativa visual'),
+            h('span', { className: 'ce-preview__story-title' }, title)
+          ),
+          h('span', { className: 'ce-preview__story-toggle', 'aria-hidden': 'true' })
+        ),
+        h('div', { className: 'ce-preview__progress', 'aria-hidden': 'true' },
+          h('span', {}, 'Progreso de lectura'), h('i', {}, h('b'))
+        ),
+        h('div', { className: 'ce-preview__story-content' },
+          h('p', {}, description),
+          h('ol', {}, steps.map((step) => h('li', {}, step)))
+        )
+      );
+    }
+
     function visualRail(data, suffix) {
       const visualTitle = getIn(data, ['visualSummary', 'title'], getIn(data, ['mainVisual', 'title'], 'Brechas de crecimiento estatal'));
       const visualCaption = getIn(data, ['visualSummary', 'caption'], 'Índice sintético de productividad, inversión y educación.');
@@ -63,10 +89,6 @@
         [getIn(data, ['visualSummary', 'statTwoValue'], '2.4x'), getIn(data, ['visualSummary', 'statTwoLabel'], 'brecha PIB pc')],
         [getIn(data, ['visualSummary', 'statThreeValue'], '18'), getIn(data, ['visualSummary', 'statThreeLabel'], 'indicadores')],
       ];
-      const configuredSteps = listToArray(getIn(data, ['narrativeVisual', 'steps'], []));
-      const steps = configuredSteps.length
-        ? configuredSteps
-        : ['Mapa estatal por productividad', 'Trayectoria de inversión pública', 'Educación técnica y salarios', 'Clusters regionales de crecimiento'];
 
       return h('aside', { className: `ce-preview__rail ce-preview__rail--${suffix}`, 'aria-label': 'Resumen visual del artículo' },
         h('section', { className: 'ce-preview__visual' },
@@ -87,15 +109,7 @@
             stats.map(([value, label]) => h('div', {}, h('dt', {}, value), h('dd', {}, label)))
           )
         ),
-        h('section', { className: 'ce-preview__visual' },
-          h('p', { className: 'ce-preview__badge ce-preview__badge--red' }, 'Narrativa visual'),
-          h('h2', {}, getIn(data, ['narrativeVisual', 'title'], 'La historia visual')),
-          h('p', {}, getIn(data, ['narrativeVisual', 'description'], 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.')),
-          h('ol', {}, steps.map((step) => h('li', {}, step))),
-          h('div', { className: 'ce-preview__progress', 'aria-hidden': 'true' },
-            h('span', {}, 'Progreso de lectura'), h('i', {}, h('b'))
-          )
-        )
+        narrativeDetails(data)
       );
     }
 
