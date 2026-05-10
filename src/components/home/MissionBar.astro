@@ -1,16 +1,14 @@
 ---
 ---
 <section class="mission" aria-label="Misión de Centro Economex">
-  <div class="mission__visual" aria-hidden="true">
-    <img
-      class="mission__image"
-      src="/images/mission/palacio-nacional-uploaded.svg"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
-  <div class="mission__scrim" aria-hidden="true"></div>
+  <img
+    class="mission__image"
+    src="/images/mission/palacio-nacional-uploaded.svg"
+    alt=""
+    aria-hidden="true"
+    loading="lazy"
+    decoding="async"
+  />
 
   <div class="container mission__inner">
     <div class="mission__copy">
@@ -33,65 +31,28 @@
     position: relative;
     overflow: hidden;
     min-height: clamp(148px, 15vw, 190px);
-    background:
-      radial-gradient(circle at 8% 48%, rgba(255, 255, 255, 0.05), transparent 16rem),
-      linear-gradient(90deg, #052f24 0%, #063f30 48%, #08261f 100%);
+    background: #052f24;
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     border-bottom: 1px solid rgba(2, 22, 17, 0.78);
     color: #fff;
   }
 
-  .mission__visual {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    width: min(64vw, 1120px);
-    overflow: hidden;
-  }
-
-  .mission__visual::before {
-    content: '';
+  .mission__image {
     position: absolute;
     inset: 0;
-    z-index: 1;
-    background:
-      linear-gradient(90deg,
-        #063f30 0%,
-        rgba(6, 63, 48, 0.92) 12%,
-        rgba(6, 63, 48, 0.52) 31%,
-        rgba(6, 63, 48, 0.08) 58%,
-        rgba(2, 15, 13, 0.20) 100%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.20));
-    pointer-events: none;
-  }
-
-  .mission__image {
+    z-index: 0;
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: right bottom;
+    object-position: center center;
     opacity: 1;
-    filter: saturate(1.08) contrast(1.08);
-  }
-
-  .mission__scrim {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background:
-      linear-gradient(90deg,
-        rgba(2, 43, 32, 0.18) 0%,
-        rgba(2, 43, 32, 0.08) 42%,
-        rgba(2, 20, 17, 0.02) 100%);
-    pointer-events: none;
+    filter: none;
   }
 
   .mission__inner {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     display: grid;
     min-height: clamp(148px, 15vw, 190px);
     grid-template-columns: minmax(0, 1fr) auto;
@@ -114,17 +75,17 @@
     letter-spacing: -0.026em;
     line-height: 1.04;
     text-wrap: balance;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.44);
+    text-shadow: 0 3px 24px rgba(0, 0, 0, 0.72), 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
   .mission__copy p {
     max-width: 820px;
     margin: 0.55rem 0 0;
-    color: rgba(247, 243, 234, 0.84);
+    color: rgba(247, 243, 234, 0.92);
     font-family: var(--font-sans);
     font-size: clamp(0.9rem, 1.15vw, 1.04rem);
     line-height: 1.48;
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.38);
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.72), 0 1px 2px rgba(0, 0, 0, 0.5);
   }
 
   .mission__cta {
@@ -135,9 +96,9 @@
     min-width: 255px;
     min-height: 48px;
     padding: 0.82rem 1.28rem;
-    border: 1px solid rgba(255, 255, 255, 0.66);
+    border: 1px solid rgba(255, 255, 255, 0.76);
     color: #f7f3ea;
-    background: rgba(6, 38, 31, 0.26);
+    background: rgba(6, 38, 31, 0.20);
     font-family: var(--font-sans);
     font-size: 0.74rem;
     font-weight: 850;
@@ -146,8 +107,8 @@
     text-decoration: none;
     text-transform: uppercase;
     transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
-    backdrop-filter: blur(2px);
-    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.22), 0 1px 18px rgba(0, 0, 0, 0.28) inset;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
   }
 
   .mission__cta span {
@@ -165,17 +126,6 @@
   }
 
   @media (max-width: 900px) {
-    .mission__visual {
-      width: 100%;
-      opacity: 0.75;
-    }
-
-    .mission__visual::before {
-      background:
-        linear-gradient(90deg, rgba(2, 43, 32, 0.92), rgba(2, 43, 32, 0.56)),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.24));
-    }
-
     .mission__inner {
       grid-template-columns: 1fr;
       gap: 1.2rem;
@@ -192,7 +142,7 @@
     }
 
     .mission__image {
-      object-position: 72% bottom;
+      object-position: 68% center;
     }
 
     .mission__inner {
