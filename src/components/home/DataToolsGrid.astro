@@ -1,100 +1,617 @@
 ---
-import { dataTools } from '../../data/topics';
+type Accent = 'green' | 'red';
+type Preview = 'map' | 'monitor' | 'territory' | 'archive';
+type Icon = 'mexico' | 'chart' | 'pin' | 'database' | 'document';
+
+type Study = {
+  number: string;
+  title: string;
+  description: string;
+  href: string;
+  accent: Accent;
+  icon: Icon;
+  preview: Preview;
+};
+
+const studies: Study[] = [
+  {
+    number: '01',
+    title: 'Comparador estatal',
+    description: 'Compara indicadores económicos, sociales y fiscales entre las 32 entidades federativas.',
+    href: '/datos/comparador-estatal',
+    accent: 'green',
+    icon: 'mexico',
+    preview: 'map',
+  },
+  {
+    number: '02',
+    title: 'Monitor económico',
+    description: 'Sigue la evolución de las principales variables macroeconómicas de México en tiempo real.',
+    href: '/datos/monitoreo',
+    accent: 'red',
+    icon: 'chart',
+    preview: 'monitor',
+  },
+  {
+    number: '03',
+    title: 'Mapas territoriales',
+    description: 'Explora dinámicas regionales y municipales a través de mapas interactivos y capas temáticas.',
+    href: '/datos/mapas-territoriales',
+    accent: 'green',
+    icon: 'pin',
+    preview: 'territory',
+  },
+  {
+    number: '04',
+    title: 'Archivo de datos',
+    description: 'Accede y descarga bases de datos confiables para análisis, investigación y docencia.',
+    href: '/datos/base-de-datos',
+    accent: 'red',
+    icon: 'database',
+    preview: 'archive',
+  },
+];
+
+const iconPaths = {
+  mexico: 'M5.2 9.8 6.6 8.9l1.4.4 1.2-.9 1.3.7 1.1-.4 1 .9 1.3-.2.7 1.2 1.6.4 1.1 1 1.4-.2 1 1.1-.8 1.1.1.6 1.4-.6.8.3.7-1 .5-.5 1.2-.9-.2-1.6.8-.8-.8-1.1-.7-.1-.9-1.4-.9-.1-.7-.9-1.6.3-.4-1.1-1.1-.3-.7-1.1-1.4.2-1.1-.7-.9.5-1.2-.8-.7.5-.8-.8-.8.3-.8-.9-.8.5-.5Z',
+  chart: 'M4 19V5M4 19h16M7 15l3-4 4 2 5-7M18 6h2v2',
+  pin: 'M12 21s6-5.5 6-11a6 6 0 1 0-12 0c0 5.5 6 11 6 11Zm0-8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
+  database: 'M5 6c0-1.7 3.1-3 7-3s7 1.3 7 3-3.1 3-7 3-7-1.3-7-3Zm0 0v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6',
+  document: 'M7 3h7l4 4v14H7V3Zm7 0v5h5M9 12h6M9 15h6M9 18h4',
+};
 ---
-<section class="section tools" aria-labelledby="tools-title">
-  <div class="container">
-    <header class="section-header">
-      <h2 id="tools-title">Datos y herramientas</h2>
-      <a class="link-more" href="/datos">Explorar todo →</a>
+
+<section class="data-studies" aria-labelledby="data-studies-title">
+  <div class="container data-studies__inner">
+    <header class="data-studies__header">
+      <div class="data-studies__intro">
+        <p class="data-studies__eyebrow">Estudios de datos</p>
+        <h2 id="data-studies-title">Estudios de datos</h2>
+        <p class="data-studies__lede">Herramientas visuales para explorar economía, territorio y política pública en México.</p>
+      </div>
+
+      <a class="data-studies__all" href="/datos">Ver todos los estudios →</a>
     </header>
 
-    <div class="tools__grid">
-      {dataTools.map((tool) => (
-        <a class="tools__card" href={tool.href}>
-          <span class="tools__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d={tool.icon} />
+    <div class="data-studies__rule" aria-hidden="true"></div>
+
+    <div class="data-studies__grid">
+      {studies.map((study) => (
+        <article class={`study study--${study.accent}`}>
+          <div class="study__topline">
+            <span class="study__number">{study.number}</span>
+            <svg class="study__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={iconPaths[study.icon]} />
             </svg>
-          </span>
-          <h3 class="tools__title">{tool.label}</h3>
-          <p class="tools__desc">{tool.description}</p>
-          <span class="tools__cta">
-            {tool.cta}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M5 12h14 M13 6l6 6-6 6" />
-            </svg>
-          </span>
-        </a>
+          </div>
+
+          <h3 class="study__title"><a href={study.href}>{study.title}</a></h3>
+
+          <a class="study__preview" href={study.href} aria-label={`Abrir ${study.title}`}>
+            {study.preview === 'map' && (
+              <svg class="preview preview--map" viewBox="0 0 320 300" role="img" aria-label="Mapa de México con regiones sombreadas">
+                <rect width="320" height="300" fill="#fbfaf7" />
+                <path d="M51 102 77 84l31 9 28-6 20 16 31-3 18 17 28 1 16 23 30 8-13 24 11 21-22 17-29-9-21 14-29-2-20 17-36-8-12-28-30-7-4-25-25-13Z" fill="#dcebe5" />
+                <path d="M51 102 77 84l31 9 28-6 20 16 31-3 18 17 28 1 16 23 30 8-13 24 11 21-22 17-29-9-21 14-29-2-20 17-36-8-12-28-30-7-4-25-25-13Z" fill="none" stroke="#8fb8aa" stroke-width="1.4" />
+                <path d="M77 84 84 123l24-30M108 93l13 48 15-54M136 87l20 16-8 47M156 103l31-3-9 57M187 100l18 17-17 45M205 117l28 1-10 48M233 118l16 23-26 25M249 141l30 8-35 22M108 186l29-36M137 150l41 7M178 157l45 9M137 219l11-69M177 214l1-57M206 216l17-50M227 202l17-31" fill="none" stroke="#b8d0c7" stroke-width="1" />
+                <path d="M75 148 109 94l38 55-8 68-36-31Z" fill="#99c6b4" opacity="0.9" />
+                <path d="M147 149 187 101l36 65-45 48-31-9Z" fill="#5f9f88" opacity="0.88" />
+                <path d="M223 166 279 149l-13 24 11 21-22 17-29-9Z" fill="#17654b" opacity="0.88" />
+                <path d="M101 243c34-5 72-5 119 0" fill="none" stroke="#dee5e0" stroke-width="8" />
+                <path d="M106 243h104" fill="none" stroke="#0a5c43" stroke-width="8" />
+                <text x="63" y="248" font-family="Inter, sans-serif" font-size="9" fill="#6c756f">Bajo</text>
+                <text x="226" y="248" font-family="Inter, sans-serif" font-size="9" fill="#6c756f">Alto</text>
+              </svg>
+            )}
+
+            {study.preview === 'monitor' && (
+              <svg class="preview preview--monitor" viewBox="0 0 320 300" role="img" aria-label="Gráfica económica con dos series y barras">
+                <rect width="320" height="300" fill="#fbfaf7" />
+                <text x="24" y="34" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#1a2433">Actividad económica mensual</text>
+                <text x="24" y="51" font-family="Inter, sans-serif" font-size="9" fill="#6d7480">Índice base 2018 = 100</text>
+                {[0,1,2,3,4].map((i) => <line x1="24" x2="292" y1={76 + i * 34} y2={76 + i * 34} stroke="#e1ddd5" stroke-width="1" />)}
+                {[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map((i) => (
+                  <rect x={36 + i * 17} y={228 - ((i * 13) % 48)} width="8" height={28 + ((i * 13) % 48)} fill="#b9b9b5" />
+                ))}
+                <path d="M28 160 48 154 69 158 88 137 111 144 130 101 151 117 171 112 192 92 211 95 232 78 252 84 273 68 291 61" fill="none" stroke="#0a5c43" stroke-width="3" />
+                <path d="M28 167 48 162 69 165 88 153 111 159 130 126 151 138 171 135 192 119 211 122 232 112 252 116 273 105 291 100" fill="none" stroke="#cf2e32" stroke-width="3" />
+                <circle cx="291" cy="61" r="4" fill="#0a5c43" />
+                <circle cx="291" cy="100" r="4" fill="#cf2e32" />
+                <line x1="111" x2="111" y1="80" y2="218" stroke="#d8d1c7" stroke-width="1" stroke-dasharray="3 4" />
+                <text x="24" y="278" font-family="Inter, sans-serif" font-size="9" fill="#6d7480">2018</text>
+                <text x="82" y="278" font-family="Inter, sans-serif" font-size="9" fill="#6d7480">2020</text>
+                <text x="151" y="278" font-family="Inter, sans-serif" font-size="9" fill="#6d7480">2022</text>
+                <text x="246" y="278" font-family="Inter, sans-serif" font-size="9" fill="#6d7480">2024</text>
+              </svg>
+            )}
+
+            {study.preview === 'territory' && (
+              <svg class="preview preview--territory" viewBox="0 0 320 300" role="img" aria-label="Mapa territorial con imagen satelital estilizada">
+                <defs>
+                  <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183848"/><stop offset="1" stop-color="#061924"/></linearGradient>
+                  <linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b1a575"/><stop offset="0.55" stop-color="#627f4c"/><stop offset="1" stop-color="#2b5d42"/></linearGradient>
+                </defs>
+                <rect width="320" height="300" fill="url(#sea)" />
+                <path d="M28 60c45 18 72 36 108 27 45-11 79-12 122 11 31 17 48 50 44 85-5 47-48 75-92 71-42-4-60-35-95-45-37-10-73-5-98-33C-7 149-11 92 28 60Z" fill="url(#land)" opacity="0.92" />
+                <path d="M21 87c53 13 92 48 145 31 47-15 77 11 116 33" fill="none" stroke="#d7c990" stroke-width="1.2" opacity="0.72" />
+                <path d="M44 143c39-15 82-5 119 22 38 28 75 30 117 12" fill="none" stroke="#e4d9a5" stroke-width="1" opacity="0.56" />
+                <path d="M73 54 96 95l37 27 32 46 58 22" fill="none" stroke="#ecdfaa" stroke-width="0.9" opacity="0.45" />
+                <circle cx="171" cy="163" r="7" fill="#cf2e32" opacity="0.95" />
+                <circle cx="171" cy="163" r="18" fill="none" stroke="#cf2e32" stroke-width="1" opacity="0.45" />
+                <rect x="56" y="247" width="160" height="8" fill="#d7d1a7" opacity="0.7" />
+                <rect x="56" y="247" width="112" height="8" fill="#0a5c43" />
+                <text x="56" y="237" font-family="Inter, sans-serif" font-size="9" fill="#f3efe7">Índice de desarrollo municipal</text>
+                <text x="56" y="270" font-family="Inter, sans-serif" font-size="9" fill="#d7d1a7">Bajo</text>
+                <text x="205" y="270" font-family="Inter, sans-serif" font-size="9" fill="#d7d1a7">Alto</text>
+              </svg>
+            )}
+
+            {study.preview === 'archive' && (
+              <div class="preview preview--archive" role="img" aria-label="Tabla de conjuntos de datos descargables">
+                <div class="archive-preview__title">Conjunto de datos destacados</div>
+                <div class="archive-preview__row"><span>PIB por entidad federativa</span><time>2024</time><strong>CSV</strong></div>
+                <div class="archive-preview__row"><span>Finanzas públicas estatales</span><time>2024</time><strong>XLSX</strong></div>
+                <div class="archive-preview__row"><span>Empleo formal IMSS</span><time>2024</time><strong>CSV</strong></div>
+                <div class="archive-preview__row"><span>Índice de competitividad estatal</span><time>2023</time><strong>XLSX</strong></div>
+                <div class="archive-preview__row"><span>Pobreza municipal</span><time>2022</time><strong>CSV</strong></div>
+                <span class="archive-preview__link">Ver todos los conjuntos</span>
+              </div>
+            )}
+          </a>
+
+          <p class="study__description">{study.description}</p>
+
+          <a class="study__cta" href={study.href}>Abrir estudio <span aria-hidden="true">→</span></a>
+        </article>
       ))}
     </div>
+
+    <aside class="data-studies__methods" aria-label="Metodologías y notas técnicas">
+      <span class="methods__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+          <path d={iconPaths.document} />
+        </svg>
+      </span>
+      <div class="methods__copy">
+        <h3>Metodologías y notas técnicas</h3>
+        <p>Documentación detallada sobre fuentes, definiciones y métodos de cálculo.</p>
+      </div>
+      <a href="/datos/metodologias" class="methods__link">Consultar →</a>
+    </aside>
   </div>
 </section>
 
 <style>
-  .tools__grid {
+  .data-studies {
+    background: #fbfaf7;
+    color: #172032;
+    padding: clamp(4rem, 7vw, 6.75rem) 0 clamp(4.4rem, 7.5vw, 6.25rem);
+  }
+
+  .data-studies__inner {
+    max-width: 1260px;
+  }
+
+  .data-studies__header {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem;
+    align-items: end;
   }
 
-  .tools__card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-6);
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    color: var(--color-ink);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
-      transform var(--transition-fast);
-  }
-  .tools__card:hover {
-    border-color: var(--color-green-700);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+  .data-studies__eyebrow {
+    margin: 0 0 0.85rem;
+    color: #0a5c43;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
   }
 
-  .tools__icon {
-    width: 44px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-md);
-    background: var(--color-green-100);
-    color: var(--color-green-900);
-  }
-  .tools__icon svg { width: 22px; height: 22px; }
-
-  .tools__title {
+  .data-studies h2 {
+    margin: 0;
+    max-width: 760px;
+    color: #172032;
     font-family: var(--font-serif);
-    font-size: var(--fs-lg);
-    margin: 0;
-    color: var(--color-ink);
+    font-size: clamp(3.3rem, 6.1vw, 6rem);
+    font-weight: 600;
+    letter-spacing: -0.065em;
+    line-height: 0.92;
   }
-  .tools__desc {
-    margin: 0;
-    color: var(--color-text);
-    font-size: var(--fs-sm);
+
+  .data-studies__lede {
+    max-width: 550px;
+    margin: 1.45rem 0 0;
+    color: rgba(23, 32, 50, 0.78);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.35vw, 1.28rem);
     line-height: 1.5;
   }
-  .tools__cta {
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--color-primary);
-    font-family: var(--font-sans);
-    font-size: var(--fs-sm);
-    font-weight: 600;
-  }
-  .tools__cta svg { width: 14px; height: 14px; }
 
-  @media (min-width: 600px) {
-    .tools__grid { grid-template-columns: repeat(2, 1fr); }
+  .data-studies__all {
+    margin-bottom: 0.55rem;
+    color: #0a5c43;
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
-  @media (min-width: 1024px) {
-    .tools__grid { grid-template-columns: repeat(5, 1fr); }
+
+  .data-studies__all:hover {
+    color: var(--color-red-700);
+  }
+
+  .data-studies__rule {
+    height: 1px;
+    margin-top: 1.55rem;
+    background: rgba(23, 32, 50, 0.78);
+  }
+
+  .data-studies__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 2.65rem;
+  }
+
+  .study {
+    --accent: #0a5c43;
+    --accent-soft: rgba(10, 92, 67, 0.1);
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 0 1.7rem;
+    border-right: 1px solid rgba(23, 32, 50, 0.16);
+  }
+
+  .study:first-child {
+    padding-left: 0;
+  }
+
+  .study:last-child {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .study--red {
+    --accent: #bf2429;
+    --accent-soft: rgba(191, 36, 41, 0.1);
+  }
+
+  .study__topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 32px;
+    color: var(--accent);
+  }
+
+  .study__number {
+    font-family: var(--font-serif);
+    font-size: 1.36rem;
+    line-height: 1;
+  }
+
+  .study__icon {
+    width: 23px;
+    height: 23px;
+    opacity: 0.9;
+  }
+
+  .study__title {
+    margin: 1.12rem 0 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.28rem, 1.55vw, 1.58rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+  }
+
+  .study__title a {
+    color: #172032;
+    text-decoration: none;
+  }
+
+  .study__title a:hover {
+    color: var(--accent);
+  }
+
+  .study__preview {
+    display: block;
+    margin-top: 1.05rem;
+    border: 1px solid rgba(23, 32, 50, 0.18);
+    background: #f7f4ef;
+    color: inherit;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .preview {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    height: auto;
+  }
+
+  .study__preview:hover .preview {
+    filter: contrast(1.03) saturate(1.03);
+  }
+
+  .preview--archive {
+    aspect-ratio: 1 / 1.1;
+    padding: 1.05rem;
+    color: #172032;
+    font-family: var(--font-sans);
+  }
+
+  .archive-preview__title {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(23, 32, 50, 0.16);
+    font-family: var(--font-serif);
+    font-size: 1.02rem;
+    line-height: 1.1;
+  }
+
+  .archive-preview__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.72rem 0;
+    border-bottom: 1px solid rgba(23, 32, 50, 0.12);
+    color: rgba(23, 32, 50, 0.72);
+    font-size: 0.67rem;
+    line-height: 1.2;
+  }
+
+  .archive-preview__row span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .archive-preview__row strong {
+    color: #172032;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+  }
+
+  .archive-preview__link {
+    display: inline-flex;
+    margin-top: 1rem;
+    color: var(--accent);
+    font-size: 0.66rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .study__description {
+    margin: 1.05rem 0 0;
+    color: rgba(23, 32, 50, 0.84);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .study__cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 2rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .study__cta:hover {
+    color: #172032;
+  }
+
+  .data-studies__methods {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2rem;
+    width: min(100%, 1020px);
+    margin-top: 2.75rem;
+    padding: 1.6rem 2.25rem;
+    background: #f4f1eb;
+    border: 1px solid rgba(23, 32, 50, 0.09);
+  }
+
+  .methods__icon {
+    display: inline-flex;
+    width: 62px;
+    height: 62px;
+    align-items: center;
+    justify-content: center;
+    color: #172032;
+  }
+
+  .methods__icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .methods__copy h3 {
+    margin: 0;
+    color: #172032;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  .methods__copy p {
+    max-width: 520px;
+    margin: 0.35rem 0 0;
+    color: rgba(23, 32, 50, 0.72);
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .methods__link {
+    color: #0a5c43;
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .methods__link:hover {
+    color: var(--color-red-700);
+  }
+
+  @media (max-width: 1120px) {
+    .data-studies__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: 2.5rem;
+    }
+
+    .study,
+    .study:first-child,
+    .study:last-child {
+      padding: 0 1.5rem;
+      border-right: 1px solid rgba(23, 32, 50, 0.16);
+    }
+
+    .study:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .study:nth-child(2n + 1) {
+      padding-left: 0;
+    }
+
+    .study:nth-child(2n) {
+      padding-right: 0;
+    }
+
+    .preview,
+    .preview--archive {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .data-studies {
+      padding: 3.35rem 0 4rem;
+    }
+
+    .data-studies__header {
+      grid-template-columns: 1fr;
+      gap: 1.1rem;
+    }
+
+    .data-studies__eyebrow {
+      margin-bottom: 0.7rem;
+      font-size: 0.68rem;
+    }
+
+    .data-studies h2 {
+      font-size: clamp(2.45rem, 14vw, 4rem);
+      line-height: 0.96;
+    }
+
+    .data-studies__lede {
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .data-studies__all {
+      margin-bottom: 0;
+      font-size: 0.68rem;
+    }
+
+    .data-studies__rule {
+      margin-top: 1rem;
+    }
+
+    .data-studies__grid {
+      grid-template-columns: 1fr;
+      margin-top: 1.2rem;
+      row-gap: 0;
+    }
+
+    .study,
+    .study:first-child,
+    .study:last-child,
+    .study:nth-child(2n),
+    .study:nth-child(2n + 1) {
+      padding: 1.3rem 0 1.55rem;
+      border-right: 0;
+      border-bottom: 1px solid rgba(23, 32, 50, 0.18);
+    }
+
+    .study__title {
+      margin-top: 0.75rem;
+      font-size: 1.34rem;
+    }
+
+    .study__preview {
+      margin-top: 0.85rem;
+    }
+
+    .preview,
+    .preview--archive {
+      aspect-ratio: 16 / 10.2;
+    }
+
+    .study__description {
+      font-size: 0.96rem;
+    }
+
+    .study__cta {
+      padding-top: 1.15rem;
+      font-size: 0.67rem;
+    }
+
+    .data-studies__methods {
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      margin-top: 1.55rem;
+      padding: 1.25rem;
+    }
+
+    .methods__icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .methods__icon svg {
+      width: 38px;
+      height: 38px;
+    }
+
+    .methods__copy h3 {
+      font-size: 1.15rem;
+    }
+
+    .methods__copy p {
+      font-size: 0.84rem;
+    }
+
+    .methods__link {
+      grid-column: 2;
+      font-size: 0.67rem;
+    }
   }
 </style>
