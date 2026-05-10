@@ -43,9 +43,21 @@ collections:
         name: "date"
         widget: "datetime"
 
+      - label: "Tiempo de lectura"
+        name: "readTime"
+        widget: "string"
+        required: false
+        hint: "Ejemplo: 12 min de lectura"
+
       - label: "Resumen / abstract"
         name: "abstract"
         widget: "text"
+
+      - label: "Puntos del resumen ejecutivo"
+        name: "summaryPoints"
+        widget: "list"
+        required: false
+        field: { label: "Punto", name: "point", widget: "string" }
 
       - label: "Imagen principal"
         name: "heroImage"
@@ -71,6 +83,35 @@ collections:
           - { label: "Dataset", name: "dataset", widget: "string", required: false }
           - { label: "Variable", name: "variable", widget: "string", required: false }
           - { label: "Año", name: "year", widget: "number", required: false }
+
+      - label: "Resumen visual lateral"
+        name: "visualSummary"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Título", name: "title", widget: "string", required: false }
+          - { label: "Descripción / caption", name: "caption", widget: "text", required: false }
+          - { label: "Etiqueta baja", name: "lowLabel", widget: "string", required: false, default: "Bajo" }
+          - { label: "Etiqueta alta", name: "highLabel", widget: "string", required: false, default: "Alto" }
+          - { label: "Indicador 1: valor", name: "statOneValue", widget: "string", required: false }
+          - { label: "Indicador 1: etiqueta", name: "statOneLabel", widget: "string", required: false }
+          - { label: "Indicador 2: valor", name: "statTwoValue", widget: "string", required: false }
+          - { label: "Indicador 2: etiqueta", name: "statTwoLabel", widget: "string", required: false }
+          - { label: "Indicador 3: valor", name: "statThreeValue", widget: "string", required: false }
+          - { label: "Indicador 3: etiqueta", name: "statThreeLabel", widget: "string", required: false }
+
+      - label: "Narrativa visual lateral"
+        name: "narrativeVisual"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "Título", name: "title", widget: "string", required: false }
+          - { label: "Descripción", name: "description", widget: "text", required: false }
+          - label: "Pasos"
+            name: "steps"
+            widget: "list"
+            required: false
+            field: { label: "Paso", name: "step", widget: "string" }
 
       - label: "Artículo normal apoyado de visuales"
         name: "body"
