@@ -19,13 +19,12 @@ const hasSources = (article.sources?.length ?? 0) > 0;
   <article class="article-page">
     <header class="article-hero">
       <div class="container article-hero__inner">
-        <p class="eyebrow">{templateLabel}</p>
+        <p class="article-eyebrow">{templateLabel}</p>
         <h1>{article.title}</h1>
         <p class="one-sentence">{article.oneSentence}</p>
 
         <div class="article-meta" aria-label="Información del artículo">
           <span>{article.author}</span>
-          <span aria-hidden="true">•</span>
           <time datetime={article.date.toISOString()}>{date}</time>
         </div>
 
@@ -37,14 +36,14 @@ const hasSources = (article.sources?.length ?? 0) > 0;
 
     <div class="container article-shell">
       <aside class="article-aside" aria-label="Resumen">
-        <div class="summary-card">
-          <h2>Resumen</h2>
+        <div class="summary-block">
+          <p class="summary-kicker">Resumen</p>
           <p>{article.abstract}</p>
         </div>
 
         {hasSummaryPoints && (
-          <div class="summary-card">
-            <h2>La idea en puntos</h2>
+          <div class="summary-block">
+            <p class="summary-kicker summary-kicker--red">La idea en puntos</p>
             <ol>
               {article.summaryPoints.map((point) => <li>{point}</li>)}
             </ol>
@@ -55,7 +54,7 @@ const hasSources = (article.sources?.length ?? 0) > 0;
       <div class="article-content">
         {hasMainVisual && (
           <figure class="visual-placeholder">
-            <p class="eyebrow">Elemento visual principal</p>
+            <p class="article-eyebrow">Elemento visual principal</p>
             <h2>{article.mainVisual?.title ?? 'Visualización del artículo'}</h2>
             <p>
               Tipo: <strong>{visualType}</strong>
@@ -83,93 +82,112 @@ const hasSources = (article.sources?.length ?? 0) > 0;
 
 <style>
   .article-page {
-    background: linear-gradient(180deg, var(--color-bg-warm) 0, #fff 480px);
+    background: #fff;
+    color: var(--color-ink);
   }
 
   .article-hero {
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-warm);
+    border-bottom: 2px solid var(--color-ink);
   }
 
   .article-hero__inner {
-    padding-top: var(--space-8);
-    padding-bottom: var(--space-7);
+    padding-top: clamp(3rem, 7vw, 6rem);
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .article-eyebrow,
+  .summary-kicker {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .summary-kicker--red {
+    color: var(--color-red-700, #c51d23);
   }
 
   .article-hero h1 {
-    max-width: 860px;
-    margin-top: var(--space-3);
-    margin-bottom: var(--space-4);
+    max-width: 980px;
+    margin: 0.75rem 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 7.5vw, 6.5rem);
+    font-weight: 600;
+    letter-spacing: -0.058em;
+    line-height: 0.92;
+    text-wrap: balance;
   }
 
   .one-sentence {
     max-width: 760px;
+    margin: 0;
     color: var(--color-text);
-    font-size: clamp(1.125rem, 2vw, 1.45rem);
+    font-size: clamp(1.1rem, 2vw, 1.42rem);
     line-height: 1.45;
   }
 
   .article-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: 1rem;
     color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    font-weight: 500;
-    margin-top: var(--space-5);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    margin-top: 1.5rem;
+    text-transform: uppercase;
   }
 
   .hero-image {
     width: 100%;
-    max-height: 460px;
+    max-height: 520px;
     object-fit: cover;
-    border-radius: var(--radius-xl);
-    margin-top: var(--space-6);
+    margin-top: clamp(1.5rem, 4vw, 3rem);
     border: 1px solid var(--color-border);
     background: #fff;
   }
 
   .article-shell {
     display: grid;
-    gap: var(--space-7);
-    padding-top: var(--space-8);
-    padding-bottom: var(--space-12);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    padding-top: clamp(2rem, 5vw, 4rem);
+    padding-bottom: clamp(4rem, 8vw, 6rem);
   }
 
   .article-aside {
     display: grid;
-    gap: var(--space-4);
+    gap: 1.5rem;
+    align-content: start;
   }
 
-  .summary-card,
-  .visual-placeholder,
-  .sources {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
+  .summary-block {
+    border-top: 2px solid var(--color-ink);
+    padding-top: 1rem;
   }
 
-  .summary-card {
-    padding: var(--space-5);
-  }
-
-  .summary-card h2,
-  .sources h2,
-  .visual-placeholder h2 {
-    font-family: var(--font-sans);
-    font-size: var(--fs-md);
-    margin-bottom: var(--space-3);
-  }
-
-  .summary-card p,
-  .summary-card li {
-    font-size: var(--fs-sm);
+  .summary-block p:not(.summary-kicker),
+  .summary-block li {
     color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.65;
   }
 
-  .summary-card ol {
-    padding-left: 1.25rem;
-    margin: 0;
+  .summary-block p:not(.summary-kicker) {
+    margin: 0.8rem 0 0;
+  }
+
+  .summary-block ol {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0.9rem 0 0;
+    padding-left: 1.2rem;
   }
 
   .article-content {
@@ -179,36 +197,64 @@ const hasSources = (article.sources?.length ?? 0) > 0;
 
   .article-content :global(p),
   .article-content :global(li) {
+    color: var(--color-text);
     font-size: clamp(1.05rem, 1.5vw, 1.18rem);
-    line-height: 1.75;
+    line-height: 1.8;
   }
 
   .article-content :global(h2) {
-    margin-top: var(--space-8);
+    margin-top: clamp(2.25rem, 5vw, 4rem);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.85rem, 3.3vw, 2.65rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .article-content :global(h3) {
+    margin-top: 2rem;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .article-content :global(a) {
+    color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 0.18em;
   }
 
-  .visual-placeholder {
-    padding: var(--space-5);
-    margin-bottom: var(--space-7);
-    background: linear-gradient(135deg, #fff, var(--color-green-100));
+  .visual-placeholder,
+  .sources {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.25rem 0;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .visual-placeholder h2,
+  .sources h2 {
+    margin: 0.55rem 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
   }
 
   .visual-placeholder code {
-    font-size: var(--fs-sm);
-    background: rgba(255,255,255,0.75);
+    font-size: 0.9rem;
+    background: var(--color-bg-warm);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
     padding: 0.1rem 0.35rem;
   }
 
   .sources {
-    margin-top: var(--space-8);
-    padding: var(--space-5);
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 0;
   }
 
   .sources ul {
@@ -224,7 +270,7 @@ const hasSources = (article.sources?.length ?? 0) > 0;
 
     .article-aside {
       position: sticky;
-      top: calc(var(--header-height) + var(--space-5));
+      top: calc(var(--header-height) + 2rem);
     }
   }
 </style>
