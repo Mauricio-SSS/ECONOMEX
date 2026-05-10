@@ -12,7 +12,20 @@ const templateLabel = article.template?.replaceAll('-', ' ') ?? 'artículo';
 const hasSummaryPoints = (article.summaryPoints?.length ?? 0) > 0;
 const hasSources = (article.sources?.length ?? 0) > 0;
 const readTime = article.readTime ?? '12 min de lectura';
-const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal';
+const visualSummary = article.visualSummary ?? {};
+const narrativeVisual = article.narrativeVisual ?? {};
+const visualTitle = visualSummary.title ?? article.mainVisual?.title ?? 'Brechas de crecimiento estatal';
+const visualCaption = visualSummary.caption ?? 'Índice sintético de productividad, inversión y educación.';
+const visualLowLabel = visualSummary.lowLabel ?? 'Bajo';
+const visualHighLabel = visualSummary.highLabel ?? 'Alto';
+const visualStats = [
+  { value: visualSummary.statOneValue ?? '32', label: visualSummary.statOneLabel ?? 'entidades' },
+  { value: visualSummary.statTwoValue ?? '2.4x', label: visualSummary.statTwoLabel ?? 'brecha PIB pc' },
+  { value: visualSummary.statThreeValue ?? '18', label: visualSummary.statThreeLabel ?? 'indicadores' },
+];
+const narrativeSteps = narrativeVisual.steps?.length
+  ? narrativeVisual.steps
+  : ['Mapa estatal por productividad', 'Trayectoria de inversión pública', 'Educación técnica y salarios', 'Clusters regionales de crecimiento'];
 ---
 
 <BaseLayout title={`${article.title} — Centro Economex`} description={article.abstract} ogImage={article.heroImage}>
@@ -27,9 +40,12 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
           <div class="article-meta-panel" aria-label="Información del artículo">
             <div class="article-institution">
               <span class="article-institution__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M4 10.2 12 5l8 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                  <path d="M6 10h12M7.5 10v7M12 10v7M16.5 10v7M5 17h14M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                <svg viewBox="0 0 64 64" fill="none">
+                  <rect x="6" y="6" width="52" height="52" stroke="currentColor" stroke-width="2" />
+                  <path d="M19 41V30M29 41V22M39 41V26M49 41V17" stroke="currentColor" stroke-width="3" stroke-linecap="square" />
+                  <path d="M16 45H52" stroke="currentColor" stroke-width="2" />
+                  <path d="M18 18c7-7 19-7 26 0" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                  <text x="14" y="28" fill="currentColor" font-family="Georgia, serif" font-size="14" font-weight="700">CE</text>
                 </svg>
               </span>
               <div>
@@ -91,41 +107,30 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
             <span class="region region--five"></span>
           </div>
 
-          <p class="visual-caption">
-            Índice sintético de productividad, inversión y educación.
-          </p>
+          <p class="visual-caption">{visualCaption}</p>
 
           <div class="visual-legend" aria-hidden="true">
-            <span>Bajo</span>
+            <span>{visualLowLabel}</span>
             <i></i><i></i><i></i><i></i>
-            <span>Alto</span>
+            <span>{visualHighLabel}</span>
           </div>
 
           <dl class="visual-stats">
-            <div>
-              <dt>32</dt>
-              <dd>entidades</dd>
-            </div>
-            <div>
-              <dt>2.4x</dt>
-              <dd>brecha PIB pc</dd>
-            </div>
-            <div>
-              <dt>18</dt>
-              <dd>indicadores</dd>
-            </div>
+            {visualStats.map((stat) => (
+              <div>
+                <dt>{stat.value}</dt>
+                <dd>{stat.label}</dd>
+              </div>
+            ))}
           </dl>
         </section>
 
         <section class="scroll-visual" aria-labelledby="scroll-visual-title">
           <p class="rail-kicker rail-kicker--red">Narrativa visual</p>
-          <h2 id="scroll-visual-title">La historia visual</h2>
-          <p>Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.</p>
+          <h2 id="scroll-visual-title">{narrativeVisual.title ?? 'La historia visual'}</h2>
+          <p>{narrativeVisual.description ?? 'Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.'}</p>
           <ol>
-            <li>Mapa estatal por productividad</li>
-            <li>Trayectoria de inversión pública</li>
-            <li>Educación técnica y salarios</li>
-            <li>Clusters regionales de crecimiento</li>
+            {narrativeSteps.map((step) => <li>{step}</li>)}
           </ol>
           <div class="reading-progress" aria-hidden="true">
             <span>Progreso de lectura</span>
@@ -139,14 +144,14 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
 <style>
   .article-page {
-    background: var(--color-bg-warm);
+    background: #fffdfa;
     color: var(--color-ink);
-    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(4rem, 8vw, 7rem);
+    padding: clamp(2rem, 4.5vw, 4rem) 0 clamp(4rem, 8vw, 7rem);
   }
 
   .article-grid {
     display: grid;
-    gap: clamp(2rem, 4vw, 3rem);
+    gap: clamp(2.25rem, 4.5vw, 4rem);
     align-items: start;
   }
 
@@ -165,11 +170,11 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     margin: 0;
     color: #f7f3ea;
     background: var(--color-primary);
-    padding: 0.34rem 0.7rem;
+    padding: 0.34rem 0.68rem;
     font-family: var(--font-sans);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 850;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.13em;
     line-height: 1;
     text-transform: uppercase;
   }
@@ -180,6 +185,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     background: transparent;
     color: var(--color-primary);
     padding: 0;
+    font-size: 0.68rem;
   }
 
   .rail-kicker--red {
@@ -187,27 +193,27 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   .article-hero h1 {
-    max-width: 1060px;
-    margin: 1.1rem 0 1.45rem;
+    max-width: 940px;
+    margin: 1rem 0 1.25rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(3.1rem, 6.7vw, 6.6rem);
-    font-weight: 650;
-    letter-spacing: -0.065em;
-    line-height: 0.92;
+    font-size: clamp(2.8rem, 5.85vw, 5.85rem);
+    font-weight: 600;
+    letter-spacing: -0.058em;
+    line-height: 0.96;
     text-wrap: balance;
   }
 
   .one-sentence {
-    max-width: 920px;
+    max-width: 820px;
     margin: 0;
-    color: #40464d;
+    color: #3f454d;
     font-family: var(--font-serif);
-    font-size: clamp(1.4rem, 2.7vw, 2.05rem);
+    font-size: clamp(1.18rem, 2vw, 1.6rem);
     font-style: italic;
-    font-weight: 650;
-    letter-spacing: -0.035em;
-    line-height: 1.22;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.34;
   }
 
   .article-meta-panel {
@@ -218,30 +224,29 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     justify-content: space-between;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
-    margin-top: clamp(2rem, 4vw, 3rem);
-    padding: 1.05rem 0;
+    margin-top: clamp(1.75rem, 4vw, 2.65rem);
+    padding: 1rem 0;
   }
 
   .article-institution {
     display: flex;
-    gap: 1rem;
+    gap: 0.9rem;
     align-items: center;
   }
 
   .article-institution__icon {
     display: inline-flex;
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    background: #bdf1d6;
     color: var(--color-primary);
   }
 
   .article-institution__icon svg {
-    width: 31px;
-    height: 31px;
+    width: 56px;
+    height: 56px;
   }
 
   .article-institution strong,
@@ -252,28 +257,29 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   .article-institution strong {
     color: var(--color-ink);
-    font-size: 0.92rem;
+    font-size: 0.82rem;
     font-weight: 850;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
   }
 
   .article-institution span {
     color: var(--color-text-muted);
-    margin-top: 0.22rem;
-    font-size: 0.9rem;
+    margin-top: 0.2rem;
+    font-size: 0.86rem;
     font-weight: 650;
+    line-height: 1.35;
   }
 
   .article-actions {
     display: inline-flex;
-    gap: 0.5rem;
+    gap: 0.35rem;
     align-items: center;
   }
 
   .article-actions button {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -291,32 +297,41 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   .article-actions svg {
-    width: 23px;
-    height: 23px;
+    width: 21px;
+    height: 21px;
+  }
+
+  .executive-summary,
+  .visual-summary,
+  .scroll-visual,
+  .sources {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .executive-summary {
-    border-top: 2px solid var(--color-ink);
-    border-bottom: 1px solid var(--color-border);
-    margin-top: clamp(1.4rem, 3vw, 2rem);
-    padding: clamp(1.2rem, 3vw, 1.7rem) 0;
+    margin-top: clamp(1.35rem, 3vw, 2rem);
+    padding: clamp(1.15rem, 2.6vw, 1.5rem) 0;
   }
 
-  .executive-summary h2 {
-    margin: 0 0 0.7rem;
+  .executive-summary h2,
+  .visual-summary h2,
+  .scroll-visual h2,
+  .sources h2 {
+    margin: 0 0 0.75rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-    font-weight: 650;
+    font-size: clamp(1.35rem, 2.25vw, 1.85rem);
+    font-weight: 600;
     letter-spacing: -0.035em;
-    line-height: 1.05;
+    line-height: 1.1;
   }
 
   .executive-summary p,
   .executive-summary li {
     color: var(--color-text);
-    font-size: clamp(1rem, 1.45vw, 1.08rem);
-    line-height: 1.65;
+    font-size: clamp(0.98rem, 1.25vw, 1.06rem);
+    line-height: 1.68;
   }
 
   .executive-summary p {
@@ -331,26 +346,26 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   .article-content {
-    max-width: 1040px;
+    max-width: 780px;
     min-width: 0;
     padding-top: clamp(2rem, 5vw, 4rem);
   }
 
   .article-content :global(h2) {
-    margin: clamp(2rem, 5vw, 4rem) 0 1.2rem;
+    margin: clamp(2rem, 5vw, 3.5rem) 0 1rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(2rem, 4.4vw, 3.65rem);
-    font-weight: 650;
-    letter-spacing: -0.052em;
-    line-height: 1.03;
+    font-size: clamp(1.85rem, 3.4vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.044em;
+    line-height: 1.08;
   }
 
   .article-content :global(h3) {
-    margin: 2rem 0 0.8rem;
+    margin: 1.9rem 0 0.75rem;
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: 850;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -358,14 +373,13 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   .article-content :global(p),
   .article-content :global(li) {
-    max-width: 980px;
     color: #1f252d;
-    font-size: clamp(1.08rem, 1.55vw, 1.22rem);
+    font-size: clamp(1.02rem, 1.28vw, 1.12rem);
     line-height: 1.78;
   }
 
   .article-content :global(p) {
-    margin: 0 0 1.35rem;
+    margin: 0 0 1.32rem;
   }
 
   .article-content :global(a) {
@@ -378,13 +392,13 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     border-top: 3px solid var(--color-primary);
     border-bottom: 1px solid var(--color-border);
     margin: clamp(2rem, 5vw, 3rem) 0;
-    padding: 1.4rem 0;
+    padding: 1.3rem 0;
     color: var(--color-primary);
     font-family: var(--font-serif);
-    font-size: clamp(1.45rem, 2.6vw, 2rem);
-    font-weight: 650;
-    letter-spacing: -0.035em;
-    line-height: 1.22;
+    font-size: clamp(1.3rem, 2.2vw, 1.82rem);
+    font-weight: 600;
+    letter-spacing: -0.032em;
+    line-height: 1.25;
   }
 
   .article-content :global(blockquote p) {
@@ -395,19 +409,8 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   .sources {
-    border-top: 2px solid var(--color-ink);
     margin-top: clamp(2.5rem, 6vw, 4rem);
-    padding-top: 1.25rem;
-  }
-
-  .sources h2 {
-    margin: 0 0 1rem;
-    color: var(--color-ink);
-    font-family: var(--font-serif);
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 650;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+    padding: 1.2rem 0 1.4rem;
   }
 
   .sources ul {
@@ -422,26 +425,18 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   .visual-summary,
   .scroll-visual {
-    border-top: 2px solid var(--color-ink);
-    border-bottom: 1px solid var(--color-border);
-    padding: clamp(1.15rem, 3vw, 1.65rem) 0;
+    padding: clamp(1.1rem, 2.6vw, 1.45rem) 0;
   }
 
   .visual-summary h2,
   .scroll-visual h2 {
-    margin: 0.6rem 0 1rem;
-    color: var(--color-ink);
-    font-family: var(--font-serif);
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
-    font-weight: 650;
-    letter-spacing: -0.035em;
-    line-height: 1.05;
+    margin-top: 0.58rem;
   }
 
   .visual-map {
     position: relative;
     aspect-ratio: 1.38;
-    margin-top: 1.25rem;
+    margin-top: 1.2rem;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
     overflow: hidden;
@@ -451,7 +446,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
     position: absolute;
     display: block;
     clip-path: polygon(10% 18%, 80% 0, 100% 42%, 72% 100%, 0 76%);
-    border: 1px solid var(--color-bg-warm);
+    border: 1px solid #fffdfa;
   }
 
   .region--one { left: 7%; top: 15%; width: 33%; height: 31%; background: #b7d6c7; }
@@ -463,8 +458,8 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .visual-caption {
     margin: 1rem 0 0;
     color: var(--color-text-muted);
-    font-size: 0.84rem;
-    line-height: 1.45;
+    font-size: 0.82rem;
+    line-height: 1.48;
   }
 
   .visual-legend {
@@ -477,12 +472,12 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   .visual-legend span {
     color: var(--color-text-muted);
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 750;
   }
 
   .visual-legend i {
-    height: 12px;
+    height: 10px;
     display: block;
   }
 
@@ -494,10 +489,10 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .visual-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.85rem;
+    gap: 0.75rem;
     border-top: 1px solid var(--color-border);
-    margin: 1.25rem 0 0;
-    padding-top: 1rem;
+    margin: 1.15rem 0 0;
+    padding-top: 0.95rem;
   }
 
   .visual-stats div {
@@ -507,8 +502,8 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .visual-stats dt {
     color: var(--color-primary);
     font-family: var(--font-serif);
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
-    font-weight: 650;
+    font-size: clamp(1.32rem, 2.1vw, 1.78rem);
+    font-weight: 600;
     letter-spacing: -0.04em;
     line-height: 1;
   }
@@ -520,7 +515,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .visual-stats dd {
     margin: 0.35rem 0 0;
     color: var(--color-text-muted);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -529,14 +524,14 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .scroll-visual p {
     margin: 0;
     color: var(--color-text-muted);
-    font-size: 0.92rem;
-    line-height: 1.55;
+    font-size: 0.88rem;
+    line-height: 1.58;
   }
 
   .scroll-visual ol {
     display: grid;
     gap: 0;
-    margin: 1.15rem 0 0;
+    margin: 1rem 0 0;
     padding: 0;
     list-style: none;
   }
@@ -544,28 +539,28 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   .scroll-visual li {
     border-top: 1px solid var(--color-border);
     color: var(--color-ink);
-    font-size: 0.96rem;
+    font-size: 0.9rem;
     font-weight: 650;
     line-height: 1.35;
-    padding: 0.78rem 0;
+    padding: 0.72rem 0;
   }
 
   .reading-progress {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 0.9rem;
+    gap: 0.85rem;
     align-items: center;
-    margin-top: 1.3rem;
+    margin-top: 1.15rem;
   }
 
   .reading-progress span {
     color: var(--color-text-muted);
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 750;
   }
 
   .reading-progress i {
-    height: 10px;
+    height: 8px;
     border: 1px solid var(--color-border);
     position: relative;
   }
@@ -578,7 +573,7 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
 
   @media (min-width: 1080px) {
     .article-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     }
 
     .article-visual-rail {
@@ -588,6 +583,10 @@ const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal
   }
 
   @media (max-width: 760px) {
+    .article-page {
+      padding-top: 1.5rem;
+    }
+
     .article-meta-panel {
       align-items: flex-start;
     }
