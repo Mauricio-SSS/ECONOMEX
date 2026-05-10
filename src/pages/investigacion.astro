@@ -1,11 +1,632 @@
 ---
-import SectionPlaceholder from '../components/placeholder/SectionPlaceholder.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const featuredResearch = {
+  kicker: 'Investigación destacada',
+  title: 'La productividad regional y las brechas de crecimiento en México',
+  description:
+    'Un análisis de largo plazo sobre inversión, educación y capacidad institucional en las entidades federativas.',
+  author: 'Dra. Sofía Méndez',
+  role: 'Directora de investigación aplicada',
+  href: '/articulos',
+};
+
+const researchItems = [
+  {
+    category: 'Finanzas públicas',
+    title: 'Sostenibilidad de la deuda soberana en mercados emergentes',
+    description:
+      'Evaluamos los riesgos de refinanciamiento en un entorno de tasas altas y menor crecimiento potencial.',
+    author: 'Roberto Méndez',
+    date: '14 nov 2026',
+    visual: 'folds',
+  },
+  {
+    category: 'Tecnología y economía',
+    title: 'Inteligencia Artificial: impacto en el mercado laboral formal',
+    description:
+      'Nuevos datos sugieren que la automatización está desplazando tareas, no necesariamente empleos completos.',
+    author: 'Carlos Ortega',
+    date: '09 nov 2026',
+    visual: 'curve',
+  },
+  {
+    category: 'Política monetaria',
+    title: 'Hacia una política de metas de inflación flexible',
+    description:
+      'Propuestas técnicas para moderar marcos de actuación de los bancos centrales ante choques de oferta.',
+    author: 'Mariana Torres',
+    date: '02 nov 2026',
+    visual: 'light',
+  },
+];
+
+const mostRead = [
+  'El futuro del sistema de pensiones: una bomba de tiempo demográfica',
+  'Minería y medio ambiente: un balance necesario para el desarrollo',
+  'Reformas fiscales pendientes para 2027',
+];
+
+const topics = ['Todos los temas', 'Crecimiento económico', 'Finanzas públicas', 'Mercado laboral', 'Política monetaria'];
 ---
 
-<SectionPlaceholder
-  title="Investigación"
-  description="Investigación económica traducida a lenguaje claro para conectar academia, gobierno y público."
-  eyebrow="Investigación traducida"
-  features={['Traducciones de papers', 'Resúmenes ejecutivos', 'Fuentes visibles']}
-  nextSteps={['Conectar esta sección a Decap CMS.', 'Crear filtros por tema, autor y tipo de publicación.', 'Agregar visualizaciones y metodología por publicación.']}
-/>
+<BaseLayout
+  title="Investigación — Centro Economex"
+  description="Investigación económica aplicada, documentos de trabajo y traducción de evidencia para decisiones públicas."
+>
+  <main class="research-page">
+    <section class="research-hero">
+      <div class="container">
+        <header class="research-header">
+          <div>
+            <p class="research-eyebrow">Investigación</p>
+            <h1>Investigación</h1>
+          </div>
+          <p>
+            Documentos de trabajo, análisis aplicados y traducción de evidencia para entender problemas económicos de México con rigor y claridad pública.
+          </p>
+        </header>
+
+        <nav class="topic-nav" aria-label="Temas de investigación">
+          {topics.map((topic) => <a href="#archivo">{topic}</a>)}
+        </nav>
+      </div>
+    </section>
+
+    <section class="research-feature" aria-labelledby="featured-research-title">
+      <div class="container research-feature__grid">
+        <a class="feature-visual" href={featuredResearch.href} aria-label={`Leer ${featuredResearch.title}`}>
+          <span class="feature-visual__orb" aria-hidden="true"></span>
+          <span class="feature-visual__line" aria-hidden="true"></span>
+        </a>
+
+        <article class="feature-copy">
+          <p class="research-kicker research-kicker--red">{featuredResearch.kicker}</p>
+          <h2 id="featured-research-title">
+            <a href={featuredResearch.href}>{featuredResearch.title}</a>
+          </h2>
+          <p>{featuredResearch.description}</p>
+
+          <footer class="feature-author">
+            <span class="feature-author__mark">CE</span>
+            <div>
+              <strong>{featuredResearch.author}</strong>
+              <span>{featuredResearch.role}</span>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="research-archive" id="archivo" aria-labelledby="archive-title">
+      <div class="container research-archive__layout">
+        <div class="research-list">
+          <div class="archive-heading">
+            <p class="research-kicker">Archivo reciente</p>
+            <h2 id="archive-title">Últimas investigaciones</h2>
+          </div>
+
+          {researchItems.map((item) => (
+            <article class="research-row">
+              <a class={`research-thumb research-thumb--${item.visual}`} href="/articulos" aria-label={`Leer ${item.title}`}>
+                <span aria-hidden="true"></span>
+              </a>
+              <div class="research-row__content">
+                <p class="research-kicker">{item.category}</p>
+                <h3><a href="/articulos">{item.title}</a></h3>
+                <p>{item.description}</p>
+                <div class="research-meta">
+                  <span>Por {item.author}</span>
+                  <time>{item.date}</time>
+                </div>
+              </div>
+            </article>
+          ))}
+
+          <a class="load-more" href="/articulos">Cargar más investigaciones</a>
+        </div>
+
+        <aside class="research-sidebar" aria-label="Lecturas recomendadas">
+          <section class="most-read">
+            <h2>Lo más leído</h2>
+            <ol>
+              {mostRead.map((item) => (
+                <li>
+                  <a href="/articulos">{item}</a>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section class="research-newsletter">
+            <p class="research-kicker">Boletín semanal</p>
+            <h2>Análisis de fondo, directo en su bandeja de entrada.</h2>
+            <form action="/newsletter" method="get">
+              <label class="visually-hidden" for="research-email">Correo electrónico</label>
+              <input id="research-email" type="email" name="email" placeholder="Correo electrónico" autocomplete="email" required />
+              <button type="submit">Suscribirse</button>
+            </form>
+            <p>Al suscribirse, acepta recibir análisis y publicaciones de Centro Economex.</p>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .research-page {
+    background: #fff;
+    color: var(--color-ink);
+  }
+
+  .research-hero {
+    background: var(--color-bg-warm);
+    padding: clamp(2.8rem, 6vw, 5.25rem) 0 0;
+  }
+
+  .research-header {
+    display: grid;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: end;
+    border-bottom: 2px solid var(--color-ink);
+    padding-bottom: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .research-eyebrow,
+  .research-kicker {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .research-kicker--red {
+    color: var(--color-red-700, #c51d23);
+  }
+
+  .research-header h1 {
+    margin: 0.55rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3.2rem, 8vw, 6.8rem);
+    font-weight: 600;
+    letter-spacing: -0.058em;
+    line-height: 0.9;
+  }
+
+  .research-header > p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: clamp(1rem, 1.7vw, 1.18rem);
+    line-height: 1.6;
+  }
+
+  .topic-nav {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.25rem);
+    overflow-x: auto;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.95rem 0;
+    scrollbar-width: none;
+  }
+
+  .topic-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topic-nav a {
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .topic-nav a:first-child,
+  .topic-nav a:hover {
+    color: var(--color-ink);
+    transform: translateY(-1px);
+  }
+
+  .research-feature {
+    background: var(--color-bg-warm);
+    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .research-feature__grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: stretch;
+  }
+
+  .feature-visual {
+    position: relative;
+    min-height: clamp(220px, 35vw, 390px);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 77% 50%, rgba(255,255,255,0.92) 0 13%, rgba(98,101,101,0.76) 14%, rgba(18,20,22,0.18) 32%, transparent 33%),
+      radial-gradient(circle at 35% 40%, rgba(255,255,255,0.08), transparent 23rem),
+      linear-gradient(120deg, #0c0f11 0%, #17191c 54%, #2d3033 100%);
+    border: 1px solid rgba(18, 24, 33, 0.18);
+  }
+
+  .feature-visual::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 22% 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 8%, rgba(247,243,234,0.8) 36%, transparent 68%);
+    transform: rotate(8deg);
+  }
+
+  .feature-visual__line {
+    position: absolute;
+    left: 4%;
+    right: 40%;
+    top: 52%;
+    height: 1px;
+    background: rgba(247, 243, 234, 0.55);
+    transform: rotate(-7deg);
+  }
+
+  .feature-copy {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .feature-copy h2 {
+    max-width: 620px;
+    margin: 0.65rem 0 1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(2.1rem, 4.4vw, 4.15rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  .feature-copy h2 a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .feature-copy h2 a:hover {
+    color: var(--color-primary);
+  }
+
+  .feature-copy > p:not(.research-kicker) {
+    max-width: 540px;
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.6;
+  }
+
+  .feature-author {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+    padding-top: 1rem;
+  }
+
+  .feature-author__mark {
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+  }
+
+  .feature-author strong,
+  .feature-author span {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.76rem;
+  }
+
+  .feature-author strong {
+    color: var(--color-ink);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .feature-author span {
+    color: var(--color-text-muted);
+    margin-top: 0.18rem;
+  }
+
+  .research-archive {
+    padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .research-archive__layout {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .archive-heading {
+    border-bottom: 2px solid var(--color-ink);
+    padding-bottom: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .archive-heading h2 {
+    margin: 0.45rem 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+  }
+
+  .research-list {
+    display: grid;
+  }
+
+  .research-row {
+    display: grid;
+    gap: clamp(1rem, 3vw, 1.6rem);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.25rem, 3vw, 2rem) 0;
+  }
+
+  .research-thumb {
+    position: relative;
+    min-height: 150px;
+    overflow: hidden;
+    background: #111417;
+  }
+
+  .research-thumb--folds {
+    background:
+      repeating-radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.16) 0 1px, transparent 2px 16px),
+      linear-gradient(135deg, #111417, #3d4041 62%, #111417);
+  }
+
+  .research-thumb--curve {
+    background:
+      radial-gradient(circle at 85% 18%, rgba(255,255,255,0.5), transparent 18%),
+      radial-gradient(circle at 85% 55%, rgba(255,255,255,0.22), transparent 25%),
+      linear-gradient(135deg, #111417, #3a3d40);
+  }
+
+  .research-thumb--light {
+    background:
+      linear-gradient(130deg, transparent 0 35%, rgba(255,255,255,0.88) 43%, transparent 54%),
+      linear-gradient(135deg, #181b1e, #4d5050);
+  }
+
+  .research-row__content h3 {
+    max-width: 640px;
+    margin: 0.42rem 0 0.55rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.08;
+  }
+
+  .research-row__content h3 a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .research-row__content h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .research-row__content > p:not(.research-kicker) {
+    max-width: 610px;
+    margin: 0;
+    color: var(--color-text);
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .research-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .load-more {
+    justify-self: start;
+    margin-top: 2.25rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-ink);
+    padding: 0.85rem 1.4rem;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .load-more:hover {
+    background: var(--color-ink);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .research-sidebar {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+  }
+
+  .most-read {
+    background: #eef2f4;
+    border: 1px solid var(--color-border);
+    padding: clamp(1.2rem, 3vw, 1.6rem);
+  }
+
+  .most-read h2,
+  .research-newsletter h2 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .most-read ol {
+    display: grid;
+    gap: 1.05rem;
+    list-style: none;
+    counter-reset: most-read;
+    margin: 1.2rem 0 0;
+    padding: 0;
+  }
+
+  .most-read li {
+    counter-increment: most-read;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    border-top: 1px solid rgba(18, 24, 33, 0.12);
+    padding-top: 0.9rem;
+  }
+
+  .most-read li::before {
+    content: counter(most-read, decimal-leading-zero);
+    color: rgba(18, 24, 33, 0.38);
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .most-read a {
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.18;
+    text-decoration: none;
+  }
+
+  .most-read a:hover {
+    color: var(--color-primary);
+  }
+
+  .research-newsletter {
+    background: var(--color-primary);
+    color: #fff;
+    padding: clamp(1.2rem, 3vw, 1.6rem);
+  }
+
+  .research-newsletter .research-kicker {
+    color: #fff;
+  }
+
+  .research-newsletter h2 {
+    color: #fff;
+    margin-top: 0.65rem;
+  }
+
+  .research-newsletter form {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .research-newsletter input {
+    min-height: 42px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    padding: 0.75rem;
+  }
+
+  .research-newsletter input::placeholder {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .research-newsletter button {
+    min-height: 42px;
+    background: #fff;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .research-newsletter > p:last-child {
+    margin: 0.9rem 0 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 860px) {
+    .research-header {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.55fr);
+    }
+
+    .research-feature__grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    }
+
+    .research-row {
+      grid-template-columns: minmax(150px, 240px) minmax(0, 1fr);
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .research-archive__layout {
+      grid-template-columns: minmax(0, 1fr) 320px;
+      align-items: start;
+    }
+
+    .research-sidebar {
+      position: sticky;
+      top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .topic-nav {
+      margin-inline: calc(var(--container-padding) * -1);
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
+    }
+  }
+</style>
