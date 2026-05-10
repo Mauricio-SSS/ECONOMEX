@@ -13,212 +13,364 @@ const visualType = article.mainVisual?.type;
 const hasMainVisual = Boolean(visualType && visualType !== 'none');
 const hasSummaryPoints = (article.summaryPoints?.length ?? 0) > 0;
 const hasSources = (article.sources?.length ?? 0) > 0;
+const readTime = article.readTime ?? '12 min de lectura';
+const visualTitle = article.mainVisual?.title ?? 'Brechas de crecimiento estatal';
 ---
 
 <BaseLayout title={`${article.title} — Centro Economex`} description={article.abstract} ogImage={article.heroImage}>
   <article class="article-page">
-    <header class="article-hero">
-      <div class="container article-hero__inner">
-        <p class="article-eyebrow">{templateLabel}</p>
-        <h1>{article.title}</h1>
-        <p class="one-sentence">{article.oneSentence}</p>
+    <div class="article-grid container">
+      <main class="article-main">
+        <header class="article-hero">
+          <p class="article-eyebrow">{templateLabel}</p>
+          <h1>{article.title}</h1>
+          <p class="one-sentence">{article.oneSentence}</p>
 
-        <div class="article-meta" aria-label="Información del artículo">
-          <span>{article.author}</span>
-          <time datetime={article.date.toISOString()}>{date}</time>
-        </div>
+          <div class="article-meta-panel" aria-label="Información del artículo">
+            <div class="article-institution">
+              <span class="article-institution__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4 10.2 12 5l8 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M6 10h12M7.5 10v7M12 10v7M16.5 10v7M5 17h14M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div>
+                <strong>{article.author ?? 'Centro Economex'}</strong>
+                <span>Publicado el {date} • {readTime}</span>
+              </div>
+            </div>
 
-        {article.heroImage && (
-          <img class="hero-image" src={article.heroImage} alt="" loading="eager" decoding="async" />
-        )}
-      </div>
-    </header>
-
-    <div class="container article-shell">
-      <aside class="article-aside" aria-label="Resumen">
-        <div class="summary-block">
-          <p class="summary-kicker">Resumen</p>
-          <p>{article.abstract}</p>
-        </div>
-
-        {hasSummaryPoints && (
-          <div class="summary-block">
-            <p class="summary-kicker summary-kicker--red">La idea en puntos</p>
-            <ol>
-              {article.summaryPoints.map((point) => <li>{point}</li>)}
-            </ol>
+            <div class="article-actions" aria-label="Acciones del artículo">
+              <button type="button" aria-label="Compartir artículo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M8.5 12.5 15.5 8.5M8.5 14.5l7 4M7 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm10-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button type="button" aria-label="Guardar artículo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M7 4.5h10v15l-5-3-5 3v-15Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+              <button type="button" aria-label="Imprimir artículo">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M7 8V4h10v4M7 17H5.5A2.5 2.5 0 0 1 3 14.5v-3A2.5 2.5 0 0 1 5.5 9h13a2.5 2.5 0 0 1 2.5 2.5v3a2.5 2.5 0 0 1-2.5 2.5H17M7 14h10v6H7v-6Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </button>
+            </div>
           </div>
-        )}
-      </aside>
 
-      <div class="article-content">
-        {hasMainVisual && (
-          <figure class="visual-placeholder">
-            <p class="article-eyebrow">Elemento visual principal</p>
-            <h2>{article.mainVisual?.title ?? 'Visualización del artículo'}</h2>
-            <p>
-              Tipo: <strong>{visualType}</strong>
-              {article.mainVisual?.dataset && <> · Dataset: <code>{article.mainVisual.dataset}</code></>}
-            </p>
-          </figure>
-        )}
-
-        <slot />
-
-        {hasSources && (
-          <section class="sources" aria-labelledby="sources-heading">
-            <h2 id="sources-heading">Fuentes</h2>
-            <ul>
-              {article.sources.map((source) => (
-                <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
-              ))}
-            </ul>
+          <section class="executive-summary" aria-labelledby="summary-heading">
+            <h2 id="summary-heading">Resumen ejecutivo</h2>
+            <p>{article.abstract}</p>
+            {hasSummaryPoints && (
+              <ol>
+                {article.summaryPoints.map((point) => <li>{point}</li>)}
+              </ol>
+            )}
           </section>
-        )}
-      </div>
+        </header>
+
+        <div class="article-content">
+          <slot />
+
+          {hasSources && (
+            <section class="sources" aria-labelledby="sources-heading">
+              <h2 id="sources-heading">Fuentes</h2>
+              <ul>
+                {article.sources.map((source) => (
+                  <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
+      </main>
+
+      <aside class="article-visual-rail" aria-label="Resumen visual del artículo">
+        <section class="visual-summary" aria-labelledby="visual-summary-title">
+          <p class="rail-kicker">Visual summary</p>
+          <h2 id="visual-summary-title">{visualTitle}</h2>
+
+          <div class="visual-map" aria-hidden="true">
+            <span class="region region--one"></span>
+            <span class="region region--two"></span>
+            <span class="region region--three"></span>
+            <span class="region region--four"></span>
+            <span class="region region--five"></span>
+          </div>
+
+          <p class="visual-caption">
+            Índice sintético de productividad, inversión y educación.
+          </p>
+
+          <div class="visual-legend" aria-hidden="true">
+            <span>Bajo</span>
+            <i></i><i></i><i></i><i></i>
+            <span>Alto</span>
+          </div>
+
+          <dl class="visual-stats">
+            <div>
+              <dt>32</dt>
+              <dd>entidades</dd>
+            </div>
+            <div>
+              <dt>2.4x</dt>
+              <dd>brecha PIB pc</dd>
+            </div>
+            <div>
+              <dt>18</dt>
+              <dd>indicadores</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="scroll-visual" aria-labelledby="scroll-visual-title">
+          <p class="rail-kicker rail-kicker--red">Scrollytelling</p>
+          <h2 id="scroll-visual-title">La historia visual</h2>
+          <p>Al avanzar en la lectura, este módulo acompaña los argumentos centrales del artículo.</p>
+          <ol>
+            <li>Mapa estatal por productividad</li>
+            <li>Trayectoria de inversión pública</li>
+            <li>Educación técnica y salarios</li>
+            <li>Clusters regionales de crecimiento</li>
+          </ol>
+          <div class="reading-progress" aria-hidden="true">
+            <span>Progreso de lectura</span>
+            <i><b></b></i>
+          </div>
+        </section>
+      </aside>
     </div>
   </article>
 </BaseLayout>
 
 <style>
   .article-page {
-    background: #fff;
+    background:
+      linear-gradient(90deg, transparent 0 70%, rgba(18, 24, 33, 0.03) 70% 100%),
+      repeating-linear-gradient(90deg, rgba(18, 24, 33, 0.025) 0 54px, transparent 54px 108px),
+      var(--color-bg-warm);
     color: var(--color-ink);
+    padding: clamp(1.5rem, 4vw, 3rem) 0 clamp(4rem, 8vw, 7rem);
+  }
+
+  .article-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .article-main {
+    min-width: 0;
   }
 
   .article-hero {
-    background: var(--color-bg-warm);
-    border-bottom: 2px solid var(--color-ink);
-  }
-
-  .article-hero__inner {
-    padding-top: clamp(3rem, 7vw, 6rem);
-    padding-bottom: clamp(2rem, 5vw, 4rem);
+    border-top: 2px solid var(--color-ink);
+    padding-top: 1rem;
   }
 
   .article-eyebrow,
-  .summary-kicker {
+  .rail-kicker {
+    display: inline-flex;
     margin: 0;
-    color: var(--color-primary);
+    color: #f7f3ea;
+    background: var(--color-primary);
+    padding: 0.34rem 0.7rem;
     font-family: var(--font-sans);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 850;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     line-height: 1;
     text-transform: uppercase;
   }
 
-  .summary-kicker--red {
+  .rail-kicker {
+    display: block;
+    width: fit-content;
+    background: transparent;
+    color: var(--color-primary);
+    padding: 0;
+  }
+
+  .rail-kicker--red {
     color: var(--color-red-700, #c51d23);
   }
 
   .article-hero h1 {
-    max-width: 980px;
-    margin: 0.75rem 0 1rem;
+    max-width: 1060px;
+    margin: 1.1rem 0 1.45rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(3rem, 7.5vw, 6.5rem);
-    font-weight: 600;
-    letter-spacing: -0.058em;
+    font-size: clamp(3.1rem, 6.7vw, 6.6rem);
+    font-weight: 650;
+    letter-spacing: -0.065em;
     line-height: 0.92;
     text-wrap: balance;
   }
 
   .one-sentence {
-    max-width: 760px;
+    max-width: 920px;
     margin: 0;
-    color: var(--color-text);
-    font-size: clamp(1.1rem, 2vw, 1.42rem);
-    line-height: 1.45;
+    color: #40464d;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 2.7vw, 2.05rem);
+    font-style: italic;
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.22;
   }
 
-  .article-meta {
+  .article-meta-panel {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    color: var(--color-text-muted);
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding: 1.05rem 0;
+  }
+
+  .article-institution {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .article-institution__icon {
+    display: inline-flex;
+    width: 58px;
+    height: 58px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    background: #bdf1d6;
+    color: var(--color-primary);
+  }
+
+  .article-institution__icon svg {
+    width: 31px;
+    height: 31px;
+  }
+
+  .article-institution strong,
+  .article-institution span {
+    display: block;
     font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 750;
+  }
+
+  .article-institution strong {
+    color: var(--color-ink);
+    font-size: 0.92rem;
+    font-weight: 850;
     letter-spacing: 0.08em;
-    margin-top: 1.5rem;
     text-transform: uppercase;
   }
 
-  .hero-image {
-    width: 100%;
-    max-height: 520px;
-    object-fit: cover;
-    margin-top: clamp(1.5rem, 4vw, 3rem);
-    border: 1px solid var(--color-border);
-    background: #fff;
+  .article-institution span {
+    color: var(--color-text-muted);
+    margin-top: 0.22rem;
+    font-size: 0.9rem;
+    font-weight: 650;
   }
 
-  .article-shell {
-    display: grid;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    padding-top: clamp(2rem, 5vw, 4rem);
-    padding-bottom: clamp(4rem, 8vw, 6rem);
+  .article-actions {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 
-  .article-aside {
-    display: grid;
-    gap: 1.5rem;
-    align-content: start;
+  .article-actions button {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: #48504f;
+    cursor: pointer;
+    transition: color var(--transition-fast), transform var(--transition-fast);
   }
 
-  .summary-block {
-    border-top: 2px solid var(--color-ink);
-    padding-top: 1rem;
+  .article-actions button:hover,
+  .article-actions button:focus-visible {
+    color: var(--color-red-700, #c51d23);
+    transform: translateY(-2px);
   }
 
-  .summary-block p:not(.summary-kicker),
-  .summary-block li {
-    color: var(--color-text);
-    font-size: 0.95rem;
-    line-height: 1.65;
+  .article-actions svg {
+    width: 23px;
+    height: 23px;
   }
 
-  .summary-block p:not(.summary-kicker) {
-    margin: 0.8rem 0 0;
+  .executive-summary {
+    border: 2px solid var(--color-ink);
+    background: rgba(255, 255, 255, 0.55);
+    margin-top: clamp(1.4rem, 3vw, 2rem);
+    padding: clamp(1.2rem, 3vw, 1.7rem);
   }
 
-  .summary-block ol {
-    display: grid;
-    gap: 0.75rem;
-    margin: 0.9rem 0 0;
-    padding-left: 1.2rem;
-  }
-
-  .article-content {
-    max-width: 760px;
-    min-width: 0;
-  }
-
-  .article-content :global(p),
-  .article-content :global(li) {
-    color: var(--color-text);
-    font-size: clamp(1.05rem, 1.5vw, 1.18rem);
-    line-height: 1.8;
-  }
-
-  .article-content :global(h2) {
-    margin-top: clamp(2.25rem, 5vw, 4rem);
+  .executive-summary h2 {
+    margin: 0 0 0.7rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(1.85rem, 3.3vw, 2.65rem);
-    font-weight: 600;
+    font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+    font-weight: 650;
     letter-spacing: -0.035em;
     line-height: 1.05;
   }
 
+  .executive-summary p,
+  .executive-summary li {
+    color: var(--color-text);
+    font-size: clamp(1rem, 1.45vw, 1.08rem);
+    line-height: 1.65;
+  }
+
+  .executive-summary p {
+    margin: 0;
+  }
+
+  .executive-summary ol {
+    display: grid;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    padding-left: 1.25rem;
+  }
+
+  .article-content {
+    max-width: 1040px;
+    min-width: 0;
+    padding-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .article-content :global(h2) {
+    margin: clamp(2rem, 5vw, 4rem) 0 1.2rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4.4vw, 3.65rem);
+    font-weight: 650;
+    letter-spacing: -0.052em;
+    line-height: 1.03;
+  }
+
   .article-content :global(h3) {
-    margin-top: 2rem;
+    margin: 2rem 0 0.8rem;
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 1rem;
-    letter-spacing: 0.08em;
+    font-size: 0.95rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+
+  .article-content :global(p),
+  .article-content :global(li) {
+    max-width: 980px;
+    color: #1f252d;
+    font-size: clamp(1.08rem, 1.55vw, 1.22rem);
+    line-height: 1.78;
+  }
+
+  .article-content :global(p) {
+    margin: 0 0 1.35rem;
   }
 
   .article-content :global(a) {
@@ -227,34 +379,40 @@ const hasSources = (article.sources?.length ?? 0) > 0;
     text-underline-offset: 0.18em;
   }
 
-  .visual-placeholder,
+  .article-content :global(blockquote) {
+    border-top: 3px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-border);
+    margin: clamp(2rem, 5vw, 3rem) 0;
+    padding: 1.4rem 0;
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.6vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.22;
+  }
+
+  .article-content :global(blockquote p) {
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+  }
+
   .sources {
     border-top: 2px solid var(--color-ink);
-    border-bottom: 1px solid var(--color-border);
-    padding: 1.25rem 0;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
-  }
-
-  .visual-placeholder h2,
-  .sources h2 {
-    margin: 0.55rem 0 0.75rem;
-    font-family: var(--font-serif);
-    font-size: clamp(1.5rem, 3vw, 2.1rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.08;
-  }
-
-  .visual-placeholder code {
-    font-size: 0.9rem;
-    background: var(--color-bg-warm);
-    border: 1px solid var(--color-border);
-    padding: 0.1rem 0.35rem;
-  }
-
-  .sources {
     margin-top: clamp(2.5rem, 6vw, 4rem);
-    margin-bottom: 0;
+    padding-top: 1.25rem;
+  }
+
+  .sources h2 {
+    margin: 0 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
   }
 
   .sources ul {
@@ -262,15 +420,194 @@ const hasSources = (article.sources?.length ?? 0) > 0;
     padding-left: 1.25rem;
   }
 
-  @media (min-width: 960px) {
-    .article-shell {
-      grid-template-columns: minmax(220px, 280px) minmax(0, 760px);
-      align-items: start;
+  .article-visual-rail {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .visual-summary,
+  .scroll-visual {
+    border: 2px solid var(--color-ink);
+    background: rgba(255, 255, 255, 0.58);
+    padding: clamp(1.15rem, 3vw, 1.65rem);
+  }
+
+  .visual-summary h2,
+  .scroll-visual h2 {
+    margin: 0.6rem 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+  }
+
+  .visual-map {
+    position: relative;
+    aspect-ratio: 1.38;
+    margin-top: 1.25rem;
+    background: #f8f8fb;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .region {
+    position: absolute;
+    display: block;
+    clip-path: polygon(10% 18%, 80% 0, 100% 42%, 72% 100%, 0 76%);
+    border: 1px solid #f7f3ea;
+  }
+
+  .region--one { left: 7%; top: 15%; width: 33%; height: 31%; background: #b7d6c7; }
+  .region--two { left: 33%; top: 11%; width: 34%; height: 34%; background: #7fb49d; }
+  .region--three { left: 10%; top: 46%; width: 38%; height: 39%; background: #2f7e62; }
+  .region--four { left: 47%; top: 42%; width: 40%; height: 38%; background: #0c5f46; }
+  .region--five { right: 6%; top: 20%; width: 32%; height: 35%; background: #d33a3e; }
+
+  .visual-caption {
+    margin: 1rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .visual-legend {
+    display: grid;
+    grid-template-columns: auto repeat(4, 1fr) auto;
+    gap: 0.35rem;
+    align-items: center;
+    margin-top: 0.9rem;
+  }
+
+  .visual-legend span {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .visual-legend i {
+    height: 12px;
+    display: block;
+  }
+
+  .visual-legend i:nth-of-type(1) { background: #dceee5; }
+  .visual-legend i:nth-of-type(2) { background: #a5ccb9; }
+  .visual-legend i:nth-of-type(3) { background: #5a9d82; }
+  .visual-legend i:nth-of-type(4) { background: #0c5f46; }
+
+  .visual-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin: 1.25rem 0 0;
+    padding-top: 1rem;
+  }
+
+  .visual-stats div {
+    min-width: 0;
+  }
+
+  .visual-stats dt {
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .visual-stats div:nth-child(2) dt {
+    color: var(--color-red-700, #c51d23);
+  }
+
+  .visual-stats dd {
+    margin: 0.35rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .scroll-visual p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .scroll-visual ol {
+    display: grid;
+    gap: 0;
+    margin: 1.15rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scroll-visual li {
+    border-top: 1px solid var(--color-border);
+    color: var(--color-ink);
+    font-size: 0.96rem;
+    font-weight: 650;
+    line-height: 1.35;
+    padding: 0.78rem 0;
+  }
+
+  .reading-progress {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: center;
+    margin-top: 1.3rem;
+  }
+
+  .reading-progress span {
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .reading-progress i {
+    height: 10px;
+    border: 1px solid var(--color-border);
+    position: relative;
+  }
+
+  .reading-progress b {
+    position: absolute;
+    inset: 0 38% 0 0;
+    background: var(--color-primary);
+  }
+
+  @media (min-width: 1080px) {
+    .article-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
     }
 
-    .article-aside {
+    .article-visual-rail {
       position: sticky;
       top: calc(var(--header-height) + 2rem);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .article-page {
+      background: var(--color-bg-warm);
+    }
+
+    .article-meta-panel {
+      align-items: flex-start;
+    }
+
+    .article-actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .visual-stats {
+      grid-template-columns: 1fr;
     }
   }
 </style>
