@@ -32,32 +32,12 @@ collections:
           - { label: "Policy brief", value: "policy-brief" }
 
       - { label: "Título", name: "title", widget: "string" }
-
-      - label: "Tema en una oración"
-        name: "oneSentence"
-        widget: "text"
-
+      - { label: "Tema en una oración", name: "oneSentence", widget: "text" }
       - { label: "Autor", name: "author", widget: "string" }
-
-      - label: "Foto del autor"
-        name: "authorImage"
-        widget: "image"
-        required: false
-        hint: "Opcional. Si se deja vacío, se usará la imagen de perfil predeterminada."
-
-      - label: "Fecha"
-        name: "date"
-        widget: "datetime"
-
-      - label: "Tiempo de lectura"
-        name: "readTime"
-        widget: "string"
-        required: false
-        hint: "Ejemplo: 12 min de lectura"
-
-      - label: "Resumen / abstract"
-        name: "abstract"
-        widget: "text"
+      - { label: "Foto del autor", name: "authorImage", widget: "image", required: false, hint: "Opcional. Si se deja vacío, se usará la imagen de perfil predeterminada." }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Tiempo de lectura", name: "readTime", widget: "string", required: false, hint: "Ejemplo: 12 min de lectura" }
+      - { label: "Resumen / abstract", name: "abstract", widget: "text" }
 
       - label: "Puntos del resumen ejecutivo"
         name: "summaryPoints"
@@ -65,17 +45,8 @@ collections:
         required: false
         field: { label: "Punto", name: "point", widget: "string" }
 
-      - label: "Imagen principal"
-        name: "heroImage"
-        widget: "image"
-        required: false
-
-      - label: "Mostrar visual storytelling"
-        name: "showVisualStorytelling"
-        widget: "boolean"
-        required: false
-        default: true
-        hint: "Activa o desactiva el resumen visual y la narrativa visual lateral del artículo."
+      - { label: "Imagen principal", name: "heroImage", widget: "image", required: false }
+      - { label: "Mostrar visual storytelling", name: "showVisualStorytelling", widget: "boolean", required: false, default: true, hint: "Activa o desactiva el resumen visual y la narrativa visual lateral del artículo." }
 
       - label: "Elemento visual principal"
         name: "mainVisual"
@@ -138,7 +109,67 @@ collections:
             fields:
               - { label: "Encabezado opcional", name: "heading", widget: "string", required: false }
               - { label: "Texto", name: "text", widget: "markdown" }
-          - label: "Imagen / visual"
+
+          - label: "Visual reutilizable"
+            name: "visual"
+            widget: "object"
+            fields:
+              - label: "Tipo de visual"
+                name: "visualType"
+                widget: "select"
+                default: "data-card"
+                options:
+                  - { label: "Dato destacado", value: "data-card" }
+                  - { label: "Ranking / barras", value: "bar-chart" }
+                  - { label: "Serie de tiempo / línea", value: "line-chart" }
+                  - { label: "Mapa índice", value: "map-index" }
+                  - { label: "Línea de tiempo", value: "timeline" }
+                  - { label: "Comparación", value: "comparison" }
+                  - { label: "Nota metodológica", value: "methodology" }
+              - { label: "Kicker", name: "kicker", widget: "string", required: false, hint: "Ejemplo: Evidencia, Comparativo, Fuente metodológica" }
+              - { label: "Título", name: "title", widget: "string" }
+              - { label: "Descripción / caption", name: "caption", widget: "text", required: false }
+              - { label: "Fuente", name: "source", widget: "string", required: false }
+              - { label: "Valor principal", name: "value", widget: "string", required: false, hint: "Para Dato destacado" }
+              - { label: "Etiqueta principal", name: "label", widget: "text", required: false, hint: "Para Dato destacado" }
+              - { label: "Unidad", name: "unit", widget: "string", required: false, hint: "Ejemplo: %, mdp, puntos" }
+              - { label: "Elemento destacado", name: "highlightLabel", widget: "string", required: false, hint: "Etiqueta exacta que se resaltará en barras" }
+              - { label: "Etiqueta baja", name: "lowLabel", widget: "string", required: false, default: "Bajo" }
+              - { label: "Etiqueta alta", name: "highLabel", widget: "string", required: false, default: "Alto" }
+              - { label: "Etiqueta izquierda", name: "leftLabel", widget: "string", required: false, hint: "Para Comparación" }
+              - { label: "Valor izquierdo", name: "leftValue", widget: "string", required: false, hint: "Para Comparación" }
+              - { label: "Etiqueta derecha", name: "rightLabel", widget: "string", required: false, hint: "Para Comparación" }
+              - { label: "Valor derecho", name: "rightValue", widget: "string", required: false, hint: "Para Comparación" }
+              - { label: "Texto metodológico", name: "text", widget: "text", required: false, hint: "Para Nota metodológica" }
+              - label: "Datos / items"
+                name: "items"
+                widget: "list"
+                required: false
+                summary: "{{fields.label}} — {{fields.value}}"
+                fields:
+                  - { label: "Etiqueta", name: "label", widget: "string", required: false }
+                  - { label: "Valor", name: "value", widget: "string", required: false }
+                  - { label: "Nota", name: "note", widget: "string", required: false }
+                  - { label: "Descripción", name: "description", widget: "text", required: false }
+              - label: "Puntos de línea"
+                name: "points"
+                widget: "list"
+                required: false
+                summary: "{{fields.label}} — {{fields.value}}"
+                fields:
+                  - { label: "Etiqueta", name: "label", widget: "string", required: false }
+                  - { label: "Valor", name: "value", widget: "string", required: false }
+              - label: "Eventos de línea de tiempo"
+                name: "events"
+                widget: "list"
+                required: false
+                summary: "{{fields.year}} — {{fields.title}}"
+                fields:
+                  - { label: "Año / fecha", name: "year", widget: "string", required: false }
+                  - { label: "Título", name: "title", widget: "string", required: false }
+                  - { label: "Descripción", name: "description", widget: "text", required: false }
+
+          - label: "Imagen / visual manual"
             name: "image"
             widget: "object"
             fields:
@@ -147,13 +178,15 @@ collections:
               - { label: "Texto alternativo", name: "alt", widget: "string", required: false }
               - { label: "Pie de imagen", name: "caption", widget: "text", required: false }
               - { label: "Fuente", name: "source", widget: "string", required: false }
+
           - label: "Cita destacada"
             name: "quote"
             widget: "object"
             fields:
               - { label: "Cita", name: "quote", widget: "text" }
               - { label: "Atribución", name: "attribution", widget: "string", required: false }
-          - label: "Dato destacado"
+
+          - label: "Dato destacado simple"
             name: "stat"
             widget: "object"
             fields:
@@ -161,11 +194,7 @@ collections:
               - { label: "Valor", name: "value", widget: "string" }
               - { label: "Descripción", name: "label", widget: "text" }
 
-      - label: "Artículo markdown de respaldo"
-        name: "body"
-        widget: "markdown"
-        required: false
-        hint: "Se usa si no hay bloques en 'Cuerpo del artículo por bloques'."
+      - { label: "Artículo markdown de respaldo", name: "body", widget: "markdown", required: false, hint: "Se usa si no hay bloques en 'Cuerpo del artículo por bloques'." }
 
       - label: "Fuentes"
         name: "sources"
