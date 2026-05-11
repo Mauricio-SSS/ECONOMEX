@@ -35,6 +35,15 @@ const narrativeVisualSchema = z
   })
   .optional();
 
+const reusableVisualItemSchema = z.object({
+  label: z.string().optional(),
+  value: z.union([z.string(), z.number()]).optional(),
+  note: z.string().optional(),
+  description: z.string().optional(),
+  year: z.union([z.string(), z.number()]).optional(),
+  title: z.string().optional(),
+});
+
 const articleContentBlockSchema = z
   .array(
     z.object({
@@ -51,6 +60,18 @@ const articleContentBlockSchema = z
       kicker: z.string().optional(),
       value: z.string().optional(),
       label: z.string().optional(),
+      visualType: z.string().optional(),
+      unit: z.string().optional(),
+      highlightLabel: z.string().optional(),
+      lowLabel: z.string().optional(),
+      highLabel: z.string().optional(),
+      leftLabel: z.string().optional(),
+      leftValue: z.string().optional(),
+      rightLabel: z.string().optional(),
+      rightValue: z.string().optional(),
+      items: z.array(reusableVisualItemSchema).optional(),
+      points: z.array(reusableVisualItemSchema).optional(),
+      events: z.array(reusableVisualItemSchema).optional(),
     })
   )
   .optional();
