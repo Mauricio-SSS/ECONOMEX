@@ -1,0 +1,56 @@
+/* Quienes somos final refinements */
+.about-page .about-brand-mark {
+  display: none !important;
+}
+
+.about-page .about-hero h1,
+.about-page .value-proposition h2,
+.about-page .values-section h2,
+.about-page .leadership-section h2,
+.about-page .leader-card h3 {
+  color: var(--about-ink, #111111) !important;
+}
+
+.about-page .about-hero__content {
+  padding-top: clamp(1rem, 3vw, 2rem);
+}
+
+.about-page .about-hero__image {
+  background-image: url('/images/about/quienes-hero.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.about-page .about-hero__image > img {
+  opacity: 0;
+}
+
+.about-page .leader-card > img {
+  display: none !important;
+}
+
+.about-page .leader-card::before {
+  content: '';
+  display: block;
+  width: 100%;
+  aspect-ratio: 0.82;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.06);
+}
+
+.about-page .leader-card:nth-child(1)::before {
+  background-image: url('/images/about/quienes-leader-1.svg');
+}
+
+.about-page .leader-card:nth-child(2)::before {
+  background-image: url('/images/about/quienes-leader-2.svg');
+}
+
+@media (max-width: 680px) {
+  .about-page .leader-card::before {
+    max-width: 260px;
+  }
+}
