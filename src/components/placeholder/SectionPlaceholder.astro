@@ -18,7 +18,7 @@ const {
   title,
   description,
   eyebrow = 'Centro Economex',
-  status = 'Página en desarrollo',
+  status = 'Sección en desarrollo',
   features = [],
   nextSteps = [],
   primaryHref = '/articulos',
@@ -26,154 +26,200 @@ const {
   secondaryHref = '/',
   secondaryLabel = 'Volver al inicio',
 } = Astro.props;
+
+const hasPanels = features.length > 0 || nextSteps.length > 0;
 ---
 
 <BaseLayout title={`${title} — Centro Economex`} description={description}>
-  <section class="interior-hero">
-    <div class="container interior-hero__inner">
-      <div class="interior-hero__copy">
-        <p class="interior-eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p class="interior-hero__description">{description}</p>
-        <slot />
-      </div>
-
-      <aside class="interior-status" aria-label="Estado de la sección">
-        <span>{status}</span>
-        <p>
-          Esta página forma parte del sistema editorial de Centro Economex. Su contenido final se integrará con publicaciones, bases de datos y componentes interactivos conforme avance la plataforma.
-        </p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="interior-body">
-    <div class="container interior-body__grid">
-      <div class="interior-actions" aria-label="Acciones principales">
-        <a href={primaryHref} class="interior-link interior-link--primary">{primaryLabel}<span aria-hidden="true">→</span></a>
-        <a href={secondaryHref} class="interior-link">{secondaryLabel}<span aria-hidden="true">→</span></a>
-      </div>
-
-      {(features.length > 0 || nextSteps.length > 0) && (
-        <div class="interior-panels">
-          {features.length > 0 && (
-            <section class="interior-panel" aria-labelledby={`${title}-features`}>
-              <p class="interior-panel__kicker">Contenido</p>
-              <h2 id={`${title}-features`}>Qué tendrá esta sección</h2>
-              <ul>
-                {features.map((feature) => <li>{feature}</li>)}
-              </ul>
-            </section>
-          )}
-
-          {nextSteps.length > 0 && (
-            <section class="interior-panel" aria-labelledby={`${title}-next`}>
-              <p class="interior-panel__kicker interior-panel__kicker--red">Desarrollo</p>
-              <h2 id={`${title}-next`}>Siguientes pasos</h2>
-              <ul>
-                {nextSteps.map((step) => <li>{step}</li>)}
-              </ul>
-            </section>
-          )}
+  <main class="institutional-page">
+    <section class="institutional-hero" aria-labelledby="institutional-title">
+      <div class="container institutional-hero__grid">
+        <div class="institutional-hero__copy">
+          <p class="institutional-kicker">{eyebrow}</p>
+          <h1 id="institutional-title">{title}</h1>
+          <p class="institutional-dek">{description}</p>
+          <slot />
         </div>
-      )}
-    </div>
-  </section>
+
+        <aside class="institutional-status" aria-label="Estado de la sección">
+          <p class="institutional-status__label">{status}</p>
+          <p>
+            Esta sección se está consolidando dentro del sistema editorial de Centro Economex: una plataforma seria de análisis, datos y discusión pública con estándares de investigación aplicada.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="institutional-actions" aria-label="Acciones principales">
+      <div class="container institutional-actions__inner">
+        <a href={primaryHref} class="institutional-action institutional-action--primary">{primaryLabel}<span aria-hidden="true">→</span></a>
+        <a href={secondaryHref} class="institutional-action">{secondaryLabel}<span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    {hasPanels && (
+      <section class="institutional-body" aria-label="Contenido de la sección">
+        <div class="container institutional-body__grid">
+          <div class="institutional-body__intro">
+            <p class="institutional-kicker institutional-kicker--green">Arquitectura editorial</p>
+            <h2>Qué contendrá esta página</h2>
+            <p>
+              El diseño evita tarjetas genéricas y organiza el contenido con líneas, jerarquía tipográfica y módulos editoriales reutilizables.
+            </p>
+          </div>
+
+          <div class="institutional-panels">
+            {features.length > 0 && (
+              <section class="institutional-panel" aria-labelledby={`${title}-features`}>
+                <p class="institutional-panel__number">01</p>
+                <div>
+                  <p class="institutional-kicker institutional-kicker--green">Contenido</p>
+                  <h3 id={`${title}-features`}>Líneas de trabajo</h3>
+                  <ul>
+                    {features.map((feature) => <li>{feature}</li>)}
+                  </ul>
+                </div>
+              </section>
+            )}
+
+            {nextSteps.length > 0 && (
+              <section class="institutional-panel" aria-labelledby={`${title}-next`}>
+                <p class="institutional-panel__number institutional-panel__number--red">02</p>
+                <div>
+                  <p class="institutional-kicker institutional-kicker--red">Desarrollo</p>
+                  <h3 id={`${title}-next`}>Siguientes pasos</h3>
+                  <ul>
+                    {nextSteps.map((step) => <li>{step}</li>)}
+                  </ul>
+                </div>
+              </section>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
 </BaseLayout>
 
 <style>
-  .interior-hero {
-    background: var(--color-bg-warm);
-    border-bottom: 1px solid var(--color-border);
+  .institutional-page {
+    background: #fffdfa;
     color: var(--color-ink);
   }
 
-  .interior-hero__inner {
+  .institutional-hero {
+    padding: clamp(2rem, 5vw, 4.75rem) 0 clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .institutional-hero__grid {
     display: grid;
-    gap: clamp(2rem, 6vw, 5rem);
-    padding-top: clamp(3rem, 7vw, 6rem);
-    padding-bottom: clamp(2.5rem, 6vw, 5rem);
+    gap: clamp(2rem, 5vw, 4.5rem);
+    border-top: 2px solid var(--color-ink);
+    padding-top: clamp(1rem, 2.5vw, 1.45rem);
   }
 
-  .interior-hero__copy {
-    max-width: 860px;
+  .institutional-hero__copy {
+    min-width: 0;
   }
 
-  .interior-eyebrow,
-  .interior-panel__kicker,
-  .interior-status span {
+  .institutional-kicker {
+    display: inline-flex;
+    width: fit-content;
     margin: 0;
-    color: var(--color-primary);
+    color: #f7f3ea;
+    background: var(--color-primary);
+    padding: 0.36rem 0.72rem;
     font-family: var(--font-sans);
-    font-size: 0.78rem;
+    font-size: 0.68rem;
     font-weight: 850;
     letter-spacing: 0.14em;
     line-height: 1;
     text-transform: uppercase;
   }
 
-  .interior-hero h1 {
-    max-width: 920px;
-    margin: 0.65rem 0 1rem;
+  .institutional-kicker--green {
+    background: transparent;
+    color: var(--color-primary);
+    padding: 0;
+  }
+
+  .institutional-kicker--red {
+    background: transparent;
+    color: var(--color-red-700, #c51d23);
+    padding: 0;
+  }
+
+  .institutional-hero h1 {
+    max-width: 980px;
+    margin: 1rem 0 1.1rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(3rem, 8vw, 6.7rem);
+    font-size: clamp(3.15rem, 7.4vw, 7.1rem);
     font-weight: 600;
-    letter-spacing: -0.055em;
-    line-height: 0.9;
+    letter-spacing: -0.067em;
+    line-height: 0.92;
     text-wrap: balance;
   }
 
-  .interior-hero__description {
-    max-width: 760px;
+  .institutional-dek {
+    max-width: 780px;
     margin: 0;
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    font-size: clamp(1.05rem, 2vw, 1.32rem);
-    line-height: 1.55;
+    color: #3f454d;
+    font-family: var(--font-serif);
+    font-size: clamp(1.18rem, 2.1vw, 1.62rem);
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.36;
   }
 
-  .interior-status {
-    align-self: end;
+  .institutional-status {
     border-top: 2px solid var(--color-ink);
-    padding-top: 1.1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0 1.2rem;
   }
 
-  .interior-status p {
-    max-width: 42ch;
+  .institutional-status__label {
+    margin: 0;
+    color: var(--color-red-700, #c51d23);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .institutional-status p:last-child {
     margin: 0.85rem 0 0;
     color: var(--color-text-muted);
     font-size: 0.92rem;
-    line-height: 1.65;
+    line-height: 1.62;
   }
 
-  .interior-body {
-    background: #fff;
-    padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(4rem, 8vw, 6rem);
+  .institutional-actions {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .interior-body__grid {
-    display: grid;
-    gap: clamp(2rem, 5vw, 4rem);
-  }
-
-  .interior-actions {
+  .institutional-actions__inner {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.85rem 1.25rem;
+    gap: 0.9rem 1.4rem;
     align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
-  .interior-link {
+  .institutional-action {
     display: inline-flex;
-    min-height: 44px;
+    min-height: 42px;
     align-items: center;
-    justify-content: center;
     gap: 0.65rem;
     border-bottom: 2px solid var(--color-ink);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 850;
     letter-spacing: 0.12em;
     text-decoration: none;
@@ -181,99 +227,196 @@ const {
     transition: color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
   }
 
-  .interior-link--primary {
+  .institutional-action--primary {
     color: var(--color-primary);
     border-color: var(--color-primary);
   }
 
-  .interior-link:hover,
-  .interior-link:focus-visible {
+  .institutional-action:hover,
+  .institutional-action:focus-visible {
     color: var(--color-red-700, #c51d23);
     border-color: var(--color-red-700, #c51d23);
     transform: translateY(-2px);
   }
 
-  .interior-panels {
+  .institutional-body {
+    padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .institutional-body__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .institutional-body__intro {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.1rem 0 1.25rem;
+  }
+
+  .institutional-body__intro h2 {
+    margin: 0.65rem 0 0.85rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 3.8vw, 3.35rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .institutional-body__intro p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.96rem;
+    line-height: 1.62;
+  }
+
+  .institutional-panels {
     display: grid;
     border-top: 2px solid var(--color-ink);
   }
 
-  .interior-panel {
-    padding: clamp(1.35rem, 3vw, 2rem) 0;
+  .institutional-panel {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 1.65rem);
     border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.25rem, 3vw, 1.75rem) 0;
   }
 
-  .interior-panel__kicker--red {
+  .institutional-panel__number {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+  }
+
+  .institutional-panel__number--red {
     color: var(--color-red-700, #c51d23);
   }
 
-  .interior-panel h2 {
-    margin: 0.6rem 0 1rem;
+  .institutional-panel h3 {
+    margin: 0.55rem 0 1rem;
     color: var(--color-ink);
     font-family: var(--font-serif);
-    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-size: clamp(1.45rem, 3vw, 2.1rem);
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.036em;
     line-height: 1.08;
   }
 
-  .interior-panel ul {
+  .institutional-panel ul {
     display: grid;
-    gap: 0.75rem;
+    gap: 0;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .interior-panel li {
-    position: relative;
-    padding-left: 1.4rem;
+  .institutional-panel li {
+    border-top: 1px solid var(--color-border);
     color: var(--color-text);
-    font-size: clamp(0.98rem, 1.4vw, 1.08rem);
-    line-height: 1.55;
+    font-size: clamp(0.98rem, 1.35vw, 1.08rem);
+    line-height: 1.58;
+    padding: 0.75rem 0;
   }
 
-  .interior-panel li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.72em;
-    width: 0.45rem;
-    height: 0.45rem;
+  .institutional-panel li:first-child {
+    border-top-color: rgba(17, 17, 17, 0.22);
+  }
+
+  :global(.inline-form) {
+    display: grid;
+    gap: 0.8rem;
+    max-width: 760px;
+    margin-top: clamp(1.35rem, 3vw, 2rem);
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0;
+    background: transparent;
+  }
+
+  :global(.inline-form input) {
+    min-height: 46px;
+    border: 0;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-ink);
+    padding: 0.75rem 0;
+  }
+
+  :global(.inline-form input::placeholder) {
+    color: var(--color-text-muted);
+  }
+
+  :global(.inline-form button) {
+    min-height: 46px;
+    border: 1px solid var(--color-primary);
+    border-radius: 0;
     background: var(--color-primary);
-    transform: translateY(-50%);
+    color: #f7f3ea;
+    padding: 0.75rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
   }
 
-  @media (min-width: 920px) {
-    .interior-hero__inner {
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 380px);
+  :global(.inline-form button:hover),
+  :global(.inline-form button:focus-visible) {
+    background: var(--color-red-700, #c51d23);
+    border-color: var(--color-red-700, #c51d23);
+    transform: translateY(-2px);
+  }
+
+  :global(.form-note) {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 760px) {
+    :global(.inline-form) {
+      grid-template-columns: 1fr auto;
       align-items: end;
     }
 
-    .interior-body__grid {
-      grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
-      align-items: start;
+    :global(.inline-form .form-note) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .institutional-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+      align-items: end;
     }
 
-    .interior-actions {
+    .institutional-status {
+      align-self: end;
+    }
+
+    .institutional-body__grid {
+      grid-template-columns: minmax(230px, 320px) minmax(0, 1fr);
+    }
+
+    .institutional-body__intro {
       position: sticky;
-      top: calc(var(--header-height) + 2rem);
-      flex-direction: column;
-      align-items: flex-start;
+      top: calc(var(--header-height) + 1.5rem);
     }
+  }
 
-    .interior-panels {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: clamp(2rem, 5vw, 4rem);
-    }
-
-    .interior-panel {
-      border-bottom: 0;
-    }
-
-    .interior-panel + .interior-panel {
-      border-left: 1px solid var(--color-border);
-      padding-left: clamp(2rem, 5vw, 4rem);
+  @media (max-width: 640px) {
+    .institutional-panel {
+      grid-template-columns: 1fr;
     }
   }
 </style>
