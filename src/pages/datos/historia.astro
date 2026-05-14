@@ -1,580 +1,519 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const featuredTimeline = [
-  { year: '1521', label: 'Economía colonial' },
-  { year: '1821', label: 'Independencia fiscal' },
-  { year: '1877', label: 'Infraestructura y mercado' },
-  { year: '1938', label: 'Estado desarrollista' },
-  { year: '1982', label: 'Crisis de deuda' },
-  { year: '1994', label: 'Apertura comercial' },
+const features = ['Líneas del tiempo', 'Contexto histórico', 'Gráficas comparativas'];
+const nextSteps = [
+  'Seleccionar series históricas clave.',
+  'Documentar fuentes y cambios metodológicos.',
+  'Crear explicadores visuales.',
 ];
 
-const briefs = [
+const publications = [
   {
-    eyebrow: 'Infraestructura 1920-1950',
+    period: 'Infraestructura · 1920-1950',
     title: 'El Milagro Mexicano: visualizando el crecimiento industrial',
-    description: 'Series históricas de producción, urbanización e inversión pública durante el periodo de industrialización acelerada.',
+    description:
+      'Series históricas sobre producción, urbanización, inversión pública y expansión manufacturera durante la industrialización acelerada.',
     status: 'Próximamente',
-    kind: 'Visualización interactiva',
     visual: 'city',
   },
   {
-    eyebrow: 'Finanzas públicas 1821-1910',
+    period: 'Finanzas públicas · 1821-1910',
     title: 'Deuda, ingresos y construcción del Estado mexicano',
-    description: 'Una lectura visual de las tensiones fiscales desde la independencia hasta el Porfiriato.',
-    status: 'En diseño',
-    kind: 'Brief histórico',
+    description:
+      'Una lectura visual de las tensiones fiscales desde la independencia hasta la consolidación institucional del Porfiriato.',
+    status: 'En edición',
     visual: 'ledger',
   },
   {
-    eyebrow: 'Comercio 1994-2026',
-    title: 'Apertura comercial y transformación productiva',
-    description: 'Cómo cambiaron exportaciones, manufactura regional y empleo formal después de la integración comercial.',
+    period: 'Comercio exterior · 1994-2026',
+    title: 'Apertura comercial y transformación productiva regional',
+    description:
+      'Exportaciones, manufactura, empleo formal y cambios regionales desde la integración comercial de América del Norte.',
     status: 'Base de datos',
-    kind: 'Serie comparativa',
     visual: 'lines',
   },
   {
-    eyebrow: 'Moneda y precios 1900-2026',
+    period: 'Moneda y precios · 1900-2026',
     title: 'Inflación, crisis y estabilidad monetaria en México',
-    description: 'Cronología visual de episodios inflacionarios, choques cambiarios y estabilización macroeconómica.',
+    description:
+      'Cronología de episodios inflacionarios, choques cambiarios, estabilización macroeconómica y cambios de régimen monetario.',
     status: 'Próximamente',
-    kind: 'Línea de tiempo',
     visual: 'bars',
   },
-];
-
-const archivePlaceholders = [
-  'Series históricas normalizadas',
-  'Notas metodológicas por fuente',
-  'Visualizaciones interactivas',
-  'Descargas CSV / XLSX',
 ];
 ---
 
 <BaseLayout
-  title="Historia económica de México — Centro Economex"
-  description="Landing de datos históricos y visualizaciones sobre la historia de la economía mexicana."
+  title="Historia — Centro Economex"
+  description="Series históricas y contexto económico para entender cómo llegamos a los problemas actuales."
 >
-  <main class="history-page">
-    <section class="history-hero container" aria-labelledby="history-title">
-      <div class="history-hero__copy">
-        <p class="history-kicker">Edición especial · Historia</p>
-        <h1 id="history-title">La historia de la economía mexicana</h1>
-        <p>
-          Un archivo editorial para explorar las fluctuaciones, transformaciones e hitos que definieron el panorama financiero de México desde la época colonial hasta la modernidad.
-        </p>
-        <div class="history-actions">
-          <a href="#publicaciones">Explorar datos</a>
-          <span>Lectura de 12 min</span>
+  <main class="institutional-page historia-page">
+    <section class="institutional-hero" aria-labelledby="institutional-title">
+      <div class="container institutional-hero__grid">
+        <div class="institutional-hero__copy">
+          <p class="institutional-kicker">Datos</p>
+          <h1 id="institutional-title">Historia</h1>
+          <p class="institutional-dek">
+            Series históricas y contexto económico para entender cómo llegamos a los problemas actuales.
+          </p>
+        </div>
+
+        <aside class="institutional-status" aria-label="Estado de la sección">
+          <p class="institutional-status__label">Sección en desarrollo</p>
+          <p>
+            Esta sección se está consolidando dentro del sistema editorial de Centro Economex como un archivo de datos, briefs visuales y explicadores históricos sobre la economía mexicana.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="institutional-actions" aria-label="Acciones principales">
+      <div class="container institutional-actions__inner">
+        <a href="#publicaciones-historia" class="institutional-action institutional-action--primary">Ver publicaciones<span aria-hidden="true">→</span></a>
+        <a href="/" class="institutional-action">Volver al inicio<span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="institutional-body" aria-label="Contenido de la sección">
+      <div class="container institutional-body__grid">
+        <div class="institutional-body__intro">
+          <p class="institutional-kicker institutional-kicker--green">Arquitectura editorial</p>
+          <h2>Qué contendrá esta página</h2>
+          <p>
+            El diseño mantiene la estructura institucional de nuestras páginas de datos: líneas, jerarquía tipográfica y módulos editoriales listos para convertirse en briefs, visualizaciones y notas metodológicas.
+          </p>
+        </div>
+
+        <div class="institutional-panels">
+          <section class="institutional-panel" aria-labelledby="historia-features">
+            <p class="institutional-panel__number">01</p>
+            <div>
+              <p class="institutional-kicker institutional-kicker--green">Contenido</p>
+              <h3 id="historia-features">Líneas de trabajo</h3>
+              <ul>
+                {features.map((feature) => <li>{feature}</li>)}
+              </ul>
+            </div>
+          </section>
+
+          <section class="institutional-panel" aria-labelledby="historia-next">
+            <p class="institutional-panel__number institutional-panel__number--red">02</p>
+            <div>
+              <p class="institutional-kicker institutional-kicker--red">Desarrollo</p>
+              <h3 id="historia-next">Siguientes pasos</h3>
+              <ul>
+                {nextSteps.map((step) => <li>{step}</li>)}
+              </ul>
+            </div>
+          </section>
         </div>
       </div>
 
-      <figure class="history-hero__visual" aria-label="Placeholder de visualización histórica">
-        <div class="archive-window" aria-hidden="true">
-          <div class="archive-window__bar"><span></span><span></span><span></span></div>
-          <div class="archive-bank">
-            <i></i><i></i><i></i><i></i><i></i>
+      <section id="publicaciones-historia" class="history-publications container" aria-labelledby="history-publications-title">
+        <header class="history-publications__header">
+          <div>
+            <p class="institutional-kicker institutional-kicker--green">Próximas publicaciones</p>
+            <h2 id="history-publications-title">Briefs visuales en preparación</h2>
+            <p>
+              Placeholders editoriales para las próximas visualizaciones sobre la historia económica de México.
+            </p>
           </div>
-          <div class="archive-slider"><span></span><b>1821</b><span></span></div>
+          <div class="history-view-toggle" aria-label="Vista de publicaciones">
+            <button type="button" aria-label="Vista en cuadrícula"><span></span><span></span><span></span><span></span></button>
+            <button type="button" aria-label="Vista en lista"><span></span><span></span></button>
+          </div>
+        </header>
+
+        <div class="history-publication-grid">
+          {publications.map((publication) => (
+            <article class={`history-publication-card history-publication-card--${publication.visual}`}>
+              <div class="history-publication-card__copy">
+                <p>{publication.period}</p>
+                <h3>{publication.title}</h3>
+                <span>{publication.status}</span>
+              </div>
+              <div class="history-publication-card__visual" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <p class="history-publication-card__description">{publication.description}</p>
+            </article>
+          ))}
         </div>
-        <figcaption>
-          <strong>Historia en datos</strong>
-          <span>Esta sección será una biblioteca de briefs visuales, series históricas y notas metodológicas.</span>
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="history-timeline container" aria-labelledby="timeline-title">
-      <div class="history-section-heading">
-        <p class="history-kicker history-kicker--green">Panorama histórico</p>
-        <h2 id="timeline-title">Ejes de lectura</h2>
-      </div>
-      <ol>
-        {featuredTimeline.map((item) => (
-          <li>
-            <strong>{item.year}</strong>
-            <span>{item.label}</span>
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <section id="publicaciones" class="recent-history container" aria-labelledby="recent-title">
-      <header>
-        <div>
-          <h2 id="recent-title">Publicaciones recientes</h2>
-          <p>Visualizaciones interactivas y análisis de archivo.</p>
-        </div>
-        <div class="view-buttons" aria-label="Cambiar vista">
-          <button type="button" aria-label="Vista en cuadrícula"><span></span><span></span><span></span><span></span></button>
-          <button type="button" aria-label="Vista en lista"><span></span><span></span></button>
-        </div>
-      </header>
-
-      <div class="brief-grid">
-        {briefs.map((brief) => (
-          <article class={`brief-card brief-card--${brief.visual}`}>
-            <div class="brief-card__copy">
-              <p>{brief.eyebrow}</p>
-              <h3>{brief.title}</h3>
-              <span>{brief.kind}</span>
-              <small>{brief.status}</small>
-            </div>
-            <div class="brief-card__visual" aria-hidden="true">
-              <i></i><i></i><i></i><i></i><i></i>
-            </div>
-            <p class="brief-card__description">{brief.description}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-
-    <section class="history-archive container" aria-labelledby="archive-title">
-      <div>
-        <p class="history-kicker history-kicker--green">Próxima carga</p>
-        <h2 id="archive-title">Repositorio para briefs y visualizaciones</h2>
-        <p>
-          Estos espacios funcionan como placeholders editoriales para las próximas piezas de historia económica. Cuando carguemos los briefs finales, cada módulo podrá convertirse en artículo, dashboard o ficha metodológica.
-        </p>
-      </div>
-      <ul>
-        {archivePlaceholders.map((item) => <li>{item}<span>→</span></li>)}
-      </ul>
+      </section>
     </section>
   </main>
 </BaseLayout>
 
 <style>
-  .history-page {
-    --history-bg: #f7f7fb;
-    --history-paper: #fffdfa;
-    --history-ink: #111827;
-    --history-muted: #4b5563;
-    --history-line: #d6d8df;
-    --history-green: var(--color-primary, #005c3a);
-    --history-red: var(--color-red-700, #c9282d);
-    background:
-      linear-gradient(90deg, rgba(17, 24, 39, 0.025) 1px, transparent 1px),
-      var(--history-bg);
-    background-size: 48px 48px;
-    color: var(--history-ink);
-    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(4rem, 8vw, 7rem);
+  .institutional-page {
+    background: #fffdfa;
+    color: var(--color-ink);
   }
 
-  .history-kicker {
+  .institutional-hero {
+    padding: clamp(2rem, 5vw, 4.75rem) 0 clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .institutional-hero__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    border-top: 2px solid var(--color-ink);
+    padding-top: clamp(1rem, 2.5vw, 1.45rem);
+  }
+
+  .institutional-hero__copy {
+    min-width: 0;
+  }
+
+  .institutional-kicker {
+    display: inline-flex;
+    width: fit-content;
     margin: 0;
-    color: var(--history-green);
+    color: #f7f3ea;
+    background: var(--color-primary);
+    padding: 0.36rem 0.72rem;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .institutional-kicker--green {
+    background: transparent;
+    color: var(--color-primary);
+    padding: 0;
+  }
+
+  .institutional-kicker--red {
+    background: transparent;
+    color: var(--color-red-700, #c51d23);
+    padding: 0;
+  }
+
+  .institutional-hero h1 {
+    max-width: 980px;
+    margin: 1rem 0 1.1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(3.15rem, 7.4vw, 7.1rem);
+    font-weight: 600;
+    letter-spacing: -0.067em;
+    line-height: 0.92;
+    text-wrap: balance;
+  }
+
+  .institutional-dek {
+    max-width: 780px;
+    margin: 0;
+    color: #3f454d;
+    font-family: var(--font-serif);
+    font-size: clamp(1.18rem, 2.1vw, 1.62rem);
+    font-style: italic;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.36;
+  }
+
+  .institutional-status {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0 1.2rem;
+  }
+
+  .institutional-status__label {
+    margin: 0;
+    color: var(--color-red-700, #c51d23);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .institutional-status p:last-child {
+    margin: 0.85rem 0 0;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.62;
+  }
+
+  .institutional-actions {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .institutional-actions__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.4rem;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .institutional-action {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 0.65rem;
+    border-bottom: 2px solid var(--color-ink);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 0.74rem;
     font-weight: 850;
     letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .history-kicker--green {
-    color: var(--history-green);
-  }
-
-  .history-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 1.04fr);
-    border: 1px solid var(--history-line);
-    background: var(--history-paper);
-    min-height: clamp(470px, 54vw, 620px);
-  }
-
-  .history-hero__copy {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: clamp(2rem, 5vw, 4.1rem);
-  }
-
-  .history-hero h1 {
-    max-width: 620px;
-    margin: 0.6rem 0 1.25rem;
-    color: var(--history-ink);
-    font-family: var(--font-serif);
-    font-size: clamp(3.1rem, 6.2vw, 6rem);
-    font-weight: 600;
-    letter-spacing: -0.066em;
-    line-height: 0.95;
-    text-wrap: balance;
-  }
-
-  .history-hero__copy > p:not(.history-kicker) {
-    max-width: 560px;
-    margin: 0;
-    color: #2f3742;
-    font-size: clamp(1.02rem, 1.6vw, 1.24rem);
-    line-height: 1.75;
-  }
-
-  .history-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.1rem;
-    margin-top: clamp(1.8rem, 4vw, 2.6rem);
-  }
-
-  .history-actions a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 48px;
-    background: var(--history-green);
-    color: #f7f3ea;
-    padding: 0.9rem 1.45rem;
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 850;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
     text-decoration: none;
-  }
-
-  .history-actions span {
-    color: var(--history-muted);
-    font-size: 0.95rem;
-  }
-
-  .history-hero__visual {
-    position: relative;
-    margin: 0;
-    min-height: 100%;
-    background:
-      radial-gradient(circle at 60% 18%, rgba(255,255,255,0.18), transparent 16rem),
-      linear-gradient(180deg, #070b0d, #0b1717 58%, #060909);
-    overflow: hidden;
-  }
-
-  .archive-window {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-rows: 64px 1fr 82px;
-    color: rgba(240, 247, 242, 0.82);
-  }
-
-  .archive-window__bar {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.45rem;
-    align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding: 0 1.6rem;
-    background: rgba(0,0,0,0.4);
-  }
-
-  .archive-window__bar span {
-    width: 8px;
-    height: 8px;
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 999px;
-  }
-
-  .archive-bank {
-    position: relative;
-    align-self: end;
-    justify-self: center;
-    width: min(78%, 560px);
-    height: 70%;
-    border: 1px solid rgba(196, 219, 205, 0.2);
-    border-bottom: 0;
-    background:
-      linear-gradient(180deg, rgba(232, 243, 237, 0.09), rgba(232, 243, 237, 0.015)),
-      repeating-linear-gradient(90deg, transparent 0 58px, rgba(255,255,255,0.07) 58px 59px);
-    box-shadow: inset 0 -90px 90px rgba(0, 0, 0, 0.45);
-  }
-
-  .archive-bank::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: -54px;
-    width: 46%;
-    height: 72px;
-    transform: translateX(-50%);
-    clip-path: polygon(50% 0, 100% 78%, 0 78%);
-    background: rgba(232, 243, 237, 0.13);
-    border: 1px solid rgba(196, 219, 205, 0.18);
-  }
-
-  .archive-bank i {
-    position: absolute;
-    bottom: 12%;
-    width: 13%;
-    height: 47%;
-    border: 1px solid rgba(196, 219, 205, 0.24);
-    border-radius: 999px 999px 0 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(0,0,0,0.12));
-  }
-
-  .archive-bank i:nth-child(1) { left: 9%; }
-  .archive-bank i:nth-child(2) { left: 27%; }
-  .archive-bank i:nth-child(3) { left: 45%; }
-  .archive-bank i:nth-child(4) { left: 63%; }
-  .archive-bank i:nth-child(5) { left: 81%; transform: translateX(-50%); }
-
-  .archive-slider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    background: rgba(0,0,0,0.55);
-  }
-
-  .archive-slider span {
-    width: 84px;
-    height: 4px;
-    background: rgba(255,255,255,0.18);
-  }
-
-  .archive-slider span:first-child::after {
-    content: '';
-    display: block;
-    width: 11px;
-    height: 11px;
-    margin-top: -3px;
-    margin-left: 58%;
-    border-radius: 999px;
-    background: #9ed6dc;
-  }
-
-  .archive-slider b {
-    color: rgba(255,255,255,0.7);
-    font-family: var(--font-sans);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-  }
-
-  .history-hero__visual figcaption {
-    position: absolute;
-    left: clamp(1rem, 4vw, 2.6rem);
-    bottom: clamp(1rem, 4vw, 2.4rem);
-    width: min(68%, 380px);
-    background: rgba(255, 253, 250, 0.96);
-    border: 1px solid var(--history-line);
-    padding: clamp(1rem, 2vw, 1.35rem);
-  }
-
-  .history-hero__visual figcaption strong,
-  .history-hero__visual figcaption span {
-    display: block;
-  }
-
-  .history-hero__visual figcaption strong {
-    color: var(--history-green);
-    font-size: 0.72rem;
-    font-weight: 850;
-    letter-spacing: 0.11em;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    transition: color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
   }
 
-  .history-hero__visual figcaption span {
-    color: #27323a;
-    font-size: 0.95rem;
-    line-height: 1.55;
+  .institutional-action--primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
   }
 
-  .history-timeline,
-  .recent-history,
-  .history-archive {
-    margin-top: clamp(2.8rem, 6vw, 4.5rem);
+  .institutional-action:hover,
+  .institutional-action:focus-visible {
+    color: var(--color-red-700, #c51d23);
+    border-color: var(--color-red-700, #c51d23);
+    transform: translateY(-2px);
   }
 
-  .history-section-heading h2,
-  .recent-history h2,
-  .history-archive h2 {
-    margin: 0.45rem 0 0;
-    color: var(--history-ink);
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 4.2vw, 3.7rem);
-    font-weight: 600;
-    letter-spacing: -0.05em;
-    line-height: 1.02;
+  .institutional-body {
+    padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 6.5rem);
   }
 
-  .history-timeline ol {
+  .institutional-body__grid {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    border-top: 2px solid var(--history-ink);
-    border-bottom: 1px solid var(--history-line);
-    margin: 1.2rem 0 0;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .institutional-body__intro {
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.1rem 0 1.25rem;
+  }
+
+  .institutional-body__intro h2,
+  .history-publications__header h2 {
+    margin: 0.65rem 0 0.85rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 3.8vw, 3.35rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+  }
+
+  .institutional-body__intro p:last-child,
+  .history-publications__header p:last-child {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.96rem;
+    line-height: 1.62;
+  }
+
+  .institutional-panels {
+    display: grid;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  .institutional-panel {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 1.65rem);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.25rem, 3vw, 1.75rem) 0;
+  }
+
+  .institutional-panel__number {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.7rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+  }
+
+  .institutional-panel__number--red {
+    color: var(--color-red-700, #c51d23);
+  }
+
+  .institutional-panel h3 {
+    margin: 0.55rem 0 1rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 3vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.036em;
+    line-height: 1.08;
+  }
+
+  .institutional-panel ul {
+    display: grid;
+    gap: 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .history-timeline li {
-    display: grid;
-    gap: 0.35rem;
-    min-height: 116px;
-    border-right: 1px solid var(--history-line);
-    padding: 1rem 0.9rem;
+  .institutional-panel li {
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-size: clamp(0.98rem, 1.35vw, 1.08rem);
+    line-height: 1.58;
+    padding: 0.75rem 0;
   }
 
-  .history-timeline li:last-child {
-    border-right: 0;
+  .institutional-panel li:first-child {
+    border-top-color: rgba(17, 17, 17, 0.22);
   }
 
-  .history-timeline strong {
-    color: var(--history-red);
-    font-family: var(--font-serif);
-    font-size: 1.55rem;
-    font-weight: 600;
-    letter-spacing: -0.05em;
+  .history-publications {
+    margin-top: clamp(3rem, 6vw, 5rem);
   }
 
-  .history-timeline span {
-    color: var(--history-muted);
-    font-size: 0.84rem;
-    line-height: 1.35;
-  }
-
-  .recent-history header {
+  .history-publications__header {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
     align-items: end;
-    border-bottom: 2px solid var(--history-line);
-    padding-bottom: 1rem;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1.15rem 0 1.25rem;
   }
 
-  .recent-history header p {
-    margin: 0.35rem 0 0;
-    color: var(--history-muted);
+  .history-publications__header > div:first-child {
+    max-width: 760px;
   }
 
-  .view-buttons {
+  .history-view-toggle {
     display: inline-flex;
     gap: 0.55rem;
   }
 
-  .view-buttons button {
+  .history-view-toggle button {
     width: 42px;
     height: 42px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 4px;
-    border: 1px solid var(--history-line);
+    border: 1px solid var(--color-border);
     background: transparent;
     padding: 10px;
   }
 
-  .view-buttons button:nth-child(2) {
+  .history-view-toggle button:nth-child(2) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
   }
 
-  .view-buttons span {
-    border: 2px solid var(--history-ink);
+  .history-view-toggle span {
+    border: 2px solid var(--color-ink);
   }
 
-  .brief-grid {
+  .history-publication-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1rem, 2.5vw, 1.6rem);
+    gap: clamp(1rem, 2.2vw, 1.5rem);
     margin-top: clamp(1.4rem, 3vw, 2rem);
   }
 
-  .brief-card {
+  .history-publication-card {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 0.48fr);
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 0.44fr);
     gap: 1rem;
-    border: 1px solid var(--history-line);
-    background: var(--history-paper);
-    min-height: 280px;
+    min-height: 270px;
+    border: 1px solid var(--color-border);
+    background: #fffdfa;
     overflow: hidden;
   }
 
-  .brief-card__copy {
-    padding: clamp(1rem, 2vw, 1.4rem) 0 0 clamp(1rem, 2vw, 1.4rem);
+  .history-publication-card__copy {
+    padding: clamp(1rem, 2vw, 1.35rem) 0 0 clamp(1rem, 2vw, 1.35rem);
   }
 
-  .brief-card__copy > p {
-    margin: 0 0 0.65rem;
-    color: var(--history-muted);
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .brief-card h3 {
-    margin: 0;
-    color: var(--history-ink);
-    font-family: var(--font-serif);
-    font-size: clamp(1.45rem, 2.5vw, 2.1rem);
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 1.08;
-  }
-
-  .brief-card__copy span,
-  .brief-card__copy small {
-    display: block;
-    margin-top: 1rem;
-    color: var(--history-green);
+  .history-publication-card__copy > p {
+    margin: 0 0 0.7rem;
+    color: var(--color-text-muted);
     font-family: var(--font-sans);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 850;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .brief-card__copy small {
-    color: var(--history-red);
-    margin-top: 0.35rem;
+  .history-publication-card h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.4vw, 2.05rem);
+    font-weight: 600;
+    letter-spacing: -0.042em;
+    line-height: 1.08;
   }
 
-  .brief-card__visual {
+  .history-publication-card__copy span {
+    display: inline-flex;
+    border-top: 1px solid var(--color-border);
+    margin-top: 1.15rem;
+    padding-top: 0.65rem;
+    color: var(--color-red-700, #c51d23);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .history-publication-card__visual {
     position: relative;
-    min-height: 210px;
+    min-height: 190px;
     background:
-      radial-gradient(circle at 48% 42%, rgba(139, 213, 211, 0.18), transparent 7rem),
-      linear-gradient(135deg, #0a1415, #16372e 54%, #111827);
+      radial-gradient(circle at 48% 42%, rgba(153, 207, 191, 0.18), transparent 8rem),
+      linear-gradient(135deg, #0a1415, #17382e 54%, #111827);
     overflow: hidden;
   }
 
-  .brief-card__visual i {
+  .history-publication-card__visual i {
     position: absolute;
     display: block;
-    background: rgba(149, 211, 194, 0.5);
   }
 
-  .brief-card--city .brief-card__visual i {
+  .history-publication-card--city .history-publication-card__visual i {
     bottom: 24%;
     width: 9%;
     border: 1px solid rgba(170, 227, 211, 0.4);
-    background: rgba(77, 169, 150, 0.2);
+    background: rgba(77, 169, 150, 0.22);
   }
 
-  .brief-card--city .brief-card__visual i:nth-child(1) { left: 18%; height: 26%; }
-  .brief-card--city .brief-card__visual i:nth-child(2) { left: 32%; height: 44%; }
-  .brief-card--city .brief-card__visual i:nth-child(3) { left: 47%; height: 34%; }
-  .brief-card--city .brief-card__visual i:nth-child(4) { left: 61%; height: 52%; }
-  .brief-card--city .brief-card__visual i:nth-child(5) { left: 75%; height: 30%; }
+  .history-publication-card--city .history-publication-card__visual i:nth-child(1) { left: 18%; height: 26%; }
+  .history-publication-card--city .history-publication-card__visual i:nth-child(2) { left: 32%; height: 44%; }
+  .history-publication-card--city .history-publication-card__visual i:nth-child(3) { left: 47%; height: 34%; }
+  .history-publication-card--city .history-publication-card__visual i:nth-child(4) { left: 61%; height: 52%; }
+  .history-publication-card--city .history-publication-card__visual i:nth-child(5) { left: 75%; height: 30%; }
 
-  .brief-card--ledger .brief-card__visual i {
+  .history-publication-card--ledger .history-publication-card__visual i {
     left: -12%;
     width: 132%;
     height: 2px;
     transform: rotate(-22deg);
-    background: rgba(203, 220, 214, 0.22);
+    background: rgba(203, 220, 214, 0.24);
   }
 
-  .brief-card--ledger .brief-card__visual i:nth-child(1) { top: 20%; }
-  .brief-card--ledger .brief-card__visual i:nth-child(2) { top: 34%; }
-  .brief-card--ledger .brief-card__visual i:nth-child(3) { top: 48%; }
-  .brief-card--ledger .brief-card__visual i:nth-child(4) { top: 62%; }
-  .brief-card--ledger .brief-card__visual i:nth-child(5) { top: 76%; }
+  .history-publication-card--ledger .history-publication-card__visual i:nth-child(1) { top: 20%; }
+  .history-publication-card--ledger .history-publication-card__visual i:nth-child(2) { top: 34%; }
+  .history-publication-card--ledger .history-publication-card__visual i:nth-child(3) { top: 48%; }
+  .history-publication-card--ledger .history-publication-card__visual i:nth-child(4) { top: 62%; }
+  .history-publication-card--ledger .history-publication-card__visual i:nth-child(5) { top: 76%; }
 
-  .brief-card--lines .brief-card__visual i {
+  .history-publication-card--lines .history-publication-card__visual i {
     height: 2px;
     width: 58%;
     left: 22%;
@@ -582,139 +521,79 @@ const archivePlaceholders = [
     background: rgba(178, 226, 211, 0.42);
   }
 
-  .brief-card--lines .brief-card__visual i:nth-child(1) { top: 65%; transform: rotate(-18deg); }
-  .brief-card--lines .brief-card__visual i:nth-child(2) { top: 56%; transform: rotate(10deg); }
-  .brief-card--lines .brief-card__visual i:nth-child(3) { top: 45%; transform: rotate(-8deg); }
-  .brief-card--lines .brief-card__visual i:nth-child(4) { top: 36%; transform: rotate(14deg); }
-  .brief-card--lines .brief-card__visual i:nth-child(5) { top: 28%; transform: rotate(-12deg); background: rgba(201, 40, 45, 0.65); }
+  .history-publication-card--lines .history-publication-card__visual i:nth-child(1) { top: 65%; transform: rotate(-18deg); }
+  .history-publication-card--lines .history-publication-card__visual i:nth-child(2) { top: 56%; transform: rotate(10deg); }
+  .history-publication-card--lines .history-publication-card__visual i:nth-child(3) { top: 45%; transform: rotate(-8deg); }
+  .history-publication-card--lines .history-publication-card__visual i:nth-child(4) { top: 36%; transform: rotate(14deg); }
+  .history-publication-card--lines .history-publication-card__visual i:nth-child(5) { top: 28%; transform: rotate(-12deg); background: rgba(201, 40, 45, 0.65); }
 
-  .brief-card--bars .brief-card__visual i {
+  .history-publication-card--bars .history-publication-card__visual i {
     bottom: 18%;
     width: 9%;
-    background: rgba(213, 226, 221, 0.25);
+    background: rgba(213, 226, 221, 0.28);
   }
 
-  .brief-card--bars .brief-card__visual i:nth-child(1) { left: 18%; height: 30%; }
-  .brief-card--bars .brief-card__visual i:nth-child(2) { left: 33%; height: 62%; }
-  .brief-card--bars .brief-card__visual i:nth-child(3) { left: 48%; height: 42%; background: rgba(201, 40, 45, 0.54); }
-  .brief-card--bars .brief-card__visual i:nth-child(4) { left: 63%; height: 74%; }
-  .brief-card--bars .brief-card__visual i:nth-child(5) { left: 78%; height: 48%; }
+  .history-publication-card--bars .history-publication-card__visual i:nth-child(1) { left: 18%; height: 30%; }
+  .history-publication-card--bars .history-publication-card__visual i:nth-child(2) { left: 33%; height: 62%; }
+  .history-publication-card--bars .history-publication-card__visual i:nth-child(3) { left: 48%; height: 42%; background: rgba(201, 40, 45, 0.54); }
+  .history-publication-card--bars .history-publication-card__visual i:nth-child(4) { left: 63%; height: 74%; }
+  .history-publication-card--bars .history-publication-card__visual i:nth-child(5) { left: 78%; height: 48%; }
 
-  .brief-card__description {
+  .history-publication-card__description {
     grid-column: 1 / -1;
     align-self: end;
-    border-top: 1px solid var(--history-line);
+    border-top: 1px solid var(--color-border);
     margin: 0;
-    padding: 1rem clamp(1rem, 2vw, 1.4rem);
-    color: var(--history-muted);
-    font-size: 0.94rem;
+    padding: 1rem clamp(1rem, 2vw, 1.35rem);
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
     line-height: 1.58;
   }
 
-  .history-archive {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
-    gap: clamp(2rem, 5vw, 4rem);
-    border-top: 2px solid var(--history-ink);
-    border-bottom: 1px solid var(--history-line);
-    padding-top: clamp(1.2rem, 3vw, 1.8rem);
-    padding-bottom: clamp(1.2rem, 3vw, 1.8rem);
-  }
+  @media (min-width: 960px) {
+    .institutional-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+      align-items: end;
+    }
 
-  .history-archive p:not(.history-kicker) {
-    max-width: 640px;
-    color: var(--history-muted);
-    line-height: 1.7;
-  }
+    .institutional-status {
+      align-self: end;
+    }
 
-  .history-archive ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-bottom: 1px solid var(--history-line);
-  }
+    .institutional-body__grid {
+      grid-template-columns: minmax(230px, 320px) minmax(0, 1fr);
+    }
 
-  .history-archive li {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    border-top: 1px solid var(--history-line);
-    padding: 1rem 0;
-    color: var(--history-ink);
-    font-weight: 760;
-  }
-
-  .history-archive li span {
-    color: var(--history-red);
+    .institutional-body__intro {
+      position: sticky;
+      top: calc(var(--header-height) + 1.5rem);
+    }
   }
 
   @media (max-width: 1040px) {
-    .history-hero,
-    .brief-grid,
-    .history-archive {
+    .history-publication-grid {
       grid-template-columns: 1fr;
-    }
-
-    .history-hero__visual {
-      min-height: 460px;
-    }
-
-    .history-timeline ol {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 720px) {
-    .history-page {
-      padding-top: 1rem;
-    }
-
-    .history-hero {
-      border-left: 0;
-      border-right: 0;
-    }
-
-    .history-hero__copy {
-      padding: 1.4rem;
-    }
-
-    .history-hero h1 {
-      font-size: clamp(2.7rem, 14vw, 4.4rem);
-    }
-
-    .history-hero__visual {
-      min-height: 390px;
-    }
-
-    .history-hero__visual figcaption {
-      position: relative;
-      left: auto;
-      bottom: auto;
-      width: 100%;
-      border-left: 0;
-      border-right: 0;
-    }
-
-    .archive-window {
-      position: relative;
-      min-height: 320px;
-    }
-
-    .history-timeline ol {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .recent-history header {
+    .history-publications__header {
       align-items: start;
       flex-direction: column;
     }
 
-    .brief-card {
+    .history-publication-card {
       grid-template-columns: 1fr;
     }
 
-    .brief-card__copy {
+    .history-publication-card__copy {
       padding-right: 1.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .institutional-panel {
+      grid-template-columns: 1fr;
     }
   }
 </style>
