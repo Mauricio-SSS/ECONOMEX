@@ -1,5 +1,32 @@
 ---
 import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.astro';
+
+const indicators = [
+  { label: 'PIB trimestral', value: '1.9%', meta: 'crecimiento anual' },
+  { label: 'Inflación general', value: '4.08%', meta: 'variación anual' },
+  { label: 'Empleo formal', value: '22.6 M', meta: 'trabajadores IMSS' },
+];
+
+const publications = [
+  {
+    type: 'Análisis prospectivo',
+    title: 'La economía en el 2026: proyecciones de crecimiento y estabilidad estructural',
+    description: 'Un diagnóstico institucional sobre los indicadores que definirán el próximo bienio: crecimiento, inflación, inversión y mercado laboral.',
+    visual: 'forecast',
+  },
+  {
+    type: 'Infografía',
+    title: 'Índice de inflación subyacente',
+    description: 'Visualización de componentes persistentes de precios y su impacto en consumo, salarios y decisiones de política monetaria.',
+    visual: 'bars',
+  },
+  {
+    type: 'Interactivo',
+    title: 'Mapa de inversión extranjera directa',
+    description: 'Explora los flujos de inversión por entidad federativa, sector y periodo, con lectura territorial comparada.',
+    visual: 'map',
+  },
+];
 ---
 
 <SectionPlaceholder
@@ -8,4 +35,242 @@ import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.
   eyebrow="Datos"
   features={['Inflación, empleo y crecimiento', 'Explicadores visuales', 'Comparaciones regionales']}
   nextSteps={['Priorizar indicadores económicos base.', 'Conectar fuentes oficiales.', 'Crear gráficas rápidas.']}
-/>
+  primaryHref="#economia-recientes"
+  primaryLabel="Ver publicaciones"
+>
+  <section slot="after-panels" id="economia-recientes" class="economy-extension container" aria-labelledby="economy-extension-title">
+    <header class="economy-extension__hero">
+      <div>
+        <p class="economy-kicker">Publicaciones recientes</p>
+        <h2 id="economy-extension-title">Lecturas económicas con evidencia visual</h2>
+        <p>
+          Un espacio editorial para publicar briefs, gráficas rápidas y explicadores que traduzcan indicadores macroeconómicos en decisiones comprensibles.
+        </p>
+      </div>
+      <aside aria-label="Indicadores destacados">
+        {indicators.map((indicator) => (
+          <div>
+            <span>{indicator.label}</span>
+            <strong>{indicator.value}</strong>
+            <em>{indicator.meta}</em>
+          </div>
+        ))}
+      </aside>
+    </header>
+
+    <div class="economy-publication-grid">
+      {publications.map((publication, index) => (
+        <article class={`economy-publication economy-publication--${publication.visual}`}>
+          <div class="economy-publication__copy">
+            <p>{publication.type}</p>
+            <h3>{publication.title}</h3>
+            <span>Publicación placeholder 0{index + 1}</span>
+          </div>
+          <div class="economy-publication__visual" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p class="economy-publication__description">{publication.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</SectionPlaceholder>
+
+<style>
+  .economy-extension {
+    padding-bottom: clamp(4rem, 8vw, 6.5rem);
+  }
+
+  .economy-extension__hero {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(1.2rem, 3vw, 1.8rem) 0;
+  }
+
+  .economy-kicker {
+    margin: 0;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .economy-extension h2 {
+    max-width: 850px;
+    margin: 0.55rem 0 0.8rem;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(2.1rem, 4.8vw, 4.4rem);
+    font-weight: 600;
+    letter-spacing: -0.058em;
+    line-height: 1.02;
+  }
+
+  .economy-extension__hero p:last-child {
+    max-width: 680px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .economy-extension__hero aside {
+    display: grid;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .economy-extension__hero aside div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.2rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.85rem 0;
+  }
+
+  .economy-extension__hero aside span,
+  .economy-extension__hero aside em {
+    color: var(--color-text-muted);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .economy-extension__hero aside strong {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    color: var(--color-primary);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+  }
+
+  .economy-publication-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.85fr);
+    gap: clamp(1rem, 2.4vw, 1.5rem);
+    margin-top: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .economy-publication {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 0.48fr);
+    min-height: 300px;
+    border: 1px solid var(--color-border);
+    background: #fffdfa;
+    overflow: hidden;
+  }
+
+  .economy-publication:first-child {
+    grid-row: span 2;
+  }
+
+  .economy-publication__copy {
+    padding: clamp(1rem, 2.2vw, 1.45rem);
+  }
+
+  .economy-publication__copy p {
+    margin: 0 0 0.65rem;
+    color: var(--color-red-700, #c51d23);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .economy-publication h3 {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 3vw, 2.7rem);
+    font-weight: 600;
+    letter-spacing: -0.052em;
+    line-height: 1.05;
+  }
+
+  .economy-publication__copy span {
+    display: inline-block;
+    border-top: 1px solid var(--color-border);
+    margin-top: 1rem;
+    padding-top: 0.65rem;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .economy-publication__visual {
+    position: relative;
+    min-height: 210px;
+    background: radial-gradient(circle at 50% 40%, rgba(123, 197, 180, 0.2), transparent 7rem), linear-gradient(135deg, #071211, #14392f 55%, #101827);
+    overflow: hidden;
+  }
+
+  .economy-publication__visual i {
+    position: absolute;
+    display: block;
+  }
+
+  .economy-publication--forecast .economy-publication__visual i,
+  .economy-publication--bars .economy-publication__visual i {
+    bottom: 20%;
+    width: 8%;
+    background: rgba(190, 217, 206, 0.35);
+  }
+
+  .economy-publication--forecast .economy-publication__visual i:nth-child(1), .economy-publication--bars .economy-publication__visual i:nth-child(1) { left: 16%; height: 25%; }
+  .economy-publication--forecast .economy-publication__visual i:nth-child(2), .economy-publication--bars .economy-publication__visual i:nth-child(2) { left: 29%; height: 42%; }
+  .economy-publication--forecast .economy-publication__visual i:nth-child(3), .economy-publication--bars .economy-publication__visual i:nth-child(3) { left: 42%; height: 35%; }
+  .economy-publication--forecast .economy-publication__visual i:nth-child(4), .economy-publication--bars .economy-publication__visual i:nth-child(4) { left: 55%; height: 58%; background: rgba(201,40,45,.55); }
+  .economy-publication--forecast .economy-publication__visual i:nth-child(5), .economy-publication--bars .economy-publication__visual i:nth-child(5) { left: 68%; height: 47%; }
+  .economy-publication--forecast .economy-publication__visual i:nth-child(6), .economy-publication--bars .economy-publication__visual i:nth-child(6) { left: 81%; height: 66%; }
+
+  .economy-publication--map .economy-publication__visual i {
+    width: 42%;
+    height: 30%;
+    clip-path: polygon(10% 18%, 80% 0, 100% 42%, 72% 100%, 0 76%);
+    border: 1px solid rgba(255,255,255,.3);
+  }
+  .economy-publication--map .economy-publication__visual i:nth-child(1) { left: 14%; top: 18%; background:#b7d6c7; }
+  .economy-publication--map .economy-publication__visual i:nth-child(2) { left: 42%; top: 28%; background:#6aa98e; }
+  .economy-publication--map .economy-publication__visual i:nth-child(3) { left: 22%; top: 48%; background:#0c5f46; }
+  .economy-publication--map .economy-publication__visual i:nth-child(4) { left: 52%; top: 54%; background:#c51d23; }
+
+  .economy-publication__description {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--color-border);
+    margin: 0;
+    padding: 1rem clamp(1rem, 2.2vw, 1.45rem);
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.58;
+  }
+
+  @media (min-width: 920px) {
+    .economy-extension__hero {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+      align-items: end;
+    }
+  }
+
+  @media (max-width: 1020px) {
+    .economy-publication-grid,
+    .economy-publication {
+      grid-template-columns: 1fr;
+    }
+
+    .economy-publication:first-child {
+      grid-row: auto;
+    }
+  }
+</style>
