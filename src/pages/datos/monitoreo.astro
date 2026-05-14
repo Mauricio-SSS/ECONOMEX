@@ -1,22 +1,22 @@
 ---
 import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.astro';
 
-const kpis = [
-  { label: 'PIB trimestral', value: '4,520.2 B', delta: '+2.4%' },
-  { label: 'Inflación anual', value: '4.08%', delta: '-0.4%' },
-  { label: 'Tasa Banxico', value: '8.5%', delta: '-0.25%' },
-  { label: 'Tipo de cambio', value: '$16.92', delta: '+0.12%' },
+const fallbackKpis = [
+  { label: 'PIB real', value: 'Cargando', delta: 'Banco Mundial' },
+  { label: 'Inflacion', value: 'Cargando', delta: 'Banco Mundial' },
+  { label: 'USD/MXN', value: 'Cargando', delta: 'Mercado' },
+  { label: 'S&P/BMV IPC', value: 'Cargando', delta: 'Mercado' },
 ];
 
 const reports = [
-  'Impacto de las tasas de interés en el consumo real',
-  'Reaceleración industrial en el norte del país',
+  'Impacto de las tasas de interes en el consumo real',
+  'Reaceleracion industrial en el norte del pais',
   'Mercados globales y volatilidad cambiaria',
 ];
 
 const sectors = [
-  'PIB y producción',
-  'Precios e inflación',
+  'PIB y produccion',
+  'Precios e inflacion',
   'Mercado laboral',
   'Mercados financieros',
   'Comercio exterior',
@@ -25,19 +25,19 @@ const sectors = [
 
 <SectionPlaceholder
   title="Monitoreo"
-  description="Indicadores económicos y sociales en seguimiento para identificar cambios relevantes."
+  description="Indicadores economicos y sociales en seguimiento para identificar cambios relevantes."
   eyebrow="Datos"
-  features={['Indicadores actualizados', 'Series temporales', 'Lectura visual rápida']}
-  nextSteps={['Definir indicadores prioritarios.', 'Conectar datos oficiales.', 'Diseñar visualizaciones de seguimiento.']}
+  features={['Indicadores actualizados', 'Series temporales', 'Lectura visual rapida']}
+  nextSteps={['Conectar APIs oficiales con token.', 'Agregar series historicas por indicador.', 'Publicar metodologia de actualizacion.']}
   primaryHref="#dashboard"
   primaryLabel="Abrir tablero"
 >
-  <section slot="after-panels" id="dashboard" class="monitor-extension container" aria-labelledby="monitor-title">
+  <section slot="after-panels" id="dashboard" class="monitor-extension container" aria-labelledby="monitor-title" data-monitor-root>
     <div class="monitor-shell">
-      <aside class="monitor-sidebar" aria-label="Categorías del tablero">
+      <aside class="monitor-sidebar" aria-label="Categorias del tablero">
         <div class="monitor-sidebar__brand">
           <p>Monitoreo</p>
-          <span>Dashboard económico</span>
+          <span data-monitor-status>Conectando fuentes...</span>
         </div>
 
         <nav>
@@ -49,21 +49,22 @@ const sectors = [
       <main class="monitor-main">
         <header class="monitor-header">
           <div>
-            <p class="monitor-kicker">Actividad económica</p>
-            <h2 id="monitor-title">Monitoreo macroeconómico en tiempo real</h2>
+            <p class="monitor-kicker">Actividad economica</p>
+            <h2 id="monitor-title">Monitoreo macroeconomico en tiempo real</h2>
             <p>
-              Seguimiento continuo de indicadores prioritarios de México con lectura rápida para investigadores, analistas y responsables de política pública.
+              Seguimiento continuo de indicadores prioritarios de Mexico con lectura rapida para investigadores, analistas y responsables de politica publica. Los indicadores se actualizan desde fuentes publicas y muestran la fuente usada en cada dato.
             </p>
+            <small data-monitor-updated>Esperando actualizacion...</small>
           </div>
 
           <div class="monitor-actions">
-            <button>Exportar</button>
-            <button>Actualizar</button>
+            <button type="button" data-monitor-refresh>Actualizar</button>
+            <a href="/api/monitoreo" target="_blank" rel="noopener noreferrer">API JSON</a>
           </div>
         </header>
 
-        <section class="monitor-kpis" aria-label="Indicadores clave">
-          {kpis.map((kpi) => (
+        <section class="monitor-kpis" aria-label="Indicadores clave" data-kpi-grid>
+          {fallbackKpis.map((kpi) => (
             <article class="monitor-kpi">
               <span>{kpi.label}</span>
               <strong>{kpi.value}</strong>
@@ -71,6 +72,7 @@ const sectors = [
                 <i></i><i></i><i></i><i></i><i></i>
               </div>
               <em>{kpi.delta}</em>
+              <a href="#fuentes-monitoreo">Ver fuente</a>
             </article>
           ))}
         </section>
@@ -79,20 +81,20 @@ const sectors = [
           <article class="monitor-chart monitor-chart--large">
             <header>
               <div>
-                <p>Dinámica de inversión fija</p>
-                <span>Índice base 2018 = 100</span>
+                <p>Lectura agregada de indicadores</p>
+                <span data-chart-subtitle>Ultimas observaciones disponibles</span>
               </div>
-              <strong>2024</strong>
+              <strong data-chart-year>LIVE</strong>
             </header>
 
-            <div class="monitor-chart__visual" aria-hidden="true">
+            <div class="monitor-chart__visual" aria-hidden="true" data-live-chart>
               <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
             </div>
 
             <footer>
-              <span>Promedio 2023</span>
-              <span>Variación trimestral</span>
-              <span>Objetivo anual</span>
+              <span>Banco Mundial</span>
+              <span>Mercados</span>
+              <span>Banxico opcional</span>
             </footer>
           </article>
 
@@ -116,24 +118,27 @@ const sectors = [
         <section class="monitor-news">
           <header>
             <p class="monitor-kicker">Mercados y noticias</p>
-            <h3>Señales relevantes de la coyuntura económica</h3>
+            <h3>Señales relevantes de la coyuntura economica</h3>
           </header>
 
-          <div class="monitor-news__grid">
-            <article>
-              <span>Mercados</span>
-              <h4>El IPC mantiene trayectoria positiva tras datos industriales.</h4>
-            </article>
+          <div class="monitor-news__grid" data-news-grid>
+            <article><span>Noticias</span><h4>Cargando titulares economicos...</h4></article>
+            <article><span>Mercados</span><h4>Cargando informacion de mercado...</h4></article>
+            <article><span>Fuentes</span><h4>Preparando trazabilidad de datos...</h4></article>
+          </div>
+        </section>
 
-            <article>
-              <span>Inflación</span>
-              <h4>Los componentes subyacentes muestran desaceleración gradual.</h4>
-            </article>
-
-            <article>
-              <span>Actividad</span>
-              <h4>El nearshoring continúa impulsando manufactura del norte del país.</h4>
-            </article>
+        <section id="fuentes-monitoreo" class="monitor-sources" aria-labelledby="sources-title">
+          <header>
+            <p class="monitor-kicker">Fuentes</p>
+            <h3 id="sources-title">Trazabilidad de los datos</h3>
+            <p>El tablero distingue entre fuentes oficiales con API publica, fuentes oficiales que requieren token y datos de mercado usados como proxy cuando no existe una API publica sin credenciales.</p>
+          </header>
+          <div data-source-grid class="monitor-source-grid">
+            <a href="https://api.worldbank.org/v2/country/MEX/indicator/NY.GDP.MKTP.KD.ZG?format=json" target="_blank" rel="noopener noreferrer"><strong>Banco Mundial API</strong><span>Indicadores macroeconomicos anuales</span></a>
+            <a href="https://query1.finance.yahoo.com/v8/finance/chart/USDMXN=X" target="_blank" rel="noopener noreferrer"><strong>Yahoo Finance Chart API</strong><span>Mercados: USD/MXN e IPC</span></a>
+            <a href="https://www.banxico.org.mx/SieAPIRest/service/v1/" target="_blank" rel="noopener noreferrer"><strong>Banxico SIE API</strong><span>Oficial; requiere BANXICO_TOKEN</span></a>
+            <a href="https://www.inegi.org.mx/servicios/api_indicadores.html" target="_blank" rel="noopener noreferrer"><strong>INEGI API</strong><span>Oficial; requiere token</span></a>
           </div>
         </section>
       </main>
@@ -155,33 +160,123 @@ const sectors = [
   .monitor-header { display: grid; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1.2rem; }
   .monitor-kicker { margin: 0; color: var(--color-primary); font-family: var(--font-sans); font-size: .68rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
   .monitor-header h2 { margin: .5rem 0 .7rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.02; }
-  .monitor-header p:last-child { max-width: 780px; margin: 0; color: var(--color-text-muted); line-height: 1.65; }
-  .monitor-actions { display: flex; gap: .7rem; }
-  .monitor-actions button { border: 1px solid var(--color-border); background: transparent; color: var(--color-ink); padding: .7rem 1rem; font-size: .68rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  .monitor-header p:last-of-type { max-width: 780px; margin: 0; color: var(--color-text-muted); line-height: 1.65; }
+  .monitor-header small { display: block; margin-top: .85rem; color: var(--color-red-700, #c51d23); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .monitor-actions { display: flex; gap: .7rem; align-items: start; flex-wrap: wrap; }
+  .monitor-actions button, .monitor-actions a { border: 1px solid var(--color-border); background: transparent; color: var(--color-ink); padding: .7rem 1rem; font-size: .68rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+  .monitor-actions button:hover, .monitor-actions a:hover { border-color: var(--color-primary); color: var(--color-primary); }
   .monitor-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1.4rem; }
   .monitor-kpi { border: 1px solid var(--color-border); padding: 1rem; background: #fffdfa; }
   .monitor-kpi span { color: var(--color-text-muted); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-  .monitor-kpi strong { display: block; margin-top: .5rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.7rem, 2.8vw, 2.7rem); font-weight: 600; letter-spacing: -.05em; }
+  .monitor-kpi strong { display: block; margin-top: .5rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.65rem, 2.7vw, 2.6rem); font-weight: 600; letter-spacing: -.05em; }
   .monitor-kpi__bars { display: flex; align-items: end; gap: .3rem; height: 60px; margin-top: .8rem; }
   .monitor-kpi__bars i { flex: 1; background: rgba(0,92,58,.18); }
   .monitor-kpi__bars i:nth-child(3), .monitor-kpi__bars i:nth-child(5) { background: var(--color-primary); }
   .monitor-kpi__bars i:nth-child(1) { height: 40%; } .monitor-kpi__bars i:nth-child(2) { height: 70%; } .monitor-kpi__bars i:nth-child(3) { height: 56%; } .monitor-kpi__bars i:nth-child(4) { height: 82%; } .monitor-kpi__bars i:nth-child(5) { height: 68%; }
   .monitor-kpi em { display: block; margin-top: .6rem; color: var(--color-red-700, #c51d23); font-size: .7rem; font-style: normal; font-weight: 850; letter-spacing: .08em; }
+  .monitor-kpi a { display: inline-block; margin-top: .65rem; color: var(--color-primary); font-size: .64rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
   .monitor-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, .75fr); gap: 1rem; margin-top: 1.4rem; }
   .monitor-chart, .monitor-reports { border: 1px solid var(--color-border); background: #fffdfa; }
   .monitor-chart { padding: 1rem; }
   .monitor-chart header { display: flex; justify-content: space-between; gap: 1rem; } .monitor-chart header p { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.55rem; font-weight: 600; letter-spacing: -.04em; } .monitor-chart header span { color: var(--color-text-muted); font-size: .72rem; text-transform: uppercase; } .monitor-chart header strong { color: var(--color-primary); font-size: .76rem; letter-spacing: .1em; }
   .monitor-chart__visual { position: relative; height: 300px; margin-top: 1rem; border-top: 1px solid rgba(0,92,58,.15); border-bottom: 1px solid rgba(0,92,58,.15); background: linear-gradient(180deg, rgba(0,92,58,.05), rgba(0,92,58,.01)); overflow: hidden; }
-  .monitor-chart__visual i { position: absolute; bottom: 0; width: 9%; background: linear-gradient(180deg, rgba(0,92,58,.25), rgba(0,92,58,.9)); }
+  .monitor-chart__visual i { position: absolute; bottom: 0; width: 9%; background: linear-gradient(180deg, rgba(0,92,58,.25), rgba(0,92,58,.9)); transition: height 400ms ease; }
   .monitor-chart__visual i:nth-child(1){ left:6%; height:32%; } .monitor-chart__visual i:nth-child(2){ left:18%; height:54%; } .monitor-chart__visual i:nth-child(3){ left:30%; height:44%; } .monitor-chart__visual i:nth-child(4){ left:42%; height:72%; background: linear-gradient(180deg, rgba(201,40,45,.35), rgba(201,40,45,.9)); } .monitor-chart__visual i:nth-child(5){ left:54%; height:61%; } .monitor-chart__visual i:nth-child(6){ left:66%; height:84%; } .monitor-chart__visual i:nth-child(7){ left:78%; height:70%; }
   .monitor-chart footer { display: flex; justify-content: space-between; margin-top: .8rem; color: var(--color-text-muted); font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .monitor-reports header { border-bottom: 1px solid var(--color-border); padding: 1rem; } .monitor-reports header p { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.35rem; }
   .monitor-reports article { border-bottom: 1px solid var(--color-border); padding: 1rem; } .monitor-reports article:last-child { border-bottom: 0; } .monitor-reports article span { color: var(--color-red-700, #c51d23); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; } .monitor-reports article h3 { margin: .5rem 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.05rem; line-height: 1.35; } .monitor-reports article small { color: var(--color-text-muted); font-size: .72rem; }
-  .monitor-news { border-top: 2px solid var(--color-ink); margin-top: 1.6rem; padding-top: 1rem; }
-  .monitor-news h3 { margin: .45rem 0 1rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.5rem); letter-spacing: -.045em; }
-  .monitor-news__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-  .monitor-news__grid article { border-top: 1px solid var(--color-border); padding-top: .8rem; } .monitor-news__grid span { color: var(--color-primary); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; } .monitor-news__grid h4 { margin: .55rem 0 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.4; }
-  @media (max-width: 1100px) { .monitor-kpis, .monitor-grid, .monitor-news__grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 920px) { .monitor-shell, .monitor-grid, .monitor-news__grid { grid-template-columns: 1fr; } .monitor-sidebar { border-right: 0; border-bottom: 1px solid var(--color-border); } }
+  .monitor-news, .monitor-sources { border-top: 2px solid var(--color-ink); margin-top: 1.6rem; padding-top: 1rem; }
+  .monitor-news h3, .monitor-sources h3 { margin: .45rem 0 1rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.5rem); letter-spacing: -.045em; }
+  .monitor-news__grid, .monitor-source-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .monitor-news__grid article, .monitor-source-grid a { border-top: 1px solid var(--color-border); padding-top: .8rem; color: var(--color-ink); text-decoration: none; }
+  .monitor-news__grid span { color: var(--color-primary); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .monitor-news__grid h4 { margin: .55rem 0 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.4; }
+  .monitor-sources header p:last-child { max-width: 780px; color: var(--color-text-muted); line-height: 1.6; }
+  .monitor-source-grid strong { display: block; color: var(--color-primary); font-family: var(--font-serif); font-size: 1.15rem; }
+  .monitor-source-grid span { display: block; margin-top: .35rem; color: var(--color-text-muted); font-size: .86rem; line-height: 1.45; }
+  @media (max-width: 1100px) { .monitor-kpis, .monitor-grid, .monitor-news__grid, .monitor-source-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 920px) { .monitor-shell, .monitor-grid, .monitor-news__grid, .monitor-source-grid { grid-template-columns: 1fr; } .monitor-sidebar { border-right: 0; border-bottom: 1px solid var(--color-border); } }
   @media (max-width: 640px) { .monitor-kpis { grid-template-columns: 1fr; } }
 </style>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-monitor-root]');
+    if (!root) return;
+
+    const status = root.querySelector('[data-monitor-status]');
+    const updated = root.querySelector('[data-monitor-updated]');
+    const kpiGrid = root.querySelector('[data-kpi-grid]');
+    const newsGrid = root.querySelector('[data-news-grid]');
+    const sourceGrid = root.querySelector('[data-source-grid]');
+    const refreshButton = root.querySelector('[data-monitor-refresh]');
+    const chartBars = Array.from(root.querySelectorAll('[data-live-chart] i'));
+
+    const formatDate = (value) => {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return value || 'Sin fecha';
+      return new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+    };
+
+    const buildBars = (seed = 50) => {
+      const heights = [42, 68, 54, 82, 64, 76, 58].map((base, index) => Math.max(18, Math.min(94, base + ((seed + index * 7) % 18) - 9)));
+      chartBars.forEach((bar, index) => { bar.style.height = `${heights[index] || 50}%`; });
+    };
+
+    const renderKpis = (items = []) => {
+      if (!kpiGrid || !items.length) return;
+      kpiGrid.innerHTML = items.slice(0, 8).map((item) => `
+        <article class="monitor-kpi">
+          <span>${item.label}</span>
+          <strong>${item.value}</strong>
+          <div class="monitor-kpi__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <em>${item.delta || item.source}</em>
+          <a href="${item.sourceUrl || '#fuentes-monitoreo'}" target="_blank" rel="noopener noreferrer">${item.source}</a>
+        </article>
+      `).join('');
+    };
+
+    const renderNews = (items = []) => {
+      if (!newsGrid || !items.length) return;
+      newsGrid.innerHTML = items.slice(0, 3).map((item) => `
+        <article>
+          <span>${item.source || 'Noticias'}</span>
+          <h4><a href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a></h4>
+        </article>
+      `).join('');
+    };
+
+    const renderSources = (items = []) => {
+      if (!sourceGrid || !items.length) return;
+      sourceGrid.innerHTML = items.map((source) => `
+        <a href="${source.url}" target="_blank" rel="noopener noreferrer">
+          <strong>${source.name}</strong>
+          <span>${source.type}</span>
+        </a>
+      `).join('');
+    };
+
+    const load = async () => {
+      try {
+        if (status) status.textContent = 'Actualizando...';
+        const response = await fetch('/api/monitoreo', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const combined = [...(data.officialLive || []), ...(data.kpis || [])];
+        renderKpis(combined);
+        renderNews(data.news || []);
+        renderSources(data.sources || []);
+        buildBars(Math.round((combined[0]?.rawValue || 42) * 10));
+        if (status) status.textContent = data.status === 'live' ? 'Datos en vivo' : 'Datos parciales';
+        if (updated) updated.textContent = `Ultima actualizacion: ${formatDate(data.generatedAt)}`;
+      } catch (error) {
+        if (status) status.textContent = 'Sin conexion API';
+        if (updated) updated.textContent = `No se pudo cargar la API: ${error.message}`;
+      }
+    };
+
+    refreshButton?.addEventListener('click', load);
+    load();
+    window.setInterval(load, 5 * 60 * 1000);
+  })();
+</script>
