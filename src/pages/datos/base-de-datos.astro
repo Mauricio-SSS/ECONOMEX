@@ -1,5 +1,38 @@
 ---
 import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.astro';
+
+const repositoryGroups = [
+  {
+    label: 'Crecimiento económico',
+    icon: '↗',
+    datasets: [
+      { tag: 'INEGI', title: 'Producto Interno Bruto estatal', description: 'Series de largo plazo del valor agregado por entidad, sector y año base.', format: 'CSV / XLSX' },
+      { tag: 'INEGI', title: 'Indicador Global de Actividad Económica', description: 'Seguimiento mensual de la actividad económica nacional y sus componentes.', format: 'API' },
+    ],
+  },
+  {
+    label: 'Población y demografía',
+    icon: '◌',
+    datasets: [
+      { tag: 'CONAPO', title: 'Proyecciones de población', description: 'Estimaciones por edad, sexo, entidad federativa y horizonte temporal.', format: 'CSV' },
+      { tag: 'INEGI', title: 'Censo de población y vivienda', description: 'Variables censales normalizadas para análisis territorial y social.', format: 'XLSX' },
+    ],
+  },
+  {
+    label: 'Finanzas públicas',
+    icon: '▣',
+    datasets: [
+      { tag: 'SHCP', title: 'Ingresos y gasto público estatal', description: 'Series comparables para evaluar capacidad fiscal, gasto e inversión.', format: 'CSV' },
+      { tag: 'Cuenta pública', title: 'Gasto funcional y programático', description: 'Clasificación del gasto por función, dependencia y programa presupuestario.', format: 'XLSX' },
+    ],
+  },
+];
+
+const sourceStats = [
+  { value: '42', label: 'fuentes identificadas' },
+  { value: '18', label: 'series prioritarias' },
+  { value: '9', label: 'diccionarios en preparación' },
+];
 ---
 
 <SectionPlaceholder
@@ -8,4 +41,103 @@ import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.
   eyebrow="Datos abiertos"
   features={['Datasets descargables', 'Diccionarios de variables', 'Fuentes y metodología']}
   nextSteps={['Definir estructura de descargas.', 'Agregar documentación por dataset.', 'Conectar archivos de datos finales.']}
-/>
+  primaryHref="#repositorio"
+  primaryLabel="Ver repositorio"
+>
+  <section slot="after-panels" id="repositorio" class="database-extension container" aria-labelledby="database-title">
+    <div class="database-shell">
+      <aside class="database-sidebar" aria-label="Categorías del repositorio">
+        <p>Catálogo</p>
+        <a href="#crecimiento" class="is-active"><span>▰</span>Datos externos</a>
+        <a href="#demografia"><span>◌</span>Macroeconomía</a>
+        <a href="#finanzas"><span>▣</span>Población</a>
+        <a href="#metodologia"><span>◇</span>Metodología</a>
+        <div class="database-assist">
+          <strong>Asesoría</strong>
+          <span>¿Necesitas ayuda para encontrar una fuente?</span>
+        </div>
+      </aside>
+
+      <main class="database-main">
+        <header class="database-header">
+          <div>
+            <p class="database-kicker">Directorio académico</p>
+            <h2 id="database-title">Base de Datos Institucional</h2>
+            <p>
+              Recopilación curada de fuentes primarias nacionales e internacionales. Este portal facilitará el acceso a repositorios estadísticos oficiales para investigadores, analistas y responsables de políticas públicas.
+            </p>
+          </div>
+          <dl>
+            {sourceStats.map((stat) => <div><dt>{stat.value}</dt><dd>{stat.label}</dd></div>)}
+          </dl>
+        </header>
+
+        <div class="repository-groups">
+          {repositoryGroups.map((group, index) => (
+            <section id={index === 0 ? 'crecimiento' : index === 1 ? 'demografia' : 'finanzas'} class="repository-group">
+              <header>
+                <span>{group.icon}</span>
+                <h3>{group.label}</h3>
+              </header>
+              <div class="dataset-grid">
+                {group.datasets.map((dataset) => (
+                  <article class="dataset-card">
+                    <p>{dataset.tag}</p>
+                    <h4>{dataset.title}</h4>
+                    <span>{dataset.description}</span>
+                    <a href="#">Acceder al repositorio <em>↗</em></a>
+                    <small>{dataset.format}</small>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <section id="metodologia" class="methodology-strip">
+          <div>
+            <p class="database-kicker">Estandarización</p>
+            <h3>Metodología y documentación</h3>
+            <p>Todo dataset publicado deberá incluir fuente, periodicidad, diccionario de variables, fecha de actualización y notas de comparabilidad.</p>
+          </div>
+          <a href="#">Ver criterios editoriales <span>→</span></a>
+        </section>
+      </main>
+    </div>
+  </section>
+</SectionPlaceholder>
+
+<style>
+  .database-extension { padding-bottom: clamp(4rem, 8vw, 6.5rem); }
+  .database-shell { display: grid; grid-template-columns: minmax(180px, 240px) minmax(0, 1fr); border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); background: #fffdfa; }
+  .database-sidebar { display: grid; align-content: start; gap: 0; border-right: 1px solid var(--color-border); padding: 1.25rem 1rem 1.25rem 0; }
+  .database-sidebar p { margin: 0 0 0.8rem; color: var(--color-text-muted); font-family: var(--font-sans); font-size: 0.68rem; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase; }
+  .database-sidebar a { display: flex; align-items: center; gap: 0.65rem; border-top: 1px solid var(--color-border); color: var(--color-ink); padding: 0.85rem 0.8rem; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 760; text-decoration: none; }
+  .database-sidebar a.is-active { background: var(--color-primary); color: #f7f3ea; }
+  .database-assist { margin-top: 2rem; border: 1px solid var(--color-border); padding: 1rem; background: rgba(0, 92, 58, 0.04); }
+  .database-assist strong, .database-assist span { display: block; } .database-assist strong { color: var(--color-primary); font-family: var(--font-serif); font-size: 1.25rem; } .database-assist span { margin-top: .35rem; color: var(--color-text-muted); font-size: .82rem; line-height: 1.45; }
+  .database-main { padding: clamp(1.2rem, 3vw, 2rem) 0 clamp(1.6rem, 4vw, 2.6rem) clamp(1.2rem, 3vw, 2rem); }
+  .database-header { display: grid; gap: 1.4rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1.2rem; }
+  .database-kicker { margin: 0; color: var(--color-primary); font-family: var(--font-sans); font-size: .68rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+  .database-header h2 { margin: .45rem 0 .7rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 3.65rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.02; }
+  .database-header p:last-child { max-width: 760px; margin: 0; color: var(--color-text-muted); line-height: 1.65; }
+  .database-header dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0; border-top: 1px solid var(--color-border); }
+  .database-header dl div { border-right: 1px solid var(--color-border); padding: .9rem .85rem .4rem 0; } .database-header dl div:last-child { border-right: 0; }
+  .database-header dt { color: var(--color-primary); font-family: var(--font-serif); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 600; letter-spacing: -.05em; } .database-header dd { margin: .25rem 0 0; color: var(--color-text-muted); font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .repository-groups { display: grid; gap: clamp(1.8rem, 4vw, 3rem); padding-top: clamp(1.6rem, 4vw, 2.6rem); }
+  .repository-group header { display: flex; align-items: center; gap: .7rem; border-bottom: 1px solid var(--color-border); padding-bottom: .65rem; }
+  .repository-group header span { color: var(--color-primary); font-size: 1.1rem; } .repository-group h3 { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.45rem, 2.6vw, 2.15rem); font-weight: 600; letter-spacing: -.04em; }
+  .dataset-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .dataset-card { position: relative; border: 1px solid var(--color-border); padding: 1rem; min-height: 190px; background: #fffdfa; transition: transform var(--transition-fast), border-color var(--transition-fast); }
+  .dataset-card:hover { transform: translateY(-3px); border-color: var(--color-primary); }
+  .dataset-card p { display: inline-flex; margin: 0 0 .7rem; border: 1px solid rgba(0,92,58,.25); color: var(--color-primary); padding: .2rem .4rem; font-size: .62rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+  .dataset-card h4 { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.35rem; font-weight: 600; letter-spacing: -.035em; line-height: 1.08; }
+  .dataset-card span { display: block; margin-top: .55rem; color: var(--color-text-muted); font-size: .9rem; line-height: 1.5; }
+  .dataset-card a { position: absolute; left: 1rem; bottom: 1rem; color: var(--color-primary); font-size: .68rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+  .dataset-card small { position: absolute; right: 1rem; bottom: 1rem; color: var(--color-red-700, #c51d23); font-size: .68rem; font-weight: 850; }
+  .methodology-strip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: center; border-top: 2px solid var(--color-ink); margin-top: clamp(2rem, 5vw, 3.5rem); padding-top: 1.1rem; }
+  .methodology-strip h3 { margin: .45rem 0 .5rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -.045em; } .methodology-strip p:last-child { margin: 0; color: var(--color-text-muted); line-height: 1.55; }
+  .methodology-strip a { color: var(--color-primary); font-size: .74rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+  @media (max-width: 920px) { .database-shell, .dataset-grid, .methodology-strip { grid-template-columns: 1fr; } .database-sidebar { border-right: 0; border-bottom: 1px solid var(--color-border); padding-right: 0; } .database-main { padding-left: 0; } }
+  @media (max-width: 640px) { .database-header dl { grid-template-columns: 1fr; } .database-header dl div { border-right: 0; border-bottom: 1px solid var(--color-border); } }
+</style>
