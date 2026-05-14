@@ -1,6 +1,6 @@
 {
   "name": "centro-economex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "echo ECONOMEX_STATIC_BUILD_ACTIVE && rm -rf dist .astro && astro build",
+    "build": "echo ECONOMEX_STATIC_BUILD_ACTIVE && rm -rf dist .astro .wrangler node_modules/.vite && astro build",
     "preview": "npm run build && astro preview",
     "astro": "astro",
     "check": "astro check"
