@@ -1,5 +1,26 @@
 ---
 import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.astro';
+
+const kpis = [
+  { label: 'PIB trimestral', value: '4,520.2 B', delta: '+2.4%' },
+  { label: 'Inflación anual', value: '4.08%', delta: '-0.4%' },
+  { label: 'Tasa Banxico', value: '8.5%', delta: '-0.25%' },
+  { label: 'Tipo de cambio', value: '$16.92', delta: '+0.12%' },
+];
+
+const reports = [
+  'Impacto de las tasas de interés en el consumo real',
+  'Reaceleración industrial en el norte del país',
+  'Mercados globales y volatilidad cambiaria',
+];
+
+const sectors = [
+  'PIB y producción',
+  'Precios e inflación',
+  'Mercado laboral',
+  'Mercados financieros',
+  'Comercio exterior',
+];
 ---
 
 <SectionPlaceholder
@@ -8,4 +29,159 @@ import SectionPlaceholder from '../../components/placeholder/SectionPlaceholder.
   eyebrow="Datos"
   features={['Indicadores actualizados', 'Series temporales', 'Lectura visual rápida']}
   nextSteps={['Definir indicadores prioritarios.', 'Conectar datos oficiales.', 'Diseñar visualizaciones de seguimiento.']}
-/>
+  primaryHref="#dashboard"
+  primaryLabel="Abrir tablero"
+>
+  <section slot="after-panels" id="dashboard" class="monitor-extension container" aria-labelledby="monitor-title">
+    <div class="monitor-shell">
+      <aside class="monitor-sidebar" aria-label="Categorías del tablero">
+        <div class="monitor-sidebar__brand">
+          <p>Monitoreo</p>
+          <span>Dashboard económico</span>
+        </div>
+
+        <nav>
+          <a href="#" class="is-active">General</a>
+          {sectors.map((sector) => <a href="#">{sector}</a>)}
+        </nav>
+      </aside>
+
+      <main class="monitor-main">
+        <header class="monitor-header">
+          <div>
+            <p class="monitor-kicker">Actividad económica</p>
+            <h2 id="monitor-title">Monitoreo macroeconómico en tiempo real</h2>
+            <p>
+              Seguimiento continuo de indicadores prioritarios de México con lectura rápida para investigadores, analistas y responsables de política pública.
+            </p>
+          </div>
+
+          <div class="monitor-actions">
+            <button>Exportar</button>
+            <button>Actualizar</button>
+          </div>
+        </header>
+
+        <section class="monitor-kpis" aria-label="Indicadores clave">
+          {kpis.map((kpi) => (
+            <article class="monitor-kpi">
+              <span>{kpi.label}</span>
+              <strong>{kpi.value}</strong>
+              <div class="monitor-kpi__bars" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <em>{kpi.delta}</em>
+            </article>
+          ))}
+        </section>
+
+        <section class="monitor-grid">
+          <article class="monitor-chart monitor-chart--large">
+            <header>
+              <div>
+                <p>Dinámica de inversión fija</p>
+                <span>Índice base 2018 = 100</span>
+              </div>
+              <strong>2024</strong>
+            </header>
+
+            <div class="monitor-chart__visual" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+
+            <footer>
+              <span>Promedio 2023</span>
+              <span>Variación trimestral</span>
+              <span>Objetivo anual</span>
+            </footer>
+          </article>
+
+          <aside class="monitor-reports">
+            <header>
+              <p>Reportes recientes</p>
+            </header>
+
+            <div>
+              {reports.map((report) => (
+                <article>
+                  <span>Policy brief</span>
+                  <h3>{report}</h3>
+                  <small>Actualizado hoy</small>
+                </article>
+              ))}
+            </div>
+          </aside>
+        </section>
+
+        <section class="monitor-news">
+          <header>
+            <p class="monitor-kicker">Mercados y noticias</p>
+            <h3>Señales relevantes de la coyuntura económica</h3>
+          </header>
+
+          <div class="monitor-news__grid">
+            <article>
+              <span>Mercados</span>
+              <h4>El IPC mantiene trayectoria positiva tras datos industriales.</h4>
+            </article>
+
+            <article>
+              <span>Inflación</span>
+              <h4>Los componentes subyacentes muestran desaceleración gradual.</h4>
+            </article>
+
+            <article>
+              <span>Actividad</span>
+              <h4>El nearshoring continúa impulsando manufactura del norte del país.</h4>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </section>
+</SectionPlaceholder>
+
+<style>
+  .monitor-extension { padding-bottom: clamp(4rem, 8vw, 6.5rem); }
+  .monitor-shell { display: grid; grid-template-columns: minmax(190px, 240px) minmax(0, 1fr); border-top: 2px solid var(--color-ink); border-bottom: 1px solid var(--color-border); background: #fffdfa; }
+  .monitor-sidebar { border-right: 1px solid var(--color-border); padding: 1rem 0; }
+  .monitor-sidebar__brand { padding: 0 1rem 1rem; border-bottom: 1px solid var(--color-border); }
+  .monitor-sidebar__brand p { margin: 0; color: var(--color-primary); font-family: var(--font-serif); font-size: 1.4rem; font-weight: 600; }
+  .monitor-sidebar__brand span { color: var(--color-text-muted); font-size: .8rem; }
+  .monitor-sidebar nav { display: grid; }
+  .monitor-sidebar a { border-bottom: 1px solid var(--color-border); color: var(--color-ink); padding: .9rem 1rem; font-size: .78rem; font-weight: 760; text-decoration: none; }
+  .monitor-sidebar a.is-active { background: var(--color-primary); color: #f7f3ea; }
+  .monitor-main { padding: clamp(1.2rem, 3vw, 2rem); }
+  .monitor-header { display: grid; gap: 1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1.2rem; }
+  .monitor-kicker { margin: 0; color: var(--color-primary); font-family: var(--font-sans); font-size: .68rem; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+  .monitor-header h2 { margin: .5rem 0 .7rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.02; }
+  .monitor-header p:last-child { max-width: 780px; margin: 0; color: var(--color-text-muted); line-height: 1.65; }
+  .monitor-actions { display: flex; gap: .7rem; }
+  .monitor-actions button { border: 1px solid var(--color-border); background: transparent; color: var(--color-ink); padding: .7rem 1rem; font-size: .68rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  .monitor-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1.4rem; }
+  .monitor-kpi { border: 1px solid var(--color-border); padding: 1rem; background: #fffdfa; }
+  .monitor-kpi span { color: var(--color-text-muted); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .monitor-kpi strong { display: block; margin-top: .5rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.7rem, 2.8vw, 2.7rem); font-weight: 600; letter-spacing: -.05em; }
+  .monitor-kpi__bars { display: flex; align-items: end; gap: .3rem; height: 60px; margin-top: .8rem; }
+  .monitor-kpi__bars i { flex: 1; background: rgba(0,92,58,.18); }
+  .monitor-kpi__bars i:nth-child(3), .monitor-kpi__bars i:nth-child(5) { background: var(--color-primary); }
+  .monitor-kpi__bars i:nth-child(1) { height: 40%; } .monitor-kpi__bars i:nth-child(2) { height: 70%; } .monitor-kpi__bars i:nth-child(3) { height: 56%; } .monitor-kpi__bars i:nth-child(4) { height: 82%; } .monitor-kpi__bars i:nth-child(5) { height: 68%; }
+  .monitor-kpi em { display: block; margin-top: .6rem; color: var(--color-red-700, #c51d23); font-size: .7rem; font-style: normal; font-weight: 850; letter-spacing: .08em; }
+  .monitor-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, .75fr); gap: 1rem; margin-top: 1.4rem; }
+  .monitor-chart, .monitor-reports { border: 1px solid var(--color-border); background: #fffdfa; }
+  .monitor-chart { padding: 1rem; }
+  .monitor-chart header { display: flex; justify-content: space-between; gap: 1rem; } .monitor-chart header p { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.55rem; font-weight: 600; letter-spacing: -.04em; } .monitor-chart header span { color: var(--color-text-muted); font-size: .72rem; text-transform: uppercase; } .monitor-chart header strong { color: var(--color-primary); font-size: .76rem; letter-spacing: .1em; }
+  .monitor-chart__visual { position: relative; height: 300px; margin-top: 1rem; border-top: 1px solid rgba(0,92,58,.15); border-bottom: 1px solid rgba(0,92,58,.15); background: linear-gradient(180deg, rgba(0,92,58,.05), rgba(0,92,58,.01)); overflow: hidden; }
+  .monitor-chart__visual i { position: absolute; bottom: 0; width: 9%; background: linear-gradient(180deg, rgba(0,92,58,.25), rgba(0,92,58,.9)); }
+  .monitor-chart__visual i:nth-child(1){ left:6%; height:32%; } .monitor-chart__visual i:nth-child(2){ left:18%; height:54%; } .monitor-chart__visual i:nth-child(3){ left:30%; height:44%; } .monitor-chart__visual i:nth-child(4){ left:42%; height:72%; background: linear-gradient(180deg, rgba(201,40,45,.35), rgba(201,40,45,.9)); } .monitor-chart__visual i:nth-child(5){ left:54%; height:61%; } .monitor-chart__visual i:nth-child(6){ left:66%; height:84%; } .monitor-chart__visual i:nth-child(7){ left:78%; height:70%; }
+  .monitor-chart footer { display: flex; justify-content: space-between; margin-top: .8rem; color: var(--color-text-muted); font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .monitor-reports header { border-bottom: 1px solid var(--color-border); padding: 1rem; } .monitor-reports header p { margin: 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.35rem; }
+  .monitor-reports article { border-bottom: 1px solid var(--color-border); padding: 1rem; } .monitor-reports article:last-child { border-bottom: 0; } .monitor-reports article span { color: var(--color-red-700, #c51d23); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; } .monitor-reports article h3 { margin: .5rem 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.05rem; line-height: 1.35; } .monitor-reports article small { color: var(--color-text-muted); font-size: .72rem; }
+  .monitor-news { border-top: 2px solid var(--color-ink); margin-top: 1.6rem; padding-top: 1rem; }
+  .monitor-news h3 { margin: .45rem 0 1rem; color: var(--color-ink); font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.5rem); letter-spacing: -.045em; }
+  .monitor-news__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .monitor-news__grid article { border-top: 1px solid var(--color-border); padding-top: .8rem; } .monitor-news__grid span { color: var(--color-primary); font-size: .66rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; } .monitor-news__grid h4 { margin: .55rem 0 0; color: var(--color-ink); font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.4; }
+  @media (max-width: 1100px) { .monitor-kpis, .monitor-grid, .monitor-news__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 920px) { .monitor-shell, .monitor-grid, .monitor-news__grid { grid-template-columns: 1fr; } .monitor-sidebar { border-right: 0; border-bottom: 1px solid var(--color-border); } }
+  @media (max-width: 640px) { .monitor-kpis { grid-template-columns: 1fr; } }
+</style>
